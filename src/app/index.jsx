@@ -1,6 +1,7 @@
 import {useState} from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import UserSoundMappingContext, {defaultSoundMapping} from './controller/contexts/UserSoundMappingContext';
-import MIDIKeyboard from './Pages/MIDIKeyboard/MIDIKeyboard';
+import SongEditor from './Pages/SongEditor/SongEditor';
 import './styles/main.scss';
 
 const App = () => {
@@ -8,9 +9,9 @@ const App = () => {
 
 	return (
 		<UserSoundMappingContext.Provider value={[userSoundMapping, setUserSoundMapping]}> 
-			<div className="app">
-				<MIDIKeyboard />
-			</div>
+			<Router basename={process.env.PUBLIC_URL}>
+				<SongEditor />
+			</Router>
 		</UserSoundMappingContext.Provider> 
 
 	);

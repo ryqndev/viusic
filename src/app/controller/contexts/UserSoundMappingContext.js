@@ -5,8 +5,9 @@ import * as Tone from 'tone';
 const synth = new Tone.PolySynth(Tone.Synth).toDestination();
 const UserSoundMappingContext = createContext(); 
 
-const TOTAL_KEYS = 16; // ideally a perfect square
+// const TOTAL_KEYS = 16; // ideally a perfect square
 // const defaultSoundMapping = new Array(TOTAL_KEYS).fill(null);
+
 const defaultSoundMapping = [
     () => { synth.triggerAttackRelease("C3", "8n") },
     () => { synth.triggerAttackRelease("D3", "8n") },

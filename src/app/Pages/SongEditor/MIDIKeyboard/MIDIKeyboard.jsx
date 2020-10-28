@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import UserSoundMappingContext from '../../controller/contexts/UserSoundMappingContext';
+import UserSoundMappingContext from '../../../controller/contexts/UserSoundMappingContext';
 import './MIDIKeyboard.scss';
 
 /**
@@ -19,9 +19,14 @@ const MIDIKeyboard = () => {
         <div className="midi-keyboard--wrapper">
             <div className="grid">
                 {userSoundMapping.map((e, i) => (
-                    // <div className="">
-                        <button className="key" key={i} onTouchStart={e ?? unsetBinding}></button>
-                    // </div>
+                    <button
+                        className="key"
+                        key={i}
+                        onMouseDown={e ?? unsetBinding}
+                        onTouchStart={e ?? unsetBinding}
+                        onTouchEnd={e => e.preventDefault()}
+                    >
+                    </button>
                 ))}
             </div>
         </div>
