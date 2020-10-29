@@ -1,0 +1,12 @@
+.song-list--wrapper{
+    padding: 20px;
+    .song-list--item{
+        display: grid;
+        padding: 20px;
+        .date-information{
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-template-rows: 1fr 1fr;
+        }
+    }
+}

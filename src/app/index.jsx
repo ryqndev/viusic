@@ -1,20 +1,30 @@
-import {useState} from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
-import UserSoundMappingContext, {defaultSoundMapping} from './controller/contexts/UserSoundMappingContext';
-import SongEditor from './Pages/SongEditor/SongEditor';
+import {useState, useEffect} from 'react';
+import {Switch, Route, withRouter} from 'react-router-dom';
+import {init} from './controller/libs/firestore';
+import AuthUserContext from './controller/contexts/AuthUserContext';
+import Login from './pages/Login';
+import App from './App';
 import './styles/main.scss';
 
-const App = () => {
-	const [userSoundMapping, setUserSoundMapping] = useState(defaultSoundMapping);
+const Start = ({history}) => {
+    const [authUser, setAuthUser] = useState();
+    useEffect(() => {
+        init(user => {
+            setAuthUser(user);
+            history.push(user ? '/app' : '/login');
+        });
+        console.log("v0.0.1");
+    }, [history]);
 
-	return (
-		<UserSoundMappingContext.Provider value={[userSoundMapping, setUserSoundMapping]}> 
-			<Router basename={process.env.PUBLIC_URL}>
-				<SongEditor />
-			</Router>
-		</UserSoundMappingContext.Provider> 
-
-	);
+    return (
+        <AuthUserContext.Provider value={[authUser]}> 
+            <Switch>
+                <Route exact path='/'/>
+                <Route path='/login' component={Login}/>
+                <Route path='/app' component={App}/>
+            </Switch>
+        </AuthUserContext.Provider> 
+    );
 }
 
-export default App;
+export default withRouter(Start);
