@@ -8,7 +8,7 @@
         "uid": "uniquestuffbro",
         "description": "This is a song I created as an example for all to see",
         "bpm": 100,
-        "length": 2,
+        "length": "2m",
         "timeSignature": [4,4]
     },
     "tracks": [
@@ -16,7 +16,9 @@
             "name": "bassline",
             "uuid": "1679722d-a019-4f11-b45c-d04a6e52307d",
             "instrument": 0,
-            "length": "8m",
+            "length": "2m",
+            "hi": "E3",
+            "lo": "E2",
             "notes": [
                 ["0:0:0", ["E3" , "8n"  ]],
                 ["0:0:3", ["E3" , "16n" ]],

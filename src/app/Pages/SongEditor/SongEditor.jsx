@@ -25,6 +25,7 @@ const SongEditor = () => {
             notes: []
         });
         setSongData(newSongData);
+        setSelected(uuid);
     }
     const selectedData = songData.tracks[songData.trackmap[selected]];
     return (
@@ -39,7 +40,7 @@ const SongEditor = () => {
                         className={`track--with-details ${selected === track.uuid ? 'selected' : ''}`}
                         onClick={() => {setSelected(track.uuid)}}
                     >
-                        <Track notes={track.notes} length={songData.metadata.length}/>
+                        <Track notes={track.notes} time={songData.metadata.length} hi={track.hi} lo={track.lo}/>
                     </div>
                 ))}
                 <div className="add-track" onClick={addTrack}>

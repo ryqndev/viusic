@@ -1,4 +1,15 @@
 .track--wrapper{
-    background-color: #050505;
-    mix-blend-mode: screen;
+    padding: 10px;
+    cursor: pointer;
+    svg{
+        width: calc(100% - 20px);
+        height: calc(100% - 20px);
+        fill: #888888;
+        transition: fill 350ms;
+    }
+    &:hover{
+        svg{
+            fill: var(--accent-alt);
+        }
+    }
 }
