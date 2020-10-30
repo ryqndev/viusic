@@ -1,8 +1,9 @@
 :root{
-    --bg-primary: #151515;
+    --bg-primary: #000000;
     --text-color: #FFFFFF;
     --bg-secondary: white;
-    --accent: #f68080;
+    --accent: #00ffff;
+    --accent-alt: #7700ff;
 }
 body{
     background-color: var(--bg-primary);

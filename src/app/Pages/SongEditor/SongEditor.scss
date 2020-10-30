@@ -1,0 +1,107 @@
+.song-editor--wrapper{
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 300px 1fr 250px;
+    overflow: hidden;
+}
+.navigation--wrapper{
+    grid-column: 1/2;
+    background-color: #050505;
+}
+.header--wrapper{
+    grid-column: 1/4;
+    padding: 15px 0 0 20px;
+    background-color: var(--accent-alt);
+    color: white;
+}
+.workspace--wrapper{
+    grid-column: 2/3;
+    background-color: #000000;
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    grid-auto-rows: 150px;
+    padding: 10px;
+    .add-track{
+        display: grid;
+        place-content: center;
+        font-size: 20px;
+        border-radius: 4px;
+        color: #151515;
+        border: 2px dashed #151515;
+        font-weight: bold;
+        letter-spacing: 10px;
+        text-transform: uppercase;
+        transition: border-color 350ms, color 350ms;
+        &:hover {
+            border-color: var(--accent-alt);
+            color: var(--accent-alt);
+        }
+    }
+    .track--with-details{
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr;
+        border-left: 4px solid #050505;
+        background-color: transparent;
+        transition: border-color 350ms, background-color 350ms;
+        border-radius: 4px;
+        &:hover{
+            background-color: #101010;
+            border-color: var(--accent-alt);
+        }
+        &.selected{
+            background-color: #050505;
+            border-color: var(--accent);
+            &:hover {
+                background-color: #101010;
+                border-color: var(--accent-alt);
+            }
+        }
+    }
+}
+.side-options--wrapper{
+    grid-column: 3/4;
+    padding: 10px;
+    overflow: hidden;
+    h3{
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+}
+.play-bar--wrapper{
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    column-gap: 20px;
+    padding: 16px 50px;
+    grid-column: 1/4;
+    grid-row: 2/3;
+    background-color: #050505;
+    color: var(--text-color);
+    box-shadow: 0 0 5px var(--accent);
+    button.play--button{
+        box-sizing: border-box;
+        height: 96px;
+        width: 96px;
+        border-radius: 50%;
+        background-color: #151515;
+        transform: translateY(-66px);
+        border: 10px solid #050505;
+        box-shadow: 0 0 5px transparent;
+        transition: box-shadow 250ms;
+        &:hover{
+            box-shadow: 0 0 5px #050505;
+        }
+        .play--icon{
+            transform: translatex(4px);
+            margin: 0 auto;
+            width: 0px; 
+            height: 0px; 
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent; 
+            border-left: 40px solid var(--accent-alt); 
+        }
+    }
+    
+}
