@@ -1,15 +1,21 @@
 import * as Tone from 'tone';
 
-const Track = ({notes, time, hi, lo}) => {
-    console.log(notes);
+/**
+ * 
+ * @param {Object} trackData - needs to have:
+ * @param {Number} hi
+ * @param {Number} lo
+ * @param {Array} notes
+ */
+const MIDITrack = ({trackData, time}) => {
     const totalTime = Tone.Time(time).toMilliseconds();
-    const hiMIDI = Tone.Frequency(hi).toMidi();
-    const loMIDI = Tone.Frequency(lo).toMidi();
+    const hiMIDI = Tone.Frequency(trackData.hi).toMidi();
+    const loMIDI = Tone.Frequency(trackData.lo).toMidi();
     const range = hiMIDI - loMIDI;
     return (
         <div className="track--wrapper">
             <svg>
-                {notes.map(note => (
+                {trackData.notes.map(note => (
                     <rect
                         key={note}
                         height={100/range + '%'}
@@ -23,4 +29,4 @@ const Track = ({notes, time, hi, lo}) => {
     );
 }
 
-export default Track;
+export default MIDITrack;
