@@ -1,11 +1,15 @@
 :root{
-    --bg-primary: #000000;
+    --bg-dark: #000000;
+    --bg-dark-1: #050505;
+    --bg-dark-2: #080808;
+    --bg-dark-3: #101010;
+    --bg-dark-4: #151515;
     --text-color: #FFFFFF;
     --bg-secondary: white;
     --accent: #00ffff;
     --accent-alt: #7700ff;
 }
 body{
-    background-color: var(--bg-primary);
+    background-color: var(--bg-dark);
     color: var(--text-color);
 }

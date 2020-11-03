@@ -1,10 +1,10 @@
 import {useState} from 'react';
 import './TrackEditor.scss';
 
-const TrackEditor = () => {
-    const [trackData, setTrackData] = useState([]);
+const TrackEditor = ({trackData, setTrackData}) => {
     const [trackMetadata, setTrackMetadata] = useState({});
 
+    console.log(trackData);
     return (
         <div className="track-editor--wrapper">
             {/* //make 2d array */}

@@ -1,0 +1,24 @@
+.b-expand--wrapper{
+    overflow: hidden;
+    height: auto;
+    transition: max-height 350ms;
+    max-height: 0px;
+    box-sizing: border-box;
+    &.open{
+        max-height: 1000px;
+    }
+}
+.b-expand-with-icon--wrapper{
+    padding: 0px 0px 10px;
+    border-bottom: 1px solid var(--accent);
+    .label-with-icon{
+        display: grid;
+        height: 1.5rem;
+        place-content: center;
+        grid-template-columns: 1fr 1.5rem;
+        .icon{
+            // font-size: 1rem;
+            text-align: center;
+        }
+    }
+}

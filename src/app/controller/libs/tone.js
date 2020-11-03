@@ -1,17 +1,19 @@
 import * as Tone from 'tone';
+import loadInstrument from './instrument-loader';
 import EndOfItSample from '../../assets/end-of-it-friday-pilots-club.json';
 
-const INSTRUMENTS = [{value: 'polysynth', label: 'Polysynth'}];
 
-let synth = new Tone.PolySynth().toDestination();
 let _isplaying = false;
-const parts = {};
+const parts = {}, instrumentsList = {};
 
 const loadSongInfo = (songInfo) => {
     Tone.Transport.bpm.value = songInfo.metadata?.bpm ?? 80;
     songInfo.tracks.forEach(track => {
+        if(instrumentsList.hasOwnProperty(track.instrument)){
+            instrumentsList.instrument = loadInstrument(track.instrument);
+        }
         let part = new Tone.Part(((time, note) => {
-            synth.triggerAttackRelease(note[0], note[1], time);
+            instrumentsList[track.instrument].triggerAttackRelease(note[0], note[1], time);
         }), track.notes).start(0);
         parts[track.uuid] = part;
     });
@@ -33,5 +35,4 @@ export {
     _isplaying,
     toggle,
     EndOfItSample,
-    INSTRUMENTS
 }

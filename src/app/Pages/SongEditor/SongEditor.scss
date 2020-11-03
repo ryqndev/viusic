@@ -1,25 +1,25 @@
 .song-editor--wrapper{
-    display: grid;
+    box-sizing: border-box;
     height: 100vh;
-    grid-template-columns: 300px 1fr 250px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 250px 1fr 300px;
+    column-gap: 20px;
     overflow: hidden;
 }
-.navigation--wrapper{
-    grid-column: 1/2;
-    background-color: #050505;
-}
-.header--wrapper{
-    grid-column: 1/4;
-    padding: 15px 0 0 20px;
-    background-color: var(--accent-alt);
-    color: white;
-}
-.side-options--wrapper{
+.right-side--wrapper{
     grid-column: 3/4;
     padding: 10px;
     overflow: hidden;
-    h3{
-        font-weight: bold;
-        font-size: 1.5rem;
-    }
+}
+.sequencer--wrapper{
+    grid-column: 2/3;
+    overflow-y: scroll;
+    padding: 10px 20px 0px 10px;
+}
+.left-side--wrapper{
+    grid-column: 1/2;
+    display: grid;
+    grid-template-rows: 1fr 400px;
+    row-gap: 20px;
 }

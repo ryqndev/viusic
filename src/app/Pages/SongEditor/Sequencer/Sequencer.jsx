@@ -1,10 +1,11 @@
+import {RoundedCard} from '../../../components/basic/Card';
 import {MIDITrack} from '../../../components/interactive';
 import TrackEditor from '../TrackEditor/TrackEditor';
 import './Sequencer.scss';
 
 const Sequencer = ({selected, setSelected, songData, addTrack, setTrackData}) => {
     return (
-        <div className="sequencer--wrapper">
+        <RoundedCard className="sequencer--wrapper">
             {songData.tracks.map(track => {
                 const isSelected = selected === track.uuid;
                 return (
@@ -24,7 +25,7 @@ const Sequencer = ({selected, setSelected, songData, addTrack, setTrackData}) =>
             <div className="min-track--shape add-track" onClick={addTrack}>
                 Add a new track
             </div>
-        </div>
+        </RoundedCard>
     );
 }
 

@@ -2,7 +2,8 @@ import {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
 
-import {load, toggle, EndOfItSample, INSTRUMENTS} from '../../controller/libs/tone';
+import {load, EndOfItSample} from '../../controller/libs/tone';
+import INSTRUMENTS_LIST from '../../assets/instruments.json';
 import SongEditor from './SongEditor';
 
 const SongEditorContainer = () => {
@@ -31,6 +32,8 @@ const SongEditorContainer = () => {
         newSongData[newSongData.trackmap[selected]] = data;
         setSongData(newSongData);
     }
+
+    const INSTRUMENTS = Object.keys(INSTRUMENTS_LIST).map(key => ({value: key, label: INSTRUMENTS_LIST[key]}));
 
     const selectedData = songData.tracks[songData.trackmap[selected]];
 

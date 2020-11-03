@@ -21,10 +21,7 @@ database.enablePersistence().catch(err => {console.error(err)});
 
 
 const init = (callback) => {
-    firebase.auth().onAuthStateChanged(user => {
-        console.log("looged in user", user);
-        callback(user);
-    });
+    firebase.auth().onAuthStateChanged(callback);
 }
 const logout = () => {
     firebase.auth().signOut().then(function() {
