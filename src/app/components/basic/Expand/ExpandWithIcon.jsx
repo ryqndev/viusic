@@ -7,7 +7,7 @@ const ExpandWithIcon = ({open, label='', className='', children, ...other}) => {
         <div className={"b-expand-with-icon--wrapper" + className} {...other}>
             <div className="label-with-icon" onClick={() => {setExpanded(expand => !expand)}}>
                 <div>{label}</div>
-                <div className="icon">{open ? '+' : '-'}</div>
+                <div className="icon">{expanded ? '-' : '+'}</div>
             </div>
             <Expand open={expanded}>
                 {children}

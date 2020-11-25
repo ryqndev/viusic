@@ -8,10 +8,11 @@ const TrackDetails = ({INSTRUMENTS, selectedData}) => {
         <div className="track-editor--wrapper">
             <h2>{selectedData?.name ?? 'track'} / {INSTRUMENTS_MAP[selectedData?.instrument] ?? 'instrument'}</h2>
             <ExpandWithIcon open label='Name'>
-                <Select></Select>
+                {selectedData?.name ?? 'track'}
             </ExpandWithIcon>
             <ExpandWithIcon open label='Instrument'>
                 <Select></Select>
+                {selectedData?.instrument}
             </ExpandWithIcon>
             <ExpandWithIcon open label='Dis'>
                 yes

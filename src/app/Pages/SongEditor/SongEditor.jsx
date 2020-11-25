@@ -1,19 +1,19 @@
-import Select from 'react-select';
 import Sequencer from './Sequencer/Sequencer';
 import {RoundedCard} from '../../components/basic/Card';
-import {toggle} from '../../controller/libs/tone';
 import './SongEditor.scss';
 import TrackDetails from './TrackDetails/TrackDetails';
+import MediaControls from '../../components/interactive/MediaControls';
 
 const SongEditor = ({selected, setSelected, songData, addTrack, selectedData, INSTRUMENTS}) => {
     return (
         <div className="song-editor--wrapper">
             <div className="left-side--wrapper">
-                {/* <button onMouseDown={toggle}>
-                    big fat play button
-                </button> */}
-                <RoundedCard className="top"></RoundedCard>
-                <RoundedCard className="bottom"></RoundedCard>
+                <RoundedCard className="top">
+                    
+                </RoundedCard>
+                <RoundedCard className="bottom">
+                    <MediaControls />
+                </RoundedCard>
             </div>
             <Sequencer 
                 selected={selected}

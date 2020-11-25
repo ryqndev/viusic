@@ -20,7 +20,6 @@ const SongEditorContainer = () => {
         newSongData.tracks.push({
             name: "new track",
             uuid: uuid,
-            instrument: "polysynth",
             length: "0",
             notes: []
         });

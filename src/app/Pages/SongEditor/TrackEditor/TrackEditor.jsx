@@ -1,13 +1,22 @@
-import {useState} from 'react';
+import DrumMachine from './DrumMachine.jsx';
 import './TrackEditor.scss';
 
 const TrackEditor = ({trackData, setTrackData}) => {
-    const [trackMetadata, setTrackMetadata] = useState({});
-
     console.log(trackData);
+
+    const getSpecificTrackEditor = (instrument) => {
+        switch(instrument){
+            case 'drum':
+                return <DrumMachine data={trackData} setData={setTrackData} />;
+            case 'bassline':
+            default:
+                return <DrumMachine data={trackData} setData={setTrackData} />;
+        }
+    }
+
     return (
         <div className="track-editor--wrapper">
-            {/* //make 2d array */}
+            {getSpecificTrackEditor(trackData?.instrument)}
         </div>
     );
 }
