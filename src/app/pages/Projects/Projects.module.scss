@@ -1,0 +1,89 @@
+
+
+.container {
+    position: relative;
+    background-color: #151515;
+    box-sizing: border-box;
+    min-height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr min(500px, 40vw);
+    column-gap: 40px;
+
+    &>.projects {
+        display: grid;
+        place-content: center;
+        text-transform: uppercase;
+        font-family: 'Poppins';
+
+        &>h1 {
+            margin-left: 10px;
+        }
+
+        &>.list {
+            display: grid;
+            place-self: center;
+            column-gap: 20px;
+            row-gap: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            
+            width: max-content;
+            height: min-content;
+
+            @media screen and (max-width: 1500px) {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            @media screen and (max-width: 1200px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            &>.new {
+                display: grid;
+                grid-auto-flow: row;
+                border-radius: 8px;
+                row-gap: 20px;
+                font-family: 'Staatliches', cursive;
+                font-size: 1.8em;
+                text-align: center;
+                width: min-content;
+                padding: 20px;
+                line-height: 1em;
+                border: 4px dashed #88888833;
+                transition: box-shadow 350ms;
+                cursor: pointer;
+
+            
+                &>.image {
+                    height: 140px;
+                    width: 140px;
+                    display: grid;
+                    place-content: center;
+                    font-size: 4em;
+                    font-family: 'Poppins';
+                    border-radius: 4px;
+                    color: white;
+                    background-color: #88888833;
+                    transition: background-color 350ms;
+                }
+            
+                &:hover {
+                    border: 4px dashed white;
+
+                    &>.image {
+                        background-color: white;
+                    }
+                }
+            }
+        }
+    }
+
+    &>.details {
+        position: sticky;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        min-height: 0;
+        background-color: #303030;
+    }
+}
