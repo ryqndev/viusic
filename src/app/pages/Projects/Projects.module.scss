@@ -47,9 +47,9 @@
                 font-size: 1.8em;
                 text-align: center;
                 width: min-content;
-                padding: 20px;
+                padding: 17px;
                 line-height: 1em;
-                border: 4px dashed #88888833;
+                border: 3px dashed #88888833;
                 transition: box-shadow 350ms;
                 cursor: pointer;
 
@@ -68,7 +68,7 @@
                 }
             
                 &:hover {
-                    border: 4px dashed white;
+                    border: 3px dashed white;
 
                     &>.image {
                         background-color: white;

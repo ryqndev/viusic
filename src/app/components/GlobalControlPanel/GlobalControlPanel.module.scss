@@ -1,0 +1,13 @@
+.container {
+    position: fixed;
+    z-index: 10000;
+    left: 30px;
+    top: 50vh;
+    transform: translate(0, -50%);
+    display: grid;
+    grid-auto-flow: row;
+    height: 350px;
+    width: 60px;
+    background-color: #303030;
+    border-radius: 30px;
+}

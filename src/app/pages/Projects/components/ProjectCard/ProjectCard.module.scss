@@ -13,17 +13,27 @@
     cursor: pointer;
     background-color: #88888811;
 
-    &>.image {
+    &>.frame {
         height: 140px;
         width: 140px;
+        overflow: hidden;
         border-radius: 4px;
+
+        &>.image {
+            height: 100%;
+            width: 100%;
+            filter: brightness(1.3);
+            background-position: center;
+            background-size: cover;
+            transition: transform 350ms;
+        }
     }
 
     &:hover {
         box-shadow: inset 0 0 4px 200px #88888822;
-        // box-shadow: 0 0 4px 2px #88888822;
 
-        // background-color: #202020;
+        &>.frame>.image {
+            transform: scale(1.05);
+        }
     }
 }
-

@@ -2,17 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { ProjectCard } from './components';
 import cn from './Projects.module.scss';
+import { RecordMetadata } from '../../controllers/records.types';
 
 interface ProjectMetaData {
-    [key: string]: {
-        name: string;
-        artist:string;
-        id: string;
-        date: {
-            created: number;
-            edited: number;
-        }
-    }
+    [key: string]: RecordMetadata
 }
 
 const EXAMPLE_USER_PROJECTS:ProjectMetaData = {

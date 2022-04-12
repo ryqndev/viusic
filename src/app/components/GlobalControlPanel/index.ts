@@ -1,5 +1,3 @@
 import GlobalControlPanel from './GlobalControlPanel';
 
-export {
-    GlobalControlPanel,
-};
+export default GlobalControlPanel;
