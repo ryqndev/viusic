@@ -1,19 +1,18 @@
 import Dexie, { Table } from 'dexie';
-import { RecordMetadata, Record } from './records.types';
+import { Record } from './records.types';
 
 class RecordsDatabase extends Dexie {
 
-    records!: Table<Record, string>;
+    records!: Table<Record>;
 
-    constructor () {
-        super("viusic");
+    constructor() {
+        super('records');
         this.version(1).stores({
-            records: 'id',
+            records: 'id, meta.date.created, meta.date.edited, meta.name',
         });
     }
 }
 
+export const db = new RecordsDatabase();
 
 
-export {
-}

@@ -1,5 +1,6 @@
 interface Record {
-    metadata: RecordMetadata;
+    id: string;
+    meta: RecordMetadata;
     tracks: [];
 }
 

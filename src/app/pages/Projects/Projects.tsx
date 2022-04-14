@@ -1,91 +1,76 @@
 import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
-import { ProjectCard } from './components';
+import { useState, memo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ProjectCard, ProjectOverview } from './components';
 import cn from './Projects.module.scss';
-import { RecordMetadata } from '../../controllers/records.types';
-
-interface ProjectMetaData {
-    [key: string]: RecordMetadata
-}
-
-const EXAMPLE_USER_PROJECTS:ProjectMetaData = {
-	'50c72492-cd45-4525-a864-745c76a4503a': {
-		name: 'End of it',
-        artist: 'Friday Pilot\'s club',
-        id: '50c72492-cd45-4525-a864-745c76a4503a',
-        date: {
-            created: 1649637001547,
-            edited: 1649637001547,
-        }
-	},
-};
-
-const EXAMPLE_PROJECTS:ProjectMetaData = {
-	'bd35583c-02de-4d51-ae70-664e36d24264': {
-		name: 'Heat Waves',
-        artist: 'Glass Animals',
-        id: 'bd35583c-02de-4d51-ae70-664e36d24264',
-        date: {
-            created: 1649637001547,
-            edited: 1649637001547,
-        }
-	},
-	'751120d5-0296-47fa-89e8-53042e7a1558': {
-		name: 'Stay',
-        artist: 'Justin Bieber',
-        id: '751120d5-0296-47fa-89e8-53042e7a1558',
-        date: {
-            created: 1649637001547,
-            edited: 1649637001547,
-        }
-	},
-	'94a8ada4-4418-4e56-a643-aa943aa8bb81': {
-		name: 'Enemy',
-        artist: 'Imagine Dragons',
-        id: '94a8ada4-4418-4e56-a643-aa943aa8bb81',
-        date: {
-            created: 1649637001547,
-            edited: 1649637001547,
-        }
-	},
-	'0e79723a-aa54-47ac-8981-1edc687fa62f':{
-		name: 'Louder than Bombs',
-        artist: 'BTS',
-        id: '0e79723a-aa54-47ac-8981-1edc687fa62f',
-        date: {
-            created: 1649637001547,
-            edited: 1649637001547,
-        }
-	},
-};
+import { RecordMetadata, Record } from '../../controllers/records.types';
+import useRecords from '../../controllers/hooks/useRecords';
+import EXAMPLE_PROJECTS from './assets/exampleProjects';
+import type { ProjectMetaData } from './project.types';
 
 const Projects = () => {
-    const [selected, setSelected] = useState(null);
+	const [projects, setProjects] = useState<Record[]>([]);
+	const [selected, setSelected] = useState<RecordMetadata | null>(null);
+	const { createNewRecord, getRecords } = useRecords();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		getRecords().then(setProjects);
+	}, [getRecords]);
+
+	const create = () => {
+		const id = uuidv4();
+		createNewRecord({
+			id: id, // #TODO: check if id is new and unique
+			name: 'New Project',
+			artist: 'New Artist',
+			date: {
+				created: Date.now(),
+				edited: Date.now(),
+			},
+		}).then(() => {
+			navigate('/create/' + id);
+		});
+	};
 
 	return (
 		<div className={cn.container}>
 			<div className={cn.projects}>
 				<h1>Your Projects</h1>
 				<div className={cn.list}>
-					<div className={cn.new}>
+					<div className={cn.new} onClick={create}>
 						<div className={cn.image}>+</div>
-                        Create New
+						Create New
 					</div>
-					{Object.keys(EXAMPLE_USER_PROJECTS).map(project => (
-						<ProjectCard key={project} {...EXAMPLE_USER_PROJECTS[project]} />
+					{projects.map(project => (
+						<ProjectCard
+							key={project.id}
+							{...project.meta}
+							selected={project.id === selected?.id}
+							setSelected={setSelected}
+						/>
 					))}
 				</div>
 				<h1>Examples</h1>
 				<div className={cn.list}>
 					{Object.keys(EXAMPLE_PROJECTS).map(project => (
-						<ProjectCard key={project} {...EXAMPLE_PROJECTS[project]} />
+						<ProjectCard
+							key={project}
+							{...EXAMPLE_PROJECTS[
+								project as keyof ProjectMetaData
+							]}
+							selected={project === selected?.id}
+							setSelected={setSelected}
+						/>
 					))}
 				</div>
 			</div>
 
-			<div className={cn.details}></div>
+			<div className={cn.details}>
+				<ProjectOverview selected={selected} />
+			</div>
 		</div>
 	);
 };
 
-export default Projects;
+export default memo(Projects);

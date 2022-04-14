@@ -9,9 +9,14 @@
     width: min-content;
     padding: 20px;
     line-height: 1em;
-    transition: box-shadow 350ms;
+    transition: box-shadow 350ms, color 350ms, background-color 350ms;
     cursor: pointer;
     background-color: #88888811;
+    color: #aaa;
+
+    &.selected {
+        background-color: #333;
+    }
 
     &>.frame {
         height: 140px;
@@ -28,9 +33,11 @@
             transition: transform 350ms;
         }
     }
-
     &:hover {
         box-shadow: inset 0 0 4px 200px #88888822;
+    }
+    &:hover, &.selected {
+        color: white;
 
         &>.frame>.image {
             transform: scale(1.05);

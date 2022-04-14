@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Footer from '@ryqndev/footer';
 import Home from './pages/Home';
@@ -22,4 +23,4 @@ const App = () => {
 	);
 };
 
-export default App;
+export default memo(App);
