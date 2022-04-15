@@ -4,7 +4,7 @@ import cn from './Home.module.scss';
 const Home = () => {
 	return (
 		<div className={cn.container}>
-			<Link to='/list'>Start Composing</Link>
+			<Link to='/projects'>Start Composing</Link>
 		</div>
 	);
 };

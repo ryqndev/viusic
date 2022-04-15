@@ -1,5 +1,9 @@
 import type { ReactElement } from 'react';
+import Swal from 'sweetalert2';
 import Geopattern from 'geopattern';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { ReactComponent as DeleteIcon } from '../../../../../assets/icons/delete.svg';
+import { ReactComponent as EditIcon } from '../../../../../assets/icons/edit.svg';
 import type { RecordMetadata } from '../../../../controllers/records.types';
 import cn from './ProjectOverview.module.scss';
 import useRecords from '../../../../controllers/hooks/useRecords';
@@ -10,18 +14,38 @@ interface ProjectOverviewProps {
 
 const ProjectOverview = ({ selected }: ProjectOverviewProps): ReactElement => {
 	const { deleteRecord } = useRecords();
+	const navigate = useNavigate();
+
 	if (!selected)
 		return (
 			<div className={cn.container}>
 				<h1>Project Overview</h1>
 				<hr />
-				<h2 style={{color: 'grey', letterSpacing: '1px'}}>
+				<h2 style={{ color: 'grey', letterSpacing: '1px' }}>
 					[Select a project]
 				</h2>
 			</div>
 		);
 
 	const bg = Geopattern.generate(selected.id).toDataUrl();
+
+	const confirmDeleteAndDelete = () => {
+		Swal.fire({
+			icon: 'question',
+			title: 'Delete this project?',
+			text: 'You cannot undo this action.',
+			confirmButtonText: 'Yes, delete it!',
+			showCancelButton: true,
+		}).then(result => {
+			if (result.isConfirmed) {
+				deleteRecord(selected.id);
+				Swal.fire({
+					icon: 'success',
+					text: `[${selected.name}] project deleted!`,
+				});
+			}
+		});
+	};
 
 	return (
 		<div className={cn.container}>
@@ -51,10 +75,14 @@ const ProjectOverview = ({ selected }: ProjectOverviewProps): ReactElement => {
 			<hr />
 
 			<div className={cn.actions}>
-				<button onClick={() => deleteRecord(selected.id)}>
-					delete
+				<button className={cn.edit} onClick={() => navigate('/create/' + selected.id )}>
+					<EditIcon />
+					<p>edit</p>
 				</button>
-				{/* {selected && <>{JSON.stringify(selected)}</>} */}
+				<button className={cn.delete} onClick={confirmDeleteAndDelete}>
+					<DeleteIcon />
+					<p>delete</p>
+				</button>
 			</div>
 		</div>
 	);

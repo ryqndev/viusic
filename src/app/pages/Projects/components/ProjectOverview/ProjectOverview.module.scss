@@ -38,4 +38,60 @@
             }
         }
     }
+
+    &>.actions {
+        margin: 25px 0px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 10px;
+        height: min-content;
+
+        &>button {
+            box-sizing: border-box;
+            display: grid;
+            grid-template-rows: auto auto;
+            row-gap: 10px;
+            background-color: transparent;
+            border: none;
+            padding: 20px 30px 20px;
+    
+            transition: background-color 350ms;
+            cursor: pointer;
+            overflow: visible;
+            background-color: #88888811;
+            border-radius: 4px;
+
+            &>p {
+                margin: 0;
+                color: #aaa;
+                text-transform: uppercase;
+                display: grid;
+                place-self: end center;
+                font-weight: bold;
+                transition: color 350ms;
+            }
+
+            &.delete {
+                & svg {
+                    fill: rgb(208, 58, 58);
+                }
+            }
+            &.edit {
+                & svg {
+                    fill: rgb(77, 207, 21);
+                }
+            }
+            & svg {
+                width: 100%;
+                height: auto;
+            }
+            &:hover {
+                background-color: #222;
+
+                &>p {
+                    color: white;
+                }
+            }
+        }
+    }
 }

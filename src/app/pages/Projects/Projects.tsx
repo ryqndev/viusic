@@ -6,17 +6,17 @@ import cn from './Projects.module.scss';
 import { RecordMetadata, Record } from '../../controllers/records.types';
 import useRecords from '../../controllers/hooks/useRecords';
 import EXAMPLE_PROJECTS from './assets/exampleProjects';
+import { useLiveQuery } from "dexie-react-hooks";
 import type { ProjectMetaData } from './project.types';
 
 const Projects = () => {
-	const [projects, setProjects] = useState<Record[]>([]);
+	// const [projects, setProjects] = useState<Record[]>([]);
 	const [selected, setSelected] = useState<RecordMetadata | null>(null);
 	const { createNewRecord, getRecords } = useRecords();
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		getRecords().then(setProjects);
-	}, [getRecords]);
+	const projects = useLiveQuery(getRecords);
+	if (!projects) return null;
 
 	const create = () => {
 		const id = uuidv4();
