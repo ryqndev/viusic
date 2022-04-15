@@ -9,6 +9,7 @@
     column-gap: 40px;
 
     &>.projects {
+        position: relative;
         display: grid;
         place-content: center;
         padding-bottom: 200px;
@@ -80,6 +81,38 @@
                         color: transparent;
                         background-color: #00dddd;
                     }
+                }
+            }
+        }
+
+        &>.edit {
+            position: sticky;
+            height: 80px;
+            width: 120px;
+            background-color: #20202000;
+            top: calc(100vh - 120px);
+            left: calc(100vw - 300px);
+            border-radius: 4px;            
+            border: none;
+            cursor: not-allowed;
+            transition: background-color 350ms, filter 350ms;
+
+            & svg {
+                height: 100%;
+                width: auto;
+                fill: #151515;
+                transition: fill 350ms;
+            }
+
+            &.enabled {
+                cursor: pointer;
+                background-color: #55007f;
+
+                & svg {
+                    fill: #fff;
+                }
+                &:hover {
+                    filter: brightness(2);
                 }
             }
         }

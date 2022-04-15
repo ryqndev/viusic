@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import Swal from 'sweetalert2';
 import Geopattern from 'geopattern';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ReactComponent as DeleteIcon } from '../../../../../assets/icons/delete.svg';
 import { ReactComponent as EditIcon } from '../../../../../assets/icons/edit.svg';
 import type { RecordMetadata } from '../../../../controllers/records.types';
@@ -51,14 +51,10 @@ const ProjectOverview = ({ selected }: ProjectOverviewProps): ReactElement => {
 		<div className={cn.container}>
 			<h1>Project Overview</h1>
 			<hr />
-
 			<div className={cn.image} style={{ backgroundImage: bg }}></div>
-
 			<h1>{selected.name}</h1>
 			<h2>{selected.artist}</h2>
-
 			<hr />
-
 			<div className={cn.details}>
 				<p>
 					<span>Created:</span>{' '}
@@ -71,11 +67,12 @@ const ProjectOverview = ({ selected }: ProjectOverviewProps): ReactElement => {
 					{new Date(selected.date.edited).toString().substring(0, 21)}
 				</p>
 			</div>
-
 			<hr />
-
 			<div className={cn.actions}>
-				<button className={cn.edit} onClick={() => navigate('/create/' + selected.id )}>
+				<button
+					className={cn.edit}
+					onClick={() => navigate('/create/' + selected.id)}
+				>
 					<EditIcon />
 					<p>edit</p>
 				</button>
