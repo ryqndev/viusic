@@ -10,7 +10,7 @@ import { GlobalControlPanel } from './components';
 const App = () => {
 	return (
 		<div>
-			<GlobalControlPanel />
+			{/* <GlobalControlPanel /> */}
 			<Routes>
 				<Route index element={<Home />} />
 				<Route path='projects' element={<Projects />} />

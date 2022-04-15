@@ -12,7 +12,7 @@
         position: relative;
         display: grid;
         place-content: center;
-        padding-bottom: 200px;
+        padding-bottom: 40px;
         padding-top: 100px;
 
         &>h1 {
@@ -41,6 +41,10 @@
             }
             @media screen and (max-width: 1100px) {
                 grid-template-columns: repeat(1, 1fr);
+            }
+
+            &.bottom {
+                margin-bottom: 120px;
             }
 
             &>.new {
@@ -74,12 +78,12 @@
                 }
             
                 &:hover {
-                    color: white;
-                    border: 3px dashed #888;
+                    color: #FFD700;
+                    border: 3px dashed #FFD700;
 
                     &>.image {
                         color: transparent;
-                        background-color: #00dddd;
+                        background-color: #FFD700;
                     }
                 }
             }
@@ -87,32 +91,28 @@
 
         &>.edit {
             position: sticky;
-            height: 80px;
-            width: 120px;
+            height: 60px;
+            width: 100px;
             background-color: #20202000;
-            top: calc(100vh - 120px);
+            top: calc(100vh - 100px);
             left: calc(100vw - 300px);
-            border-radius: 4px;            
+            border-radius: 35px;            
             border: none;
             cursor: not-allowed;
-            transition: background-color 350ms, filter 350ms;
+            transition: background-color 350ms, box-shadow 350ms;
 
             & svg {
                 height: 100%;
                 width: auto;
                 fill: #151515;
-                transition: fill 350ms;
             }
 
             &.enabled {
                 cursor: pointer;
-                background-color: #55007f;
+                background-color: #FFD700;
 
-                & svg {
-                    fill: #fff;
-                }
                 &:hover {
-                    filter: brightness(2);
+                    box-shadow: 0 0 10px 2px #FFD70088;
                 }
             }
         }

@@ -70,7 +70,7 @@ const Projects = () => {
 					))}
 				</div>
 				<h1>Examples</h1>
-				<div className={cn.list}>
+				<div className={clsx(cn.list, cn.bottom)}>
 					{Object.keys(EXAMPLE_PROJECTS).map(project => (
 						<ProjectCard
 							key={project}
