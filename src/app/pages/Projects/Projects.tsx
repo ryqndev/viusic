@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import clsx from 'clsx';
-import { useState, memo } from 'react';
+import { useState, memo, ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProjectCard, ProjectOverview } from './components';
 import { ReactComponent as ArrowRightIcon } from '../../../assets/icons/arrow_right.svg';
@@ -12,7 +12,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import type { ProjectMetaData } from './project.types';
 import cn from './Projects.module.scss';
 
-const Projects = () => {
+const Projects = (): ReactElement | null => {
 	const [selected, setSelected] = useState<RecordMetadata | null>(null);
 	const { createNewRecord, getRecords } = useRecords();
 	const navigate = useNavigate();
@@ -50,7 +50,9 @@ const Projects = () => {
 			<div className={cn.projects}>
 				<button
 					className={clsx(cn.edit, selected && cn.enabled)}
-					onClick={() => selected?.id && navigate(`/create/${selected.id}`)}
+					onClick={() =>
+						selected?.id && navigate(`/create/${selected.id}`)
+					}
 				>
 					<ArrowRightIcon />
 				</button>
@@ -63,7 +65,7 @@ const Projects = () => {
 					{projects.map(project => (
 						<ProjectCard
 							key={project.id}
-							{...project.meta}
+							{...project}
 							selected={project.id === selected?.id}
 							setSelected={setSelected}
 						/>

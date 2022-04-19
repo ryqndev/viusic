@@ -1,31 +1,22 @@
-interface Record {
+import type { Track } from './tracks.types';
+
+interface RecordData {
     id: string;
-    meta: RecordMetadata;
-    tracks: [];
+    tracks: Track[];
 }
 
 interface RecordMetadata {
+    id: string;
     name: string;
     artist: string;
-    id: string;
     date: {
         created: number;
         edited: number;
     }
 }
 
-
-interface Track {
-    instrument: Instrument;
-}
-
-type Instrument =
-    'bassline-electric' | 'piano';
-
 export type {
-    Record, 
+    RecordData, 
     RecordMetadata,
-    Track,
-    Instrument,
 }
 

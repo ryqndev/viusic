@@ -1,41 +1,51 @@
 import { db } from '../dexie';
 import { useCallback } from 'react';
-import type { Record, RecordMetadata } from '../records.types';
+import type { RecordData, RecordMetadata } from '../records.types';
 
 type PartialProjectMetaData = Partial<RecordMetadata>;
+type PartialProjectData = Partial<RecordData>;
 
 const useRecords = () => {
     const createNewRecord = useCallback((recordMetaData: RecordMetadata) => {
-        return db.records.add({ id: recordMetaData.id, meta: recordMetaData, tracks: [] });
+        return db.transaction('rw', db.records, db.metadata, () => {
+            db.metadata.add(recordMetaData);
+            db.records.add({ id: recordMetaData.id, tracks: [] });
+        });
     }, []);
 
-    const createFromRecord = useCallback((record: Record) => {
-        return db.records.add(record);
-    }, []);
-
-    const updateRecord = useCallback((record: Record) => {
-        return db.records.update(record.id, record);
+    const updateRecord = useCallback((id: string, record: PartialProjectData) => {
+        return db.transaction('rw', db.records, db.metadata, () => {
+            db.metadata.update(id, { 'date.edited': Date.now() });
+            db.records.update(id, record);
+        });
     }, []);
 
     const deleteRecord = useCallback((id: string) => {
-        return db.records.delete(id);
+        return db.transaction('rw', db.records, db.metadata, () => {
+            db.metadata.delete(id);
+            db.records.delete(id);
+        });
     }, []);
 
     const getRecords = useCallback((max = 8) => {
-        return db.records.orderBy('meta.date.edited').reverse().limit(max).toArray();
+        return db.metadata.orderBy('date.edited').reverse().limit(max).toArray();
+    }, []);
+
+    const getRecord = useCallback((id) => {
+        return db.records.get(id);
     }, []);
 
     const editMetaData = useCallback((id: string, meta: PartialProjectMetaData) => {
-        return db.records.update(id, { meta });
+        return db.metadata.update(id, { ...meta, 'date.edited': Date.now() });
     }, []);
 
     return {
         createNewRecord,
-        createFromRecord,
         deleteRecord,
         editMetaData,
         updateRecord,
         getRecords,
+        getRecord,
     }
 }
 

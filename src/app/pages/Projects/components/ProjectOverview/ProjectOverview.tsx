@@ -1,7 +1,9 @@
-import type { ReactElement } from 'react';
+import { ReactElement, useRef } from 'react';
+import { useState } from 'react';
 import Swal from 'sweetalert2';
 import Geopattern from 'geopattern';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as ArrowRightIcon } from '../../../../../assets/icons/arrow_right.svg';
 import { ReactComponent as DeleteIcon } from '../../../../../assets/icons/delete.svg';
 import { ReactComponent as EditIcon } from '../../../../../assets/icons/edit.svg';
 import type { RecordMetadata } from '../../../../controllers/records.types';
@@ -13,7 +15,10 @@ interface ProjectOverviewProps {
 }
 
 const ProjectOverview = ({ selected }: ProjectOverviewProps): ReactElement => {
-	const { deleteRecord } = useRecords();
+	const titleRef = useRef<HTMLInputElement>(null);
+	const artistRef = useRef<HTMLInputElement>(null);
+	const [editMode, setEditMode] = useState(false);
+	const { deleteRecord, editMetaData } = useRecords();
 	const navigate = useNavigate();
 
 	if (!selected)
@@ -29,6 +34,17 @@ const ProjectOverview = ({ selected }: ProjectOverviewProps): ReactElement => {
 
 	const bg = Geopattern.generate(selected.id).toDataUrl();
 
+	const toggleEditModeOrUpdate = () => {
+		const title = titleRef?.current?.textContent;
+		const artist = artistRef?.current?.textContent;
+		if (
+			editMode &&
+			(title !== selected.name || artist !== selected.artist)
+		) {
+			editMetaData(selected.id, { name: title!, artist: artist! }).then(console.log);
+		}
+		setEditMode(prev => !prev);
+	};
 	const confirmDeleteAndDelete = () => {
 		Swal.fire({
 			icon: 'question',
@@ -52,8 +68,20 @@ const ProjectOverview = ({ selected }: ProjectOverviewProps): ReactElement => {
 			<h1>Project Overview</h1>
 			<hr />
 			<div className={cn.image} style={{ backgroundImage: bg }}></div>
-			<h1>{selected.name}</h1>
-			<h2>{selected.artist}</h2>
+			<h1
+				ref={titleRef}
+				suppressContentEditableWarning={true}
+				contentEditable={editMode}
+			>
+				{selected.name}
+			</h1>
+			<h2
+				ref={artistRef}
+				suppressContentEditableWarning={true}
+				contentEditable={editMode}
+			>
+				{selected.artist}
+			</h2>
 			<hr />
 			<div className={cn.details}>
 				<p>
@@ -69,12 +97,13 @@ const ProjectOverview = ({ selected }: ProjectOverviewProps): ReactElement => {
 			</div>
 			<hr />
 			<div className={cn.actions}>
-				<button
-					className={cn.edit}
-					onClick={() => navigate('/create/' + selected.id)}
-				>
+				<button className={cn.view} onClick={() => navigate(`/create/${selected.id}`)}>
+					<ArrowRightIcon />
+					<p>view</p>
+				</button>
+				<button className={cn.edit} onClick={toggleEditModeOrUpdate}>
 					<EditIcon />
-					<p>edit</p>
+					<p>{editMode ? 'save' : 'edit'}</p>
 				</button>
 				<button className={cn.delete} onClick={confirmDeleteAndDelete}>
 					<DeleteIcon />

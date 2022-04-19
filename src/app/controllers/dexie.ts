@@ -1,14 +1,16 @@
 import Dexie, { Table } from 'dexie';
-import { Record } from './records.types';
+import { RecordData, RecordMetadata } from './records.types';
 
 class RecordsDatabase extends Dexie {
 
-    records!: Table<Record>;
+    metadata!: Table<RecordMetadata>;
+    records!: Table<RecordData>;
 
     constructor() {
         super('records');
         this.version(1).stores({
-            records: 'id, meta.date.created, meta.date.edited, meta.name',
+            metadata: 'id, date.created, date.edited, name',
+            records: 'id',
         });
     }
 }
