@@ -18,16 +18,18 @@ const TrackList = ({
 	current,
 	setCurrent,
 }: TrackListProps): ReactElement => {
-	const { createTrack } = useTracks();
+	const { createTrack, getTrack } = useTracks();
 
-	const promptForCreateTrackType = () => {
+	const promptForCreateTrackType = async() => {
 		// TODO: prompt instrument type. currently just default piano
-		createTrack(project.id, 'piano');
-	};
+		createTrack(project.id, 'piano').then(idx => {
+			getTrack(project.id, idx).then(setCurrent);
+		})
+	}
 
 	return (
 		<div className={cn.container}>
-			{project.tracks.map(track => (
+			{project.tracks.slice(0).reverse().map(track => (
 				<TrackItem
 					key={track.id}
 					{...track}

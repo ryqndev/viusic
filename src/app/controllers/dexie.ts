@@ -8,6 +8,7 @@ class RecordsDatabase extends Dexie {
 
     constructor() {
         super('records');
+        
         this.version(1).stores({
             metadata: 'id, date.created, date.edited, name',
             records: 'id',

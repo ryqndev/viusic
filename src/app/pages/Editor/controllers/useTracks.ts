@@ -5,9 +5,15 @@ import { RecordData } from '../../../controllers/records.types';
 import { Instrument, Track } from '../../../controllers/tracks.types';
 
 const useTracks = () => {
-    const createTrack = useCallback((id: string, instrument: Instrument) => {
-        db.records.where('id').equals(id).modify((record: RecordData) => record.tracks.push({
-            id: uuid(),
+    const getTrack = useCallback(async(recordid:string, id: string) => {
+        const track = await db.records.where('id').equals(recordid).first();
+        return track?.tracks?.find(track => track.id === id) ?? null;
+    }, []);
+
+    const createTrack = useCallback(async(id: string, instrument: Instrument) => {
+        const uid = uuid();
+        await db.records.where('id').equals(id).modify((record: RecordData) => record.tracks.push({
+            id: uid,
             label: 'new ' + instrument,
             instrument: instrument,
             baseVolume: 50,
@@ -16,6 +22,7 @@ const useTracks = () => {
             length: 0,
             repeat: [],
         }));
+        return uid;
     }, []);
 
     const deleteTrack = useCallback((recordid: string, trackid: string) => {
@@ -33,7 +40,8 @@ const useTracks = () => {
 
     return {
         createTrack,
-        deleteTrack
+        deleteTrack,
+        getTrack,
     }
 }
 
