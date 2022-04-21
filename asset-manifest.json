@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/ryqndev/v-music/static/css/main.5490baf7.css",
-    "main.js": "/ryqndev/v-music/static/js/main.8448a2cc.js",
-    "static/media/instagram.svg": "/ryqndev/v-music/static/media/instagram.b447faf6ad4011f582378ce6b4605d73.svg",
-    "static/media/linkedin.svg": "/ryqndev/v-music/static/media/linkedin.c3c80a7170bc79341822a37418ebd584.svg",
-    "static/media/website.svg": "/ryqndev/v-music/static/media/website.477c904a07d735516080050cb0ec7211.svg",
-    "index.html": "/ryqndev/v-music/index.html",
-    "static/media/discord.svg": "/ryqndev/v-music/static/media/discord.bbe11a0baaad3aed0c8b74da78a4b14d.svg",
-    "static/media/github.svg": "/ryqndev/v-music/static/media/github.cef1b6081a1cd9575d9f128bf0c960e0.svg",
-    "static/media/delete.svg": "/ryqndev/v-music/static/media/delete.c51739689dd5ae3e89012c9aec976b9e.svg",
-    "static/media/edit.svg": "/ryqndev/v-music/static/media/edit.d2d2d5b642df2417668e70b551104ff6.svg",
-    "static/media/expand.svg": "/ryqndev/v-music/static/media/expand.8d4a9ac9c10811c65db4a50b20d1c0b3.svg",
-    "static/media/arrow_right.svg": "/ryqndev/v-music/static/media/arrow_right.1be76a0d4ec5e99dd17e901d17dd0c53.svg",
-    "main.5490baf7.css.map": "/ryqndev/v-music/static/css/main.5490baf7.css.map",
-    "main.8448a2cc.js.map": "/ryqndev/v-music/static/js/main.8448a2cc.js.map"
+    "main.css": "/ryqndev/viusic/static/css/main.5490baf7.css",
+    "main.js": "/ryqndev/viusic/static/js/main.7de21b52.js",
+    "static/media/instagram.svg": "/ryqndev/viusic/static/media/instagram.b447faf6ad4011f582378ce6b4605d73.svg",
+    "static/media/linkedin.svg": "/ryqndev/viusic/static/media/linkedin.c3c80a7170bc79341822a37418ebd584.svg",
+    "static/media/website.svg": "/ryqndev/viusic/static/media/website.477c904a07d735516080050cb0ec7211.svg",
+    "index.html": "/ryqndev/viusic/index.html",
+    "static/media/discord.svg": "/ryqndev/viusic/static/media/discord.bbe11a0baaad3aed0c8b74da78a4b14d.svg",
+    "static/media/github.svg": "/ryqndev/viusic/static/media/github.cef1b6081a1cd9575d9f128bf0c960e0.svg",
+    "static/media/delete.svg": "/ryqndev/viusic/static/media/delete.c51739689dd5ae3e89012c9aec976b9e.svg",
+    "static/media/edit.svg": "/ryqndev/viusic/static/media/edit.d2d2d5b642df2417668e70b551104ff6.svg",
+    "static/media/expand.svg": "/ryqndev/viusic/static/media/expand.8d4a9ac9c10811c65db4a50b20d1c0b3.svg",
+    "static/media/arrow_right.svg": "/ryqndev/viusic/static/media/arrow_right.1be76a0d4ec5e99dd17e901d17dd0c53.svg",
+    "main.5490baf7.css.map": "/ryqndev/viusic/static/css/main.5490baf7.css.map",
+    "main.7de21b52.js.map": "/ryqndev/viusic/static/js/main.7de21b52.js.map"
   },
   "entrypoints": [
     "static/css/main.5490baf7.css",
-    "static/js/main.8448a2cc.js"
+    "static/js/main.7de21b52.js"
   ]
 }
