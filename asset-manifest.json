@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/viusic/static/css/main.5490baf7.css",
-    "main.js": "/viusic/static/js/main.fda324f6.js",
+    "main.js": "/viusic/static/js/main.54b3b06a.js",
     "static/media/instagram.svg": "/viusic/static/media/instagram.b447faf6ad4011f582378ce6b4605d73.svg",
     "static/media/linkedin.svg": "/viusic/static/media/linkedin.c3c80a7170bc79341822a37418ebd584.svg",
     "static/media/website.svg": "/viusic/static/media/website.477c904a07d735516080050cb0ec7211.svg",
@@ -13,10 +13,10 @@
     "static/media/expand.svg": "/viusic/static/media/expand.8d4a9ac9c10811c65db4a50b20d1c0b3.svg",
     "static/media/arrow_right.svg": "/viusic/static/media/arrow_right.1be76a0d4ec5e99dd17e901d17dd0c53.svg",
     "main.5490baf7.css.map": "/viusic/static/css/main.5490baf7.css.map",
-    "main.fda324f6.js.map": "/viusic/static/js/main.fda324f6.js.map"
+    "main.54b3b06a.js.map": "/viusic/static/js/main.54b3b06a.js.map"
   },
   "entrypoints": [
     "static/css/main.5490baf7.css",
-    "static/js/main.fda324f6.js"
+    "static/js/main.54b3b06a.js"
   ]
 }
