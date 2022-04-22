@@ -1,6 +1,10 @@
 import { createContext } from 'react';
-import type { RecordData } from '../../../controllers/records.types';
+import type { RecordData, RecordMetadata } from '../../../controllers/records.types';
 
-const ProjectContext = createContext<RecordData | null>(null);
+interface Record extends RecordData, RecordMetadata {
+
+}
+
+const ProjectContext = createContext<Record | null>(null);
 
 export default ProjectContext;

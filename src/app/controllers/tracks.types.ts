@@ -1,6 +1,7 @@
 interface Track {
     id: string;
     label: string;
+    type: TrackType;
     instrument: Instrument;
     baseVolume: number;
     muted: boolean;
@@ -9,8 +10,11 @@ interface Track {
     repeat: [];
 }
 
+type TrackType = 
+    'midi' | 'drum-machine' | 'audio';
+
 type Instrument =
-    'bassline-electric' | 'piano';
+    'bassline-electric' | 'piano' | 'drums';
 
 
 interface PianoTrack extends Track {
@@ -19,5 +23,6 @@ interface PianoTrack extends Track {
 
 export type {
     Track,
+    TrackType,
     Instrument,
 }

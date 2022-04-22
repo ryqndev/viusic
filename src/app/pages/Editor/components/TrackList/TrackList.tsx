@@ -1,10 +1,11 @@
 import clsx from 'clsx';
+import Swal from 'sweetalert2';
 import type { ReactElement } from 'react';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { RecordData } from '../../../../controllers/records.types';
 import { Track } from '../../../../controllers/tracks.types';
 import useTracks from '../../controllers/useTracks';
-import { Midi } from './components';
+import { Midi, Audio } from './components';
 import cn from './TrackList.module.scss';
 
 interface TrackListProps {
@@ -20,23 +21,44 @@ const TrackList = ({
 }: TrackListProps): ReactElement => {
 	const { createTrack, getTrack } = useTracks();
 
-	const promptForCreateTrackType = async() => {
-		// TODO: prompt instrument type. currently just default piano
-		createTrack(project.id, 'piano').then(idx => {
-			getTrack(project.id, idx).then(setCurrent);
-		})
-	}
+	const promptForCreateTrackType = async () => {
+		const { value: instrument } = await Swal.fire({
+			title: 'Create a new track',
+			input: 'select',
+			inputOptions: {
+				MIDI: {
+					'midi_piano': 'Piano',
+					'midi_base-electric': 'Electric Bass',
+				},
+				Audio: {
+					'audio_piano': 'Piano',
+				},
+			},
+			inputPlaceholder: 'Select a track type',
+			showCancelButton: true,
+		});
+
+		if (instrument) {
+			const [type, sound] = instrument.split('_');
+			createTrack(project.id, sound, type).then(idx => {
+				getTrack(project.id, idx).then(setCurrent);
+			});
+		}
+	};
 
 	return (
 		<div className={cn.container}>
-			{project.tracks.slice(0).reverse().map(track => (
-				<TrackItem
-					key={track.id}
-					{...track}
-					selected={current?.id === project.id}
-					setCurrent={setCurrent}
-				/>
-			))}
+			{project.tracks
+				.slice(0)
+				.reverse()
+				.map(track => (
+					<TrackItem
+						key={track.id}
+						{...track}
+						selected={current?.id === project.id}
+						setCurrent={setCurrent}
+					/>
+				))}
 			<div
 				className={clsx(cn.track, cn.new)}
 				onClick={promptForCreateTrackType}
@@ -53,11 +75,13 @@ interface TrackItemProps extends Track {
 }
 
 const TrackItem = memo((props: TrackItemProps): ReactElement | null => {
-	switch (props.instrument) {
-		case 'piano':
+	switch (props.type) {
+		case 'midi': 
 			return <Midi {...props} />;
-		case 'bassline-electric':
-			return <Midi {...props} />;
+		case 'audio':
+			return <Audio {...props} />;
+		case 'drum-machine':
+			return <Midi {...props} />;	
 	}
 });
 

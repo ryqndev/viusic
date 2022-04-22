@@ -41,9 +41,11 @@
         &.expanded {
             transform: rotateZ(180deg);
         }
+
         &:hover {
             background-color: #303030;
         }
+
         & svg {
             fill: white;
         }
@@ -60,7 +62,12 @@
         border: 4px dashed #303030;
     }
 
+    &:hover {
+        filter: brightness(2);
+    }
+
     height: 200px;
+
     &.expanded {
         height: 600px;
     }

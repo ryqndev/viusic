@@ -1,19 +1,10 @@
 import clsx from 'clsx';
-import { useState, useEffect, useCallback } from 'react';
-import type { Track } from '../../../../../../controllers/tracks.types';
-import * as Tone from 'tone';
+import { useState } from 'react';
 import { TrackItemProps } from '../../TrackList';
+import useAudio from './controller/useAudio';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
-import cn from './Midi.module.scss';
+import cn from './Audio.module.scss';
 
-// let tracki = {
-// 	name: 'bassline',
-// 	uuid: '1679722d-a019-4f11-b45c-d04a6e52307d',
-// 	instrument: 'bass-electric',
-// 	length: '4m',
-// 	hi: 'E3',
-// 	lo: 'E2',
-// 	notes: [
 // 		['0:0:0', ['E3', '8n']],
 // 		['0:0:3', ['E3', '16n']],
 // 		['0:1:0', ['E2', '8n']],
@@ -39,19 +30,12 @@ import cn from './Midi.module.scss';
 // 		['3:0:0', ['B2', '8n']],
 // 		['3:1:0', ['A2', '8n']],
 // 		['3:2:0', ['B2', '4n']],
-// 	],
-// };
 
-const Midi = ({ setCurrent, ...props }: TrackItemProps) => {
-	const [notes, setNotes] = useState([]);
-	const [synth, setSynth] = useState(() => new Tone.PolySynth().toDestination());
+const Audio = ({ setCurrent, ...props }: TrackItemProps) => {
 	const [expanded, setExpanded] = useState(false);
-	const [trackDomain, setTrackDomain] = useState({
-		start: 0,
-		length: 0,
-		hi: 'e4',
-		lo: 'e2',
-	});
+
+	const { keyMapping } = useAudio(expanded);
+
 	const select = () => {
 		setExpanded(prev => !prev);
 		setCurrent(props);
@@ -71,10 +55,39 @@ const Midi = ({ setCurrent, ...props }: TrackItemProps) => {
 			>
 				<ExpandIcon />
 			</button>
-			<div>
+			<div style={{ position: 'relative' }}>
+				{expanded && Object.keys(keyMapping).map((key, idx) =>
+					keyMapping[key][0].length === 2 ? (
+						<div
+							style={{
+								backgroundColor: 'white',
+								position: 'absolute',
+								height: '250px',
+								width: '50px',
+								left: 54 * idx + 'px',
+							}}
+							key={key}
+						>
+							{key}
+						</div>
+					) : (
+						<div
+							style={{
+								backgroundColor: 'black',
+								position: 'absolute',
+								height: '250px',
+								width: '50px',
+								left: 54 * idx + 'px',
+							}}
+							key={key}
+						>
+							{key}
+						</div>
+					)
+				)}
 			</div>
 		</div>
 	);
 };
 
-export default Midi;
+export default Audio;

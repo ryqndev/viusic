@@ -1,10 +1,46 @@
 .container {
     padding: 40px;
 
+    & h1, h2 {
+        font-family: 'Staatliches', cursive;
+        color: #FFD700;
+
+        &[contenteditable="true"] {
+            padding: 5px 10px;
+            background-color: #080808;
+        }
+    }
+
+    & h2 {
+        font-size: 2em;
+        margin: 0;
+    }
+
+    & .details {
+        padding: 20px 0;
+    }
+
+    & p {
+        font-size: 1.5em;
+        margin: 0;
+        font-family: 'Staatliches', cursive;
+                
+        &>span {
+            color: #888;
+        }
+
+        &.id {
+            color: #444;
+            font-size: 1em;
+            text-align: center;
+            padding: 20px;
+        }
+    }
+
     &>.actions {
-        margin: 25px 0px;
+        margin: 25px 0;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         column-gap: 10px;
         height: min-content;
 
@@ -31,6 +67,7 @@
                 place-self: end center;
                 font-weight: bold;
                 transition: color 350ms;
+
             }
 
             &.view {
@@ -52,8 +89,9 @@
             }
 
             & svg {
-                width: 100%;
-                height: auto;
+                margin: 0 auto;
+                width: auto;
+                height: 40px;
             }
 
             &:hover {
@@ -66,4 +104,3 @@
         }
     }
 }
-

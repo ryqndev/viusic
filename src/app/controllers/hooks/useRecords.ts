@@ -30,8 +30,11 @@ const useRecords = () => {
     const getRecords = useCallback((max = 8) => {
         return db.metadata.orderBy('date.edited').reverse().limit(max).toArray();
     }, []);
+    const getMetaData = useCallback((id: string) => {
+        return db.metadata.get(id);
+    }, []);
 
-    const getRecord = useCallback((id) => {
+    const getRecord = useCallback((id: string) => {
         return db.records.get(id);
     }, []);
 
@@ -44,6 +47,7 @@ const useRecords = () => {
         deleteRecord,
         editMetaData,
         updateRecord,
+        getMetaData,
         getRecords,
         getRecord,
     }

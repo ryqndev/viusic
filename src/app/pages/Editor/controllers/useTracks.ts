@@ -2,19 +2,27 @@ import { db } from '../../../controllers/dexie';
 import { v4 as uuid } from 'uuid';
 import { useCallback } from 'react';
 import { RecordData } from '../../../controllers/records.types';
-import { Instrument, Track } from '../../../controllers/tracks.types';
+import { Instrument, Track, TrackType } from '../../../controllers/tracks.types';
+import useRecords from '../../../controllers/hooks/useRecords';
+
+interface PartialTrack extends Partial<Track> {}
 
 const useTracks = () => {
-    const getTrack = useCallback(async(recordid:string, id: string) => {
-        const track = await db.records.where('id').equals(recordid).first();
-        return track?.tracks?.find(track => track.id === id) ?? null;
-    }, []);
+    const { editMetaData } = useRecords();
 
-    const createTrack = useCallback(async(id: string, instrument: Instrument) => {
+    const getTrack = useCallback(async (recordid: string, id: string) => {
+        editMetaData(recordid, {});
+        const track = await db.records.get(recordid);
+        return track?.tracks?.find(track => track.id === id) ?? null;
+    }, [editMetaData]);
+
+    const createTrack = useCallback(async (recordid: string, instrument: Instrument, type: TrackType) => {
         const uid = uuid();
-        await db.records.where('id').equals(id).modify((record: RecordData) => record.tracks.push({
+        editMetaData(recordid, {});
+        await db.records.where('id').equals(recordid).modify((record: RecordData) => record.tracks.push({
             id: uid,
             label: 'new ' + instrument,
+            type: type,
             instrument: instrument,
             baseVolume: 50,
             muted: false,
@@ -23,9 +31,19 @@ const useTracks = () => {
             repeat: [],
         }));
         return uid;
-    }, []);
+    }, [editMetaData]);
+
+    const editTrack = useCallback((recordid: string, trackid: string, data: PartialTrack) => {
+        editMetaData(recordid, {});
+        return db.records.where('id').equals(recordid).modify((record: RecordData) => {
+            let track:number = record.tracks.findIndex(track => track.id === trackid);
+            record.tracks[track] = { ...record.tracks[track], ...data};
+        });
+
+    }, [editMetaData]);
 
     const deleteTrack = useCallback((recordid: string, trackid: string) => {
+        editMetaData(recordid, {});
         db.records
             .where('id')
             .equals(recordid)
@@ -33,14 +51,15 @@ const useTracks = () => {
                 tracks = tracks.splice(
                     tracks.findIndex(({ id }: { id: string }) =>
                         id === trackid
-                    ), 
-                1);
+                    ),
+                    1);
             });
-    }, []);
+    }, [editMetaData]);
 
     return {
         createTrack,
         deleteTrack,
+        editTrack,
         getTrack,
     }
 }

@@ -4,7 +4,9 @@ import App from './app';
 import './styles/main.scss';
 
 render(
-	<BrowserRouter>
+	<BrowserRouter 
+		basename={process.env.PUBLIC_URL}
+	>
 		<App />
 	</BrowserRouter>,
 	document.getElementById('root')

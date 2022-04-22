@@ -1,4 +1,6 @@
-@import "base/reset.scss";
+@import 
+    "base/reset",
+    "base/typography";
 
-@import "lib/swal.scss";
-
+@import 
+    "lib/swal";

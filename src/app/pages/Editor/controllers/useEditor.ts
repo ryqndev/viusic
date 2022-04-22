@@ -4,11 +4,14 @@ import { useLiveQuery } from 'dexie-react-hooks';
 
 const useEditor = () => {
     const { id } = useParams();
-	const { getRecord } = useRecords();
+	const { getRecord, getMetaData } = useRecords();
 
-	const project = useLiveQuery(() => getRecord(id));
+
+	const metadata = useLiveQuery(() => getMetaData(id ?? ''));
+	const project = useLiveQuery(() => getRecord(id ?? ''));
 
     return {
+        metadata,
         project,
     }
 }

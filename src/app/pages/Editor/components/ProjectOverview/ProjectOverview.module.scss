@@ -1,4 +1,52 @@
 .container {
+    padding: 40px;
+    overflow: hidden;
+    font-size: 1.3em;
 
+    &>h1 {
+        font-size: 2em;
+        line-height: 1em;
+        margin: 10px 0;
+        text-transform: uppercase;
+        font-family: 'Poppins';
+        border-radius: 8px;
+        color: #FFD700;
+
+        &[contenteditable="true"] {
+            padding: 5px 10px;
+            background-color: #151515;
+        }
+    }
+
+    &>h2 {
+        border-radius: 8px;
+        margin-top: 0;
+        font-family: 'Staatliches', cursive;
+
+        &[contenteditable="true"] {
+            padding: 5px 10px;
+            background-color: #151515;
+        }
+    }
+
+    & .details {
+        padding: 20px 0;
+
+        &>.track {
+            font-size: 1em;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            column-gap: 10px;
+
+            &>h3 {
+                font-family: 'Staatliches', cursive;
+                margin: 0;
+
+                &.instrument {
+                    color: #FFD700;
+                    letter-spacing: 1px;
+                }
+            }
+        }
+    }
 }
-
