@@ -15,7 +15,7 @@ const Editor = () => {
 		<ProjectContext.Provider value={{...project, ...metadata}}>
 			<div className={cn.container}>
 				<ProjectOverview />
-				<div style={{backgroundColor: '#101010'}}>
+				<div>
 					<TrackList
 						project={project}
 						current={current}

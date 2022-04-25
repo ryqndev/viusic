@@ -1,7 +1,44 @@
 .container {
-    padding: 40px;
+    background-color: #222;
+    box-sizing: border-box;
+    padding: 60px 0px;
+    width: 0px;
+    overflow: hidden;
+    transition: width 350ms, padding 350ms;
 
-    & h1, h2 {
+    &>.expand {
+        position: absolute;
+        top: 20px;
+        right: 0px;
+        height: 40px;
+        width: 30px;
+        border-radius: 4px 0 0 4px;
+        background-color: #222;
+        border: none;
+        display: grid;
+        place-content: center;
+        transition: right 350ms;
+
+        & svg {
+            fill: white;
+        }
+
+        &.expanded {
+            transform: rotateZ(180deg);
+            right: 305px;
+            width: 40px;
+            border-radius: 4px;
+            background-color: #181818;
+        }
+    }
+
+    &.expanded {
+        width: 380px;
+        padding: 60px 40px 40px;
+    }
+
+    & h1,
+    h2 {
         font-family: 'Staatliches', cursive;
         color: #FFD700;
 
@@ -24,7 +61,7 @@
         font-size: 1.5em;
         margin: 0;
         font-family: 'Staatliches', cursive;
-                
+
         &>span {
             color: #888;
         }
@@ -70,12 +107,6 @@
 
             }
 
-            &.view {
-                & svg {
-                    fill: rgb(97, 233, 47);
-                }
-            }
-            
             &.delete {
                 & svg {
                     fill: rgb(198, 42, 42);

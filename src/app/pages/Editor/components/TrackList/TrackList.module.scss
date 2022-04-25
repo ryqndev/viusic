@@ -3,13 +3,13 @@
     grid-auto-flow: row;
     row-gap: 20px;
     height: min-content;
-    padding: 40px 20px;
-    background-color: #101010 !important;
+    padding: 20px 20px;
+    background-color: #101010;
 
     &>.track {
         cursor: pointer;
         background-color: #0b0b0b;
-        height: 180px;
+        min-height: 180px;
         border-radius: 4px;
         border-left: 4px solid #FFD700;
         transition: filter 250ms;

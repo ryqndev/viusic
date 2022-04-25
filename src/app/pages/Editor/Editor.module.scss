@@ -5,11 +5,10 @@
     width: 100vw;
 
     display: grid;
-    grid-template-columns: 300px 1fr 380px;
+    grid-template-columns: 300px 1fr auto;
     column-gap: 20px;
 
     &>* {
-        background-color: #181818;
         overflow-y: scroll;
 
         -ms-overflow-style: none;  /* Internet Explorer 10+ */
@@ -18,8 +17,5 @@
         &::-webkit-scrollbar { 
             display: none;  /* Safari and Chrome */
         }
-        
-
-
     }
 }

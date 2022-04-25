@@ -1,7 +1,7 @@
 .container {
+    overflow: hidden;
     cursor: pointer;
     background-color: #000;
-    height: 180px;
     border-radius: 4px;
     border-left: 4px solid #FFD700;
     transition: filter 250ms, height 350ms;
@@ -59,9 +59,35 @@
         font-weight: bold;
         border: 4px dashed #303030;
     }
+    min-height: 200px;
+    padding-bottom: 20px;
 
-    height: 200px;
     &.expanded {
-        height: 600px;
+        height: min-content;
     }
+
+    &>.track {
+        grid-column: 1/5;
+        display: grid;
+        grid-template-columns: 50px 1fr;
+
+        &>.map {
+            overflow-x: scroll;
+            // box-sizing: border-box;
+            // display: grid;
+            // row-gap: 1px;
+            // background-color: #333;
+            // border-radius: 2px;
+            // height: max-content;
+            // width: calc(100% - 20px);
+            // border-top: 1px solid #333;
+    
+            // &>.key {
+            //     background-color: #000;
+            //     height: 15px;
+            //     width: 100%;
+            // }
+        }
+    }
+   
 }

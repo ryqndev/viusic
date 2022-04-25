@@ -1,5 +1,7 @@
+import clsx from 'clsx';
 import { ReactElement, useContext, useState, useRef, useEffect } from 'react';
 import type { Track } from '../../../../controllers/tracks.types';
+import { ReactComponent as FirstPageIcon } from '../../../../../assets/icons/first_page.svg';
 import Swal from 'sweetalert2';
 import { ReactComponent as DeleteIcon } from '../../../../../assets/icons/delete.svg';
 import { ReactComponent as EditIcon } from '../../../../../assets/icons/edit.svg';
@@ -16,6 +18,7 @@ const TrackDetails = ({
 	current,
 	setCurrent,
 }: TrackDetailsProps): ReactElement => {
+	const [expanded, setExpanded] = useState(true);
 	const project = useContext(ProjectContext);
 	const { deleteTrack, editTrack } = useTracks();
 	const labelRef = useRef<HTMLInputElement>(null);
@@ -27,10 +30,16 @@ const TrackDetails = ({
 
 	if (!current || !project)
 		return (
-			<div className={cn.container}>
+			<div className={clsx(cn.container, expanded && cn.expanded)}>
+				<button
+					className={cn.expand}
+					onClick={() => setExpanded(prev => !prev)}
+				>
+					<FirstPageIcon />
+				</button>
 				<h1>Track Overview</h1>
 				<hr />
-				<p style={{fontSize: '2em', margin: '30px 0'}}>
+				<p style={{ fontSize: '2em', margin: '30px 0' }}>
 					<span>[ Select a Track ]</span>
 				</p>
 			</div>
@@ -66,7 +75,13 @@ const TrackDetails = ({
 	};
 
 	return (
-		<div className={cn.container}>
+		<div className={clsx(cn.container, expanded && cn.expanded)}>
+			<button
+				className={clsx(cn.expand, expanded && cn.expanded)}
+				onClick={() => setExpanded(prev => !prev)}
+			>
+				<FirstPageIcon />
+			</button>
 			<h1>Track Overview</h1>
 			<hr />
 			<div className={cn.details}>
