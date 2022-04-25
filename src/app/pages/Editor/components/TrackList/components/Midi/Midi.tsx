@@ -55,7 +55,7 @@ const Midi = ({ setCurrent, ...props }: TrackItemProps) => {
 						range={trackDomain.range}
 					/>
 					<div className={cn.map}>
-						<NoteSequencer />
+						<NoteSequencer range={trackDomain.range}/>
 						{/* {notes.map((key: any, idx: number) => (
 							<div key={idx} className={cn.key}> */}
 								{/* {key.map((measure: any, idx: number) => (

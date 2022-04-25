@@ -5,7 +5,7 @@ import './styles/main.scss';
 
 render(
 	<BrowserRouter 
-		// basename={process.env.PUBLIC_URL}
+		basename={process.env.PUBLIC_URL}
 	>
 		<App />
 	</BrowserRouter>,
