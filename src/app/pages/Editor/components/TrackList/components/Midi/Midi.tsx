@@ -4,7 +4,7 @@ import * as Tone from 'tone';
 import { TrackItemProps } from '../../TrackList';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
 import cn from './Midi.module.scss';
-import { KeyboardReference } from './components';
+import { KeyboardReference, NoteSequencer } from './components';
 // []
 /**
  * SHIFT + select should select multiple, offer the ability to merge cells - like its excel
@@ -15,9 +15,9 @@ const Midi = ({ setCurrent, ...props }: TrackItemProps) => {
 	const [trackDomain, setTrackDomain] = useState({
 		start: 0,
 		length: 8,
-		hi: 'c4',
+		hi: 'c7',
 		// lo: 'a0',
-		range: 50,
+		range: 64,
 	});
 	const [notes, setNotes] = useState<any>(() =>
 		new Array(trackDomain.range)
@@ -55,7 +55,7 @@ const Midi = ({ setCurrent, ...props }: TrackItemProps) => {
 						range={trackDomain.range}
 					/>
 					<div className={cn.map}>
-						{/* <Sequencer /> */}
+						<NoteSequencer />
 						{/* {notes.map((key: any, idx: number) => (
 							<div key={idx} className={cn.key}> */}
 								{/* {key.map((measure: any, idx: number) => (

@@ -32,7 +32,7 @@ const TrackDetails = ({
 		return (
 			<div className={clsx(cn.container, expanded && cn.expanded)}>
 				<button
-					className={cn.expand}
+					className={clsx(cn.expand, expanded && cn.expanded)}
 					onClick={() => setExpanded(prev => !prev)}
 				>
 					<FirstPageIcon />
