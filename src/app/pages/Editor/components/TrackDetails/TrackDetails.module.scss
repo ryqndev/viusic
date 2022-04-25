@@ -17,7 +17,8 @@
         border: none;
         display: grid;
         place-content: center;
-        transition: right 350ms;
+        transition: right 350ms, background-color 350ms;
+        cursor: pointer;
 
         & svg {
             fill: white;
@@ -29,6 +30,10 @@
             width: 40px;
             border-radius: 4px;
             background-color: #181818;
+        }
+
+        &:hover {
+            background-color: #303030;
         }
     }
 

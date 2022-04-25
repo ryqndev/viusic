@@ -11,7 +11,7 @@
 
     display: grid;
     grid-template-rows: 64px 1fr;
-    grid-template-columns: auto auto 1fr 64px;
+    grid-template-columns: auto auto 1fr 32px;
     column-gap: 10px;
 
     &>h2 {
@@ -30,11 +30,11 @@
         background-color: transparent;
         border: none;
         border-radius: 50%;
-        height: 50%;
-        width: 50%;
+        height: 32px;
+        width: 32px;
         display: grid;
+        place-self: center;
         place-content: center;
-        margin: 12px auto;
         transition: transform 350ms, background-color 350ms;
         background-color: #181818;
         cursor: pointer;
@@ -71,12 +71,22 @@
         grid-column: 1/5;
         display: grid;
         grid-template-columns: 60px 1fr;
-        border-radius: 4px;
-        // overflow: hidden;
+        border-radius: 2px;
+        overflow: hidden;
 
         &>.map {
-            // height: 100%;
-            // overflow: hidden;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+
+            overflow-x: scroll;
+            overflow-y: hidden;
+
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+            scrollbar-width: none;  /* Firefox */
+            
+            &::-webkit-scrollbar { 
+                display: none;  /* Safari and Chrome */
+            }
         }
     }
 }

@@ -4,17 +4,7 @@ const useCanvas = (draw: any) => {
     const canvasRef = useRef(null)
 
     const resizeCanvas = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): boolean => {
-        // const { width, height } = canvas.getBoundingClientRect();
-        // canvas.width = width;
-        // console.log(width, height);
-        // canvas.height = height;
-        // if (canvas.width !== width || canvas.height !== height) {
-        //     // const { devicePixelRatio: ratio = 1 } = window
-        //     canvas.width = width;
-        //     canvas.height = height;
-        //     // ctx.scale(ratio, ratio);
-        //     return true;
-        // }
+
 
         return false;
     }, []);
@@ -42,9 +32,9 @@ const useCanvas = (draw: any) => {
 
         const render = () => {
             resizeCanvas(canvas, context);
-            // _predraw(canvas, context);
+            _predraw(canvas, context);
             draw(canvas, context);
-            // _postdraw(canvas, context);
+            _postdraw(canvas, context);
 
             animationFrameId = window.requestAnimationFrame(render);
         }

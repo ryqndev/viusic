@@ -1,10 +1,12 @@
 .container {
-    padding: 0;
-    box-sizing: border-box;
+    min-height: 0;
     display: grid;
-    // row-gap: 1px;
+    row-gap: 1px;
     background-color: #333;
-    border-radius: 2px;
+    grid-auto-flow: rows;
+    height: calc(100% - 2px);
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
 
     &>.key {
         height: 15px;
@@ -15,7 +17,6 @@
         font-family: 'Staatliches', cursive;
 
         &>span {
-            // overflow: hidden;
             transform: translate(5px, -2px);
         }
     }

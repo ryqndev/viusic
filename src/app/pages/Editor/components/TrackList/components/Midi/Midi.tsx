@@ -5,24 +5,35 @@ import { TrackItemProps } from '../../TrackList';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
 import cn from './Midi.module.scss';
 import { KeyboardReference, NoteSequencer } from './components';
-// []
 /**
  * SHIFT + select should select multiple, offer the ability to merge cells - like its excel
- *
+ * [
+ * [,,,,,,,,],
+ * [,,,,,,,,],
+ * [,,,,,,,,],
+ * [,,,,,,,,],
+ * [,,,,,,,,],
+ * [,,,,,,,,],
+ * [,,,,,,,,],
+ * [,,,,,,,,],
+ * [,,,,,,,,],
+ * [,,,,,,,,],
+ * ]
  */
 
 const Midi = ({ setCurrent, ...props }: TrackItemProps) => {
 	const [trackDomain, setTrackDomain] = useState({
 		start: 0,
 		length: 8,
-		hi: 'c7',
+		hi: 'c5',
+		defaultBeats: 4,
 		// lo: 'a0',
-		range: 64,
+		range: 32,
 	});
 	const [notes, setNotes] = useState<any>(() =>
 		new Array(trackDomain.range)
 			.fill(0)
-			.map(_ => new Array(trackDomain.length).fill(0))
+			.map(_ => new Array(trackDomain.length * 4).fill(0))
 	);
 	const [synth, setSynth] = useState(() =>
 		new Tone.PolySynth().toDestination()
@@ -55,14 +66,7 @@ const Midi = ({ setCurrent, ...props }: TrackItemProps) => {
 						range={trackDomain.range}
 					/>
 					<div className={cn.map}>
-						<NoteSequencer range={trackDomain.range}/>
-						{/* {notes.map((key: any, idx: number) => (
-							<div key={idx} className={cn.key}> */}
-								{/* {key.map((measure: any, idx: number) => (
-									<div key={idx} className={cn.measure}></div>
-								))} */}
-							{/* </div>
-						))} */}
+						<NoteSequencer notes={notes} range={trackDomain.range}/>
 					</div>
 				</div>
 			)}
