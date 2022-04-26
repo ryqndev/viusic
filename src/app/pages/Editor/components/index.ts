@@ -1,9 +1,11 @@
-import ProjectOverview from './ProjectOverview';
+import TrackController from './TrackController';
 import TrackDetails from './TrackDetails';
 import TrackList from './TrackList';
+import ProjectOverview from './ProjectOverview';
 
 export {
-    ProjectOverview,
+    TrackController,
     TrackDetails,
     TrackList,
+    ProjectOverview,
 }

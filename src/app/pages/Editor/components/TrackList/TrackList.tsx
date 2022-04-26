@@ -28,7 +28,10 @@ const TrackList = ({
 			inputOptions: {
 				MIDI: {
 					'midi_piano': 'Piano',
-					'midi_base-electric': 'Electric Bass',
+					'midi_bass-electric': 'Electric Bass',
+					'midi_harp': 'Harp',
+					'midi_guitar-acoustic': 'Acoustic Guitar',
+					'midi_saxophone': 'Saxophone',
 				},
 				Audio: {
 					'audio_piano': 'Piano',

@@ -14,7 +14,7 @@ type TrackType =
     'midi' | 'drum-machine' | 'audio';
 
 type Instrument =
-    'bassline-electric' | 'piano' | 'drums';
+    'bass-electric' | 'bassoon' | 'cello' | 'clarinet' | 'contrabass' | 'drum' | 'flute' | 'french-horn' | 'guitar-acoustic' | 'guitar-electric' |  'guitar-nylon' | 'harmonium' | 'harp' | 'organ' | 'piano' | 'saxophone' | 'trombone' | 'trumpet' | 'tuba' | 'violin' | 'xylophone';
 
 
 interface PianoTrack extends Track {
