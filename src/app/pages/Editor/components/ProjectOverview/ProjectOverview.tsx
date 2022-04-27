@@ -1,4 +1,4 @@
-import { ReactElement, useContext } from 'react';
+import { ReactElement, useContext, memo } from 'react';
 import ProjectContext from '../../controllers/ProjectContext';
 import cn from './ProjectOverview.module.scss';
 
@@ -24,4 +24,4 @@ const ProjectOverview = (): ReactElement | null => {
 	);
 };
 
-export default ProjectOverview;
+export default memo(ProjectOverview);

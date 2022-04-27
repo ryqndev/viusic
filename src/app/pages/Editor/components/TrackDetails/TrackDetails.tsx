@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ReactElement, useContext, useState, useRef, useEffect } from 'react';
+import { ReactElement, useContext, useState, useRef, useEffect, memo } from 'react';
 import type { Track } from '../../../../controllers/tracks.types';
 import { ReactComponent as FirstPageIcon } from '../../../../../assets/icons/first_page.svg';
 import Swal from 'sweetalert2';
@@ -134,4 +134,4 @@ const TrackDetails = ({
 	);
 };
 
-export default TrackDetails;
+export default memo(TrackDetails);

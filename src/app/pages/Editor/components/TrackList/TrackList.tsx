@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Swal from 'sweetalert2';
 import type { ReactElement } from 'react';
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { RecordData } from '../../../../controllers/records.types';
 import { Track } from '../../../../controllers/tracks.types';
 import useTracks from '../../controllers/useTracks';
@@ -20,6 +20,7 @@ const TrackList = ({
 	setCurrent,
 }: TrackListProps): ReactElement => {
 	const { createTrack, getTrack } = useTracks();
+	const [viewPosition, setViewPosition] = useState(0);
 
 	const promptForCreateTrackType = async () => {
 		const { value: instrument } = await Swal.fire({
@@ -56,9 +57,12 @@ const TrackList = ({
 				.reverse()
 				.map(track => (
 					<TrackItem
+						viewPosition={viewPosition}
+						setViewPosition={setViewPosition}
 						key={track.id}
 						{...track}
 						selected={current?.id === project.id}
+						recordid={project.id}
 						setCurrent={setCurrent}
 					/>
 				))}
@@ -73,7 +77,10 @@ const TrackList = ({
 };
 
 interface TrackItemProps extends Track {
+	viewPosition: any;
+	setViewPosition: (newViewPosition:any) => void;
 	selected: boolean;
+	recordid: string;
 	setCurrent: (track: Track | null) => void;
 }
 
@@ -88,5 +95,5 @@ const TrackItem = memo((props: TrackItemProps): ReactElement | null => {
 	}
 });
 
-export default TrackList;
+export default memo(TrackList);
 export type { TrackItemProps };

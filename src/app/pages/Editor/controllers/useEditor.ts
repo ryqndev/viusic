@@ -12,7 +12,7 @@ const useEditor = () => {
 	const project = useLiveQuery(() => getRecord(id ?? ''));
 
     useEffect(() => {
-        Tone.Transport.bpm.value = 110;
+        Tone.Transport.bpm.value = 103;
     }, []);
 
     return {

@@ -11,11 +11,12 @@ const useMouseActions = (canvasRef: any, setNotes: any) => {
 
     const rightClick = (event: any) => {
         event.preventDefault();
-        const [i, j] = getBox(event);
-        console.log(i, j, event);
+        // const [i, j] = getBox(event);
     };
 
     const leftClick = (event: any) => {
+        // save current state in track db
+        // play the sound
         const canvas = canvasRef.current as HTMLCanvasElement | null;
         if (!canvas) return;
 
@@ -23,9 +24,10 @@ const useMouseActions = (canvasRef: any, setNotes: any) => {
         if (!ctx) return;
 
         const [i, j] = getBox(event);
-
         setNotes((prevNotes: any) => {
             let newNotes = [...prevNotes];
+            if(j >= newNotes.length || i >= newNotes[j].length) return prevNotes;
+
             newNotes[j][i] = (newNotes[j][i] + 1) % 2;
             return newNotes;
         });

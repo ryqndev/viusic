@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, memo } from 'react';
 import useCanvas from './controllers/useCanvas';
 import useMouseActions from './controllers/useMouseActions';
 import cn from './NoteSequencer.module.scss';
@@ -17,7 +17,7 @@ const NoteSequencer = ({
 	const canvasRef = useCanvas(notes, range);
 	const { showContextMenu, leftClick, rightClick } = useMouseActions(
 		canvasRef,
-		setNotes
+		setNotes,
 	);
 
 	return (
@@ -32,4 +32,4 @@ const NoteSequencer = ({
 	);
 };
 
-export default NoteSequencer;
+export default memo(NoteSequencer);

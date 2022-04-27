@@ -8,6 +8,7 @@ interface Track {
     monitored: boolean;
     length: number;
     repeat: [];
+    notes?: any;
 }
 
 type TrackType = 

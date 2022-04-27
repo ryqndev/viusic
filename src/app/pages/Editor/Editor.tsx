@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import type { Track } from '../../controllers/tracks.types';
 import { TrackController, TrackDetails, TrackList, ProjectOverview } from './components';
 import useEditor from './controllers/useEditor';
@@ -31,4 +31,4 @@ const Editor = () => {
 	);
 };
 
-export default Editor;
+export default memo(Editor);

@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useState, memo } from 'react';
 import cn from './KeyboardReference.module.scss';
 
 interface KeyboardReferenceProps {
@@ -47,4 +47,4 @@ const KeyboardReference = ({
 	);
 };
 
-export default KeyboardReference;
+export default memo(KeyboardReference);
