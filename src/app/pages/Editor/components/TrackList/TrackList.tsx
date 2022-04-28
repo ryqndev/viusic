@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Swal from 'sweetalert2';
 import type { ReactElement } from 'react';
-import { memo, useState, useEffect } from 'react';
+import { memo, useState } from 'react';
 import { RecordData } from '../../../../controllers/records.types';
 import { Track } from '../../../../controllers/tracks.types';
 import useTracks from '../../controllers/useTracks';

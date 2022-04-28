@@ -1,70 +1,82 @@
 import { useState, useEffect, useCallback } from 'react';
+import type { TrackMetaData } from './useInstruments';
 import useTracks from '../../../../../controllers/useTracks';
+import { Time } from 'tone';
+import { off } from 'process';
 
-interface useNotesProps {
-    range: number;
-    defaultBeats: number;
-    recordid: string;
-    trackid: string;
-    length: number;
-    hi: string;
-    notes?: any;
-}
 const NOTE_ORDER = ['b', 'a#', 'a', 'g#', 'g', 'f#', 'f', 'e', 'd#', 'd', 'c#', 'c'];
+const BEATS_PER_MEASURE = 4;
 
-const useNotes = (trackDomain: useNotesProps) => {
+const useNotes = (track: TrackMetaData) => {
     const [transportNotation, setTransportNotation] = useState<Array<any>>([]);
     const { editTrack } = useTracks();
 
     const idxToNoteMapping = useCallback(() => {
-
-        let octave = parseInt(trackDomain.hi.replace(/\D/g, ''));
-        let note = trackDomain.hi.replace(/[0-9]/g, '');
+        let octave = parseInt(track.hi.replace(/\D/g, ''));
+        let note = track.hi.replace(/[0-9]/g, '');
         const startIdx = NOTE_ORDER.indexOf(note);
 
         const mapping: any = [];
 
-        for (let idx = 0; idx < trackDomain.range; idx++) {
+        for (let idx = 0; idx < track.range; idx++) {
             mapping.push(NOTE_ORDER[(startIdx + idx) % 12] + octave);
 
             if ((startIdx + idx) % 12 === 11) octave -= 1;
 
         }
         return mapping;
-    }, [trackDomain.hi, trackDomain.range]);
+    }, [track.hi, track.range]);
 
     const [notes, setNotes] = useState<any>(() => {
-        if (!trackDomain?.notes)
-            return new Array(trackDomain.range)
+        if (!track?.notes)
+            return new Array(track.range)
                 .fill(0)
-                .map(_ => new Array(trackDomain.length * trackDomain.defaultBeats).fill(0))
+                .map(_ => new Array(track.length).fill(0));
 
-        return trackDomain.notes;
-    }
-    );
+        return track.notes;
+    });
 
 
     useEffect(() => {
-        editTrack(trackDomain.recordid, trackDomain.trackid, { notes: notes });
+        editTrack(track.recordid, track.trackid, { notes: notes });
 
-        const newTransportNotation: Array<any> = [];
+        const transport: Array<any> = [];
         const mapping = idxToNoteMapping();
-        notes.forEach((key: any, idx: number) => {
-            const noteIdx = mapping[idx];
 
-            for (let i = 0; i < key.length; i++) {
-                if (key[i] === 0) continue;
-
-                if (key[i] === 1) newTransportNotation.push(
-                    [`${Math.floor(i / 6)}:${Math.floor((i % 6) / 2)}:${(i % 2) * 2}`
-                        , [noteIdx, "4n"]]);
-            }
+        notes.forEach((beats: any, idx: number) => {
+            notesToTransport(
+                mapping[idx],
+                beats,
+                transport,
+            );
         });
-        setTransportNotation(newTransportNotation);
-    }, [notes, idxToNoteMapping, trackDomain.defaultBeats]);
+        setTransportNotation(transport);
+    }, [editTrack, notes, idxToNoteMapping, track.recordid, track.trackid]);
 
-    const getTransportNote = (note: Array<any> | number,) => {
+    const notesToTransport = (key: string, beats: Array<any>, transport: any[]) => {
+        for (let measure = 0; measure < beats.length; measure++) {
+            if (beats[measure] === 0) continue;
+            noteToTransport(key, beats[measure], measure, 0, transport);
+        }
+    }
 
+    const noteToTransport = (
+        key: string, 
+        note: any[] | number, 
+        measure: number, 
+        offset: number, 
+        transport: any[]
+    ) => {
+        // let noteLength = 0;
+        if(Array.isArray(note)) {
+            note.forEach((subdivisions: any, idx: number) => {
+                noteToTransport(key, subdivisions, measure, offset + (idx), transport);
+            });
+            return;
+        }
+
+        // ignore case where tie or legato
+        transport.push([`${measure}:${offset}`, [key, '4n']]);
     }
 
     return {

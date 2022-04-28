@@ -1,42 +1,80 @@
-import { useState } from 'react';
+import { useState, MouseEvent } from 'react';
 
-const useMouseActions = (canvasRef: any, setNotes: any) => {
+const KEY_HEIGHT = 16;
+const MEASURE_WIDTH = 360;
+
+const useMouseActions = (setNotes: any) => {
     const [showContextMenu, setShowContextMenu] = useState(false);
 
-    const getBox = (event: any) => {
-        const x = event.nativeEvent.offsetX;
-        const y = event.nativeEvent.offsetY;
-        return [Math.floor(x / 72), Math.floor(y / 16)];
-    }
-
-    const rightClick = (event: any) => {
+    const rightClick = (event: MouseEvent) => {
         event.preventDefault();
-        // const [i, j] = getBox(event);
+        setNotes((prevNotes: any) =>
+            getMappingLocationAndUse(
+                prevNotes,
+                event,
+                note => new Array(4).fill(0)
+            )
+        );
     };
 
-    const leftClick = (event: any) => {
+    const getMappingLocationAndUse = (
+        prevNotes: any[],
+        event: MouseEvent,
+        action: (currentValue: number) => Array<any> | number
+    ) => {
+        // click [x,y] to note [i,j]
+        let j = Math.floor(event.nativeEvent.offsetX / MEASURE_WIDTH),
+            i = Math.floor(event.nativeEvent.offsetY / KEY_HEIGHT);
+
+        // out of bounds somehow?
+        if (i >= prevNotes.length || j >= prevNotes[i].length) return prevNotes;
+
+        const newNotes = [...prevNotes];
+
+        getMapping(event.nativeEvent.offsetX % MEASURE_WIDTH, MEASURE_WIDTH, newNotes[i], j, action);
+
+        return newNotes;
+    }
+
+    const getMapping = (
+        offsetX: number,
+        width: number,
+        notes: any[],
+        noteIdx: number,
+        action: (currentValue: number) => Array<any> | number
+    ) => {
+        if (!isNaN(notes[noteIdx])) {
+            notes[noteIdx] = action(notes[noteIdx]);
+            return;
+        }
+        const subdivisionWidth = width / notes[noteIdx].length;
+        
+        getMapping(
+            offsetX % subdivisionWidth, 
+            subdivisionWidth, 
+            notes[noteIdx], 
+            Math.floor(offsetX / subdivisionWidth), 
+            action,
+        );
+    }
+
+    const leftClick = (event: MouseEvent) => {
         // save current state in track db
         // play the sound
-        const canvas = canvasRef.current as HTMLCanvasElement | null;
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        const [i, j] = getBox(event);
-        setNotes((prevNotes: any) => {
-            let newNotes = [...prevNotes];
-            if(j >= newNotes.length || i >= newNotes[j].length) return prevNotes;
-
-            newNotes[j][i] = (newNotes[j][i] + 1) % 2;
-            return newNotes;
-        });
+        setNotes((prevNotes: any) =>
+            getMappingLocationAndUse(
+                prevNotes,
+                event,
+                note => ++note % 2
+            )
+        );
     };
 
     return {
         leftClick,
         rightClick,
         showContextMenu,
+        closeContextMenu: () => setShowContextMenu(false),
     }
 }
 

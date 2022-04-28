@@ -12,16 +12,17 @@ const TrackController = ({
 	isPlaying,
 	play,
 }: TrackControllerProps): ReactElement => {
-
 	return (
 		<div className={cn.container}>
-			<button className={cn.play} onClick={play}>
-				{isPlaying ? (
-					<PauseIcon viewBox='0 0 48 48' />
-				) : (
-					<PlayIcon viewBox='0 0 48 48' />
-				)}
-			</button>
+			<div className={cn['play-container']}>
+				<button className={cn.play} onClick={play}>
+					{isPlaying ? (
+						<PauseIcon viewBox='0 0 48 48' />
+					) : (
+						<PlayIcon viewBox='0 0 48 48' />
+					)}
+				</button>
+			</div>
 		</div>
 	);
 };

@@ -15,10 +15,8 @@ const NoteSequencer = ({
 	setNotes,
 }: NoteSequencerProps): ReactElement => {
 	const canvasRef = useCanvas(notes, range);
-	const { showContextMenu, leftClick, rightClick } = useMouseActions(
-		canvasRef,
-		setNotes,
-	);
+	const { showContextMenu, leftClick, rightClick } =
+		useMouseActions(setNotes);
 
 	return (
 		<canvas

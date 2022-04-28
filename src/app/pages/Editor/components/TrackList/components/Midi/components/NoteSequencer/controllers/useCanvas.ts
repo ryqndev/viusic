@@ -1,6 +1,7 @@
 import { useRef, useEffect, useCallback } from 'react';
 
 const KEY_HEIGHT = 16;
+const MEASURE_WIDTH = 360;
 
 const useCanvas = (notes: any, range: number) => {
     const canvasRef = useRef(null);
@@ -18,7 +19,6 @@ const useCanvas = (notes: any, range: number) => {
             note.forEach((n, i) => {
                 drawNote(ctx, n, x + subWidth * i, y, subWidth, height);
             });
-
             return;
         }
         switch (note) {
@@ -35,24 +35,35 @@ const useCanvas = (notes: any, range: number) => {
 
     const draw = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
         canvas.height = range * KEY_HEIGHT + 1;
-        canvas.width = 72 * 4 * 8;
+        canvas.width = MEASURE_WIDTH * 8;
 
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 1;
 
         for (let key = 0; key < notes.length; key++) {
-            for (let beat = 0; beat < notes[key].length; beat++) {
-                let note: Array<any> | number = notes[key][beat];
+            for (let measure = 0; measure < notes[key].length; measure++) {
+                let note: Array<any> | number = notes[key][measure];
+                ctx.strokeStyle = '#333';
                 drawNote(
                     ctx,
                     note,
-                    beat * 72 + 0.5,
+                    measure * MEASURE_WIDTH + 0.5,
                     key * KEY_HEIGHT + 0.5,
-                    72,
+                    MEASURE_WIDTH,
                     KEY_HEIGHT
                 );
+                // measure start signifiers 
+                ctx.strokeStyle = '#FFD700';
+                ctx.beginPath();
+                ctx.moveTo(measure * MEASURE_WIDTH + 0.5, key * KEY_HEIGHT + 0.5);
+                ctx.lineTo(measure * MEASURE_WIDTH + 0.5, key * KEY_HEIGHT + 0.5 + MEASURE_WIDTH);
+                ctx.stroke();
             }
         }
+        // Stylistic decision
+        ctx.strokeStyle = '#FFD700';
+        ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
     }, [notes, range, drawNote]);
 
     useEffect(() => {

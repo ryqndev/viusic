@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import { useState, memo, useRef, useEffect } from 'react';
-import { TrackItemProps } from '../../TrackList';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
 import cn from './Midi.module.scss';
 import { KeyboardReference, NoteSequencer } from './components';
 import useSound from './controllers/useSound';
 import useNotes from './controllers/useNotes';
+import useInstruments from './controllers/useInstruments';
+import type { TrackItemProps } from '../../TrackList';
 
 const Midi = ({
 	setCurrent,
@@ -13,19 +14,10 @@ const Midi = ({
 	viewPosition,
 	...track
 }: TrackItemProps) => {
-	const [trackDomain] = useState({
-		recordid: track.recordid,
-		trackid: track.id,
-		start: 0,
-		length: 4,
-		hi: 'c5',
-		defaultBeats: 6,
-		range: 32,
-		notes: track?.notes,
-	});
+	const { data } = useInstruments(track);
 
 	const trackRef = useRef<any>(null);
-	const { notes, transportNotation, setNotes } = useNotes(trackDomain);
+	const { notes, transportNotation, setNotes } = useNotes(data);
 	const { synth } = useSound(track.instrument, transportNotation);
 
 	const [expanded, setExpanded] = useState(false);
@@ -36,9 +28,9 @@ const Midi = ({
 	};
 
 	useEffect(() => {
-		if (!trackRef?.current) return;
-		trackRef.current.scrollTo({ left: viewPosition });
-	}, [viewPosition]);
+		if (!trackRef?.current || data.trackid === viewPosition[1]) return;
+		trackRef.current.scrollLeft = viewPosition[0];
+	}, [viewPosition, data.trackid]);
 
 	return (
 		<div
@@ -57,20 +49,20 @@ const Midi = ({
 			{expanded && (
 				<div className={cn.track}>
 					<KeyboardReference
-						hi={trackDomain.hi}
-						range={trackDomain.range}
+						hi={data.hi}
+						range={data.range}
 					/>
 					<div
 						className={cn.map}
 						ref={trackRef}
 						onScroll={(e: any) => {
-							setViewPosition(e.target.scrollLeft);
+							setViewPosition([e.target.scrollLeft, data.trackid]);
 						}}
 					>
 						<NoteSequencer
 							notes={notes}
 							setNotes={setNotes}
-							range={trackDomain.range}
+							range={data.range}
 						/>
 					</div>
 				</div>

@@ -1,0 +1,67 @@
+{
+
+    "bass-electric": {
+        "hi": "d#4",
+        "range": 36
+    },
+    "bassoon": {
+        "hi": "d#5",
+        "range": 40
+    },
+    "cello": {
+        "hi": "c8",
+        "range": 48
+    },
+    "clarinet": {
+        "hi": "c8",
+        "range": 88
+    },
+    "contrabass": {
+        "hi": "c8",
+        "range": 88
+    },
+    "flute": {
+        "hi": "c8",
+        "range": 88
+    },
+    "french-horn": {
+        "hi": "f5",
+        "range": 42
+    },
+    "guitar-acoustic": {
+        "hi": "e6",
+        "range": 56
+    },
+    "guitar-electric": {
+        "hi": "e6",
+        "range": 56
+    },
+    "guitar-nylon": {
+        "hi": "e6",
+        "range": 56
+    },
+    "harp": {
+        "hi": "f#7",
+        "range": 80
+    },
+    "piano": {
+        "hi": "c8",
+        "range": 88
+    },
+    "saxophone": {
+        "hi": "g6",
+        "range": 30
+    },
+    "trumpet": {
+        "hi": "d6",
+        "range": 30
+    },
+    "trombone": {
+        "hi": "a#4",
+        "range": 40
+    },
+    "xylophone": {
+        "hi": "c7",
+        "range": 60
+    }
+}

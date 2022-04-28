@@ -11,26 +11,41 @@
     background-color: #181818;
     border-radius: 32px;
     box-shadow: 0 0 5px 1px #101010;
-    padding: 5px;
 
-    &>.play {
-        cursor: pointer;
-        background-color: #FFD700;
+    &>.play-container {
+        position: relative;
+        top: calc(-45px + 32px);
+        left: 0;
+        height: 85px;
+        width: 85px;
+        padding: 5px;
         border-radius: 50%;
-        border: none;
-
-        height: 100%;
-        width: 100%;
+        background-color: #181818;
         display: grid;
         place-content: center;
+        box-shadow: 0 0 5px 1px #101010;
 
-        & svg {
-            height: 40px;
-            width: 40px;
+        &>.play {
 
-            & path {
-                fill: #181818;
+            cursor: pointer;
+            background-color: #FFD700;
+            border-radius: 50%;
+            border: none;
+    
+            height: 80px;
+            width: 80px;
+            display: grid;
+            place-content: center;
+    
+            & svg {
+                height: 80px;
+                width: 80px;
+    
+                & path {
+                    fill: #181818;
+                }
             }
         }
     }
+    
 }
