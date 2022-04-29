@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as Tone from 'tone';
 
 const usePlayback = () => {
@@ -8,7 +8,7 @@ const usePlayback = () => {
         if (Tone.context.state !== 'running') {
             Tone.context.resume();
         }
-        isPlaying ? Tone.Transport.stop() : Tone.Transport.start();
+        isPlaying ? Tone.Transport.stop() : Tone.Transport.start("+0.1");
         _setIsPlaying(prev => !prev);
     }
 

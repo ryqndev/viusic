@@ -22,6 +22,10 @@ const useSound = (instrument: Instrument, transportNotation: any) => {
         }, transportNotation).start(0)
     );
 
+    const playNote = (note: string) => {
+        synth.triggerAttackRelease(note, '4n');
+    }
+
     useEffect(() => {
         setPart(new Part((time, note) => {
             synth.triggerAttackRelease(
@@ -38,6 +42,7 @@ const useSound = (instrument: Instrument, transportNotation: any) => {
 
     return {
         synth,
+        playNote,
     }
 }
 

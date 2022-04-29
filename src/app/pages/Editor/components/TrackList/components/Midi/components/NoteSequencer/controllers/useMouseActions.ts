@@ -1,9 +1,10 @@
 import { useState, MouseEvent } from 'react';
 
+const NOTES = ['b', 'a#', 'a', 'g#', 'g', 'f#', 'f', 'e', 'd#', 'd', 'c#', 'c'];
 const KEY_HEIGHT = 16;
 const MEASURE_WIDTH = 360;
 
-const useMouseActions = (setNotes: any) => {
+const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (note: string) => void) => {
     const [showContextMenu, setShowContextMenu] = useState(false);
 
     const rightClick = (event: MouseEvent) => {
@@ -12,7 +13,7 @@ const useMouseActions = (setNotes: any) => {
             getMappingLocationAndUse(
                 prevNotes,
                 event,
-                note => new Array(4).fill(0)
+                () => new Array(2).fill(0)
             )
         );
     };
@@ -48,24 +49,33 @@ const useMouseActions = (setNotes: any) => {
             return;
         }
         const subdivisionWidth = width / notes[noteIdx].length;
-        
+
         getMapping(
-            offsetX % subdivisionWidth, 
-            subdivisionWidth, 
-            notes[noteIdx], 
-            Math.floor(offsetX / subdivisionWidth), 
+            offsetX % subdivisionWidth,
+            subdivisionWidth,
+            notes[noteIdx],
+            Math.floor(offsetX / subdivisionWidth),
             action,
         );
     }
 
+
     const leftClick = (event: MouseEvent) => {
         // save current state in track db
-        // play the sound
+        let i = Math.floor(event.nativeEvent.offsetY / KEY_HEIGHT);
+        let octave = parseInt(hi.replace(/\D/g, ''));
+        let idx = NOTES.indexOf(hi.replace(/[0-9]/g, '')) + i;
+
+        const clicked = NOTES[idx % 12] + Math.ceil(octave - idx / 12);
+
         setNotes((prevNotes: any) =>
             getMappingLocationAndUse(
                 prevNotes,
                 event,
-                note => ++note % 2
+                note => {
+                    if(note === 0) playNote(clicked);
+                    return ++note % 2;
+                }
             )
         );
     };

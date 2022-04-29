@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { TrackMetaData } from './useInstruments';
-import useTracks from '../../../../../controllers/useTracks';
 import { Time } from 'tone';
-import { off } from 'process';
+import useTracks from '../../../../../controllers/useTracks';
 
 const NOTE_ORDER = ['b', 'a#', 'a', 'g#', 'g', 'f#', 'f', 'e', 'd#', 'd', 'c#', 'c'];
 const BEATS_PER_MEASURE = 4;
+const SUBDIVISIONS = 8;
 
 const useNotes = (track: TrackMetaData) => {
     const [transportNotation, setTransportNotation] = useState<Array<any>>([]);
@@ -31,11 +31,45 @@ const useNotes = (track: TrackMetaData) => {
         if (!track?.notes)
             return new Array(track.range)
                 .fill(0)
-                .map(_ => new Array(track.length).fill(0));
+                .map(_ => new Array(track.length)
+                    .fill(0)
+                    .map(_ => new Array(SUBDIVISIONS).fill(0)));
 
         return track.notes;
     });
 
+    const noteToTransport = useCallback((
+        key: string,
+        note: any[] | number,
+        measure: number,
+        offset: number,
+        length: number,
+        transport: any[]
+    ) => {
+        if (Array.isArray(note)) {
+            return note.forEach((subdivisions: any, idx: number) => {
+                const noteLength = length / note.length;
+                noteToTransport(
+                    key,
+                    subdivisions,
+                    measure,
+                    noteLength * idx + offset,
+                    noteLength,
+                    transport
+                );
+            });
+        }
+        if (note === 0) return;
+        // ignore case where tie or legato for now
+        transport.push([`${measure}:${offset}`, [key, '4n']]);
+    }, []);
+
+    const notesToTransport = useCallback((key: string, beats: Array<any>, transport: any[]) => {
+        for (let measure = 0; measure < beats.length; measure++) {
+            if (beats[measure] === 0) continue;
+            noteToTransport(key, beats[measure], measure, 0, BEATS_PER_MEASURE, transport);
+        }
+    }, [noteToTransport]);
 
     useEffect(() => {
         editTrack(track.recordid, track.trackid, { notes: notes });
@@ -50,34 +84,9 @@ const useNotes = (track: TrackMetaData) => {
                 transport,
             );
         });
+        console.log(transport)
         setTransportNotation(transport);
-    }, [editTrack, notes, idxToNoteMapping, track.recordid, track.trackid]);
-
-    const notesToTransport = (key: string, beats: Array<any>, transport: any[]) => {
-        for (let measure = 0; measure < beats.length; measure++) {
-            if (beats[measure] === 0) continue;
-            noteToTransport(key, beats[measure], measure, 0, transport);
-        }
-    }
-
-    const noteToTransport = (
-        key: string, 
-        note: any[] | number, 
-        measure: number, 
-        offset: number, 
-        transport: any[]
-    ) => {
-        // let noteLength = 0;
-        if(Array.isArray(note)) {
-            note.forEach((subdivisions: any, idx: number) => {
-                noteToTransport(key, subdivisions, measure, offset + (idx), transport);
-            });
-            return;
-        }
-
-        // ignore case where tie or legato
-        transport.push([`${measure}:${offset}`, [key, '4n']]);
-    }
+    }, [editTrack, notesToTransport, notes, idxToNoteMapping, track.recordid, track.trackid]);
 
     return {
         notes,

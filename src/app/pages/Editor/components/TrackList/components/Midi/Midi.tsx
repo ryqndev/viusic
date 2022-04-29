@@ -18,7 +18,7 @@ const Midi = ({
 
 	const trackRef = useRef<any>(null);
 	const { notes, transportNotation, setNotes } = useNotes(data);
-	const { synth } = useSound(track.instrument, transportNotation);
+	const { playNote } = useSound(track.instrument, transportNotation);
 
 	const [expanded, setExpanded] = useState(false);
 
@@ -60,9 +60,11 @@ const Midi = ({
 						}}
 					>
 						<NoteSequencer
+							hi={data.hi}
 							notes={notes}
 							setNotes={setNotes}
 							range={data.range}
+							playNote={playNote}
 						/>
 					</div>
 				</div>
