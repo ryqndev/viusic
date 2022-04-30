@@ -3,7 +3,7 @@ import INSTRUMENTS from '../../../../../../../../assets/samples/samples.json';
 import { Sampler, Part } from 'tone';
 import { Instrument } from '../../../../../../../controllers/tracks.types';
 
-const useSound = (instrument: Instrument, transportNotation: any) => {
+const useSound = (instrument: Instrument, transportNotation: any, muted: boolean) => {
     const [synth] = useState(() =>
         new Sampler({
             urls: INSTRUMENTS[instrument as keyof typeof INSTRUMENTS],
@@ -39,6 +39,10 @@ const useSound = (instrument: Instrument, transportNotation: any) => {
     useEffect(() => (() => {
         part.dispose()
     }), [part]);
+
+    useEffect(() => {
+        part.mute = muted;
+    }, [part, muted]);
 
     return {
         synth,

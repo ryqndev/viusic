@@ -14,7 +14,7 @@ const useEditor = () => {
     useEffect(() => {
         Transport.timeSignature = [4, 4];
         Master.volume.value = -10;
-        Transport.bpm.value = 80;
+        Transport.bpm.value = 120;
     }, []);
 
     return {

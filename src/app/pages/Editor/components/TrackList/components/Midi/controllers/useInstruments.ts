@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Track } from '../../../../../../../controllers/tracks.types';
 import INSTRUMENT_RANGES from '../assets/INSTRUMENT_RANGES.json';
 
 interface TrackMetaData {
@@ -9,6 +10,9 @@ interface TrackMetaData {
     notes: Array<any>;
     hi: string;
     range: number;
+    baseVolume: number;
+    muted: boolean;
+    monitored: boolean;
 }
 
 const useInstruments = (track: any) => {
@@ -18,6 +22,9 @@ const useInstruments = (track: any) => {
         start: 0,
         length: 40,
         notes: track?.notes,
+        muted: track.muted,
+        baseVolume: track.baseVolume,
+        monitored: track.monitored,
         ...INSTRUMENT_RANGES[track.instrument as keyof typeof INSTRUMENT_RANGES]
     });
 

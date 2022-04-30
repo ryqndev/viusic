@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { TrackMetaData } from './useInstruments';
-import { Time } from 'tone';
 import useTracks from '../../../../../controllers/useTracks';
 
 const NOTE_ORDER = ['b', 'a#', 'a', 'g#', 'g', 'f#', 'f', 'e', 'd#', 'd', 'c#', 'c'];
@@ -61,7 +60,7 @@ const useNotes = (track: TrackMetaData) => {
         }
         if (note === 0) return;
         // ignore case where tie or legato for now
-        transport.push([`${measure}:${offset}`, [key, '4n']]);
+        transport.push([`${measure}:${offset}`, [key, '8n']]);
     }, []);
 
     const notesToTransport = useCallback((key: string, beats: Array<any>, transport: any[]) => {
