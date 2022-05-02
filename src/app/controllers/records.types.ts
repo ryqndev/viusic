@@ -13,9 +13,9 @@ interface RecordMetadata {
         created: number;
         edited: number;
     }
-    bpm?: number | any[];
+    bpm: number;
     timeSignature?: number | any[];
-    masterVolume?: number | any[];
+    masterVolume: number;
 }
 
 export type {

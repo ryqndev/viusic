@@ -1,12 +1,11 @@
 import clsx from 'clsx';
-import Swal from 'sweetalert2';
 import type { ReactElement } from 'react';
 import { memo, useState } from 'react';
 import { RecordData } from '../../../../controllers/records.types';
 import { Track } from '../../../../controllers/tracks.types';
-import useTracks from '../../controllers/useTracks';
 import { Midi, Audio } from './components';
 import cn from './TrackList.module.scss';
+import CreateTrackPrompt from './components/CreateTrackPrompt';
 
 interface TrackListProps {
 	project: RecordData;
@@ -19,66 +18,32 @@ const TrackList = ({
 	current,
 	setCurrent,
 }: TrackListProps): ReactElement => {
-	const { createTrack, getTrack } = useTracks();
 	const [viewPosition, setViewPosition] = useState(0);
-
-	const promptForCreateTrackType = async () => {
-		const { value: instrument } = await Swal.fire({
-			title: 'Create a new track',
-			input: 'select',
-			inputOptions: {
-				MIDI: {
-					'midi_piano': 'Piano',
-					'midi_bass-electric': 'Electric Bass',
-					'midi_harp': 'Harp',
-					'midi_guitar-acoustic': 'Acoustic Guitar',
-					'midi_saxophone': 'Saxophone',
-				},
-				Audio: {
-					'audio_piano': 'Piano',
-				},
-			},
-			inputPlaceholder: 'Select a track type',
-			showCancelButton: true,
-		});
-
-		if (instrument) {
-			const [type, sound] = instrument.split('_');
-			createTrack(project.id, sound, type).then(idx => {
-				getTrack(project.id, idx).then(setCurrent);
-			});
-		}
-	};
 
 	return (
 		<div className={cn.container}>
-			{project.tracks
-				.slice(0)
-				.reverse()
-				.map(track => (
-					<TrackItem
-						viewPosition={viewPosition}
-						setViewPosition={setViewPosition}
-						key={track.id}
-						{...track}
-						selected={current?.id === project.id}
-						recordid={project.id}
-						setCurrent={setCurrent}
-					/>
-				))}
-			<div
-				className={clsx(cn.track, cn.new)}
-				onClick={promptForCreateTrackType}
-			>
-				Add Track [ + ]
-			</div>
+			{project.tracks.map(track => (
+				<TrackItem
+					viewPosition={viewPosition}
+					setViewPosition={setViewPosition}
+					key={track.id}
+					selected={current?.id === project.id}
+					recordid={project.id}
+					setCurrent={setCurrent}
+					{...track}
+				/>
+			))}
+			<CreateTrackPrompt
+				className={clsx(cn.new, cn.track)}
+				recordid={project.id} 
+				setCurrent={setCurrent} />
 		</div>
 	);
 };
 
 interface TrackItemProps extends Track {
 	viewPosition: any;
-	setViewPosition: (newViewPosition:any) => void;
+	setViewPosition: (newViewPosition: any) => void;
 	selected: boolean;
 	recordid: string;
 	setCurrent: (track: Track | null) => void;
@@ -86,12 +51,12 @@ interface TrackItemProps extends Track {
 
 const TrackItem = memo((props: TrackItemProps): ReactElement | null => {
 	switch (props.type) {
-		case 'midi': 
+		case 'midi':
 			return <Midi {...props} />;
 		case 'audio':
 			return <Audio {...props} />;
 		case 'drum-machine':
-			return <Midi {...props} />;	
+			return <Midi {...props} />;
 	}
 });
 

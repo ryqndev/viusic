@@ -1,7 +1,8 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TrackItemProps } from '../../TrackList';
 import useAudio from './controller/useAudio';
+import * as Tone from 'tone';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
 import cn from './Audio.module.scss';
 
@@ -41,6 +42,28 @@ const Audio = ({ setCurrent, ...props }: TrackItemProps) => {
 		setCurrent(props);
 	};
 
+	useEffect(() => {
+		const meter = new Tone.Meter();
+		const mic = new Tone.UserMedia().connect(meter);
+		mic.open()
+			.then(() => {
+				// promise resolves when input is available
+				console.log('mic open');
+				// print the incoming mic levels in decibels
+				setInterval(() => console.log(meter.getValue()), 500);
+			})
+			.catch(e => {
+				// promise is rejected when the user doesn't have or allow mic access
+				console.log('mic not open');
+			});
+		// const actx = new AudioContext();
+
+		// navigator.mediaDevices.getUserMedia({audio: {
+		// 	noiseSuppression: false,
+		// 	echoCancellation: false,
+		// }})
+	}, []);
+
 	return (
 		<div
 			className={clsx(cn.container, expanded && cn.expanded)}
@@ -56,35 +79,36 @@ const Audio = ({ setCurrent, ...props }: TrackItemProps) => {
 				<ExpandIcon />
 			</button>
 			<div style={{ position: 'relative' }}>
-				{expanded && Object.keys(keyMapping).map((key, idx) =>
-					keyMapping[key][0].length === 2 ? (
-						<div
-							style={{
-								backgroundColor: 'white',
-								position: 'absolute',
-								height: '250px',
-								width: '50px',
-								left: 54 * idx + 'px',
-							}}
-							key={key}
-						>
-							{key}
-						</div>
-					) : (
-						<div
-							style={{
-								backgroundColor: 'black',
-								position: 'absolute',
-								height: '250px',
-								width: '50px',
-								left: 54 * idx + 'px',
-							}}
-							key={key}
-						>
-							{key}
-						</div>
-					)
-				)}
+				{expanded &&
+					Object.keys(keyMapping).map((key, idx) =>
+						keyMapping[key][0].length === 2 ? (
+							<div
+								style={{
+									backgroundColor: 'white',
+									position: 'absolute',
+									height: '250px',
+									width: '50px',
+									left: 54 * idx + 'px',
+								}}
+								key={key}
+							>
+								{key}
+							</div>
+						) : (
+							<div
+								style={{
+									backgroundColor: 'black',
+									position: 'absolute',
+									height: '250px',
+									width: '50px',
+									left: 54 * idx + 'px',
+								}}
+								key={key}
+							>
+								{key}
+							</div>
+						)
+					)}
 			</div>
 		</div>
 	);

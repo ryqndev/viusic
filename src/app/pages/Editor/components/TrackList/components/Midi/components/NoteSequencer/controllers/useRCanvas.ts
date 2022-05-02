@@ -3,7 +3,7 @@ import { useRef, useEffect, useCallback } from 'react';
 const KEY_HEIGHT = 16;
 const MEASURE_WIDTH = 360;
 
-const useCanvas = (notes: any, range: number) => {
+const useRCanvas = (notes: any, range: number, viewPosition: number) => {
     const canvasRef = useRef(null);
 
     const drawNote = useCallback((
@@ -22,9 +22,6 @@ const useCanvas = (notes: any, range: number) => {
             return;
         }
         switch (note) {
-            case 0:
-                ctx.strokeRect(x, y, width, height);
-                break;
             case 1:
                 ctx.fillStyle = '#FFD700';
                 ctx.fillRect(x, y, width, height);
@@ -35,36 +32,31 @@ const useCanvas = (notes: any, range: number) => {
 
     const draw = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
         canvas.height = range * KEY_HEIGHT + 1;
-        canvas.width = MEASURE_WIDTH * 8;
+        canvas.width = canvas.getBoundingClientRect().width;
+
+        let offset = 0.5 - viewPosition;
 
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 1;
 
+        let measuresToRenderStart = 0;
+        let measuresToRenderEnd = notes[0].length;
+
         for (let key = 0; key < notes.length; key++) {
-            for (let measure = 0; measure < notes[key].length; measure++) {
+            for (let measure = measuresToRenderStart; measure < measuresToRenderEnd; measure++) {
                 let note: Array<any> | number = notes[key][measure];
                 ctx.strokeStyle = '#333';
                 drawNote(
                     ctx,
                     note,
-                    measure * MEASURE_WIDTH + 0.5,
+                    measure * MEASURE_WIDTH + offset,
                     key * KEY_HEIGHT + 0.5,
                     MEASURE_WIDTH,
                     KEY_HEIGHT
                 );
-                // measure start signifiers 
-                ctx.strokeStyle = '#FFD700';
-                ctx.beginPath();
-                ctx.moveTo(measure * MEASURE_WIDTH + 0.5, key * KEY_HEIGHT + 0.5);
-                ctx.lineTo(measure * MEASURE_WIDTH + 0.5, key * KEY_HEIGHT + 0.5 + MEASURE_WIDTH);
-                ctx.stroke();
             }
         }
-        // Stylistic decision
-        ctx.strokeStyle = '#FFD700';
-        ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-    }, [notes, range, drawNote]);
+    }, [notes, range, drawNote, viewPosition]);
 
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement | null;
@@ -93,4 +85,4 @@ const useCanvas = (notes: any, range: number) => {
 
     return canvasRef;
 }
-export default useCanvas;
+export default useRCanvas;

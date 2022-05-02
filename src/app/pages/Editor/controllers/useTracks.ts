@@ -27,7 +27,7 @@ const useTracks = () => {
             baseVolume: 50,
             muted: false,
             monitored: true,
-            length: 0,
+            length: 60,
             repeat: [],
         }));
         return uid;

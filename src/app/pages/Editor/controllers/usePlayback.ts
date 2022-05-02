@@ -14,8 +14,10 @@ const usePlayback = () => {
 
     useEffect(() => {
         const spacePress = (event: KeyboardEvent) => {
-            event.preventDefault();
-            if(event.key === ' ') play();
+            if(event.key === ' ') {
+                event.preventDefault();
+                play();
+            }
         }
         
         window.addEventListener('keydown', spacePress);

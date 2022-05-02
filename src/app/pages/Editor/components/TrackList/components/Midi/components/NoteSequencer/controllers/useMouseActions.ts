@@ -1,21 +1,49 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useEffect } from 'react';
 
 const NOTES = ['b', 'a#', 'a', 'g#', 'g', 'f#', 'f', 'e', 'd#', 'd', 'c#', 'c'];
 const KEY_HEIGHT = 16;
 const MEASURE_WIDTH = 360;
 
-const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (note: string) => void) => {
-    const [showContextMenu, setShowContextMenu] = useState(false);
+interface ContextMenuProps {
+    x: number;
+    y: number;
+    generateSubdivision: (subdivision: number) => void;
+}
 
-    const rightClick = (event: MouseEvent) => {
-        event.preventDefault();
+const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (note: string) => void, viewPosition: number) => {
+    const [showContextMenu, setShowContextMenu] = useState<null | ContextMenuProps>(null);
+
+    useEffect(() => {
+        const keyBindingListener = (e: KeyboardEvent) => {
+            if(showContextMenu) {
+                if(e.key === '2') showContextMenu.generateSubdivision(2);
+                if(e.key === '3') showContextMenu.generateSubdivision(3);
+                if(e.key === '4') showContextMenu.generateSubdivision(4);
+                if(e.key === '5') showContextMenu.generateSubdivision(5);
+            }
+        }
+        window.addEventListener('keydown', keyBindingListener);
+
+        return () => window.removeEventListener('keydown', keyBindingListener);
+
+    }, [showContextMenu]);
+
+    const generateSubdivision = (event: MouseEvent) => (subdivision: number) => {
         setNotes((prevNotes: any) =>
             getMappingLocationAndUse(
                 prevNotes,
                 event,
-                () => new Array(2).fill(0)
+                () => new Array(subdivision).fill(0)
             )
         );
+        setShowContextMenu(null);
+    }
+
+    const rightClick = (event: MouseEvent) => {
+        event.preventDefault();
+
+
+        setShowContextMenu({ x: event.clientX, y: event.clientY, generateSubdivision: generateSubdivision(event) });
     };
 
     const getMappingLocationAndUse = (
@@ -24,7 +52,7 @@ const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (no
         action: (currentValue: number) => Array<any> | number
     ) => {
         // click [x,y] to note [i,j]
-        let j = Math.floor(event.nativeEvent.offsetX / MEASURE_WIDTH),
+        let j = Math.floor((event.nativeEvent.offsetX + viewPosition) / MEASURE_WIDTH),
             i = Math.floor(event.nativeEvent.offsetY / KEY_HEIGHT);
 
         // out of bounds somehow?
@@ -32,7 +60,7 @@ const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (no
 
         const newNotes = [...prevNotes];
 
-        getMapping(event.nativeEvent.offsetX % MEASURE_WIDTH, MEASURE_WIDTH, newNotes[i], j, action);
+        getMapping((event.nativeEvent.offsetX + viewPosition) % MEASURE_WIDTH, MEASURE_WIDTH, newNotes[i], j, action);
 
         return newNotes;
     }
@@ -61,6 +89,7 @@ const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (no
 
 
     const leftClick = (event: MouseEvent) => {
+        if (showContextMenu) return setShowContextMenu(null);
         // save current state in track db
         let i = Math.floor(event.nativeEvent.offsetY / KEY_HEIGHT);
         let octave = parseInt(hi.replace(/\D/g, ''));
@@ -73,7 +102,7 @@ const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (no
                 prevNotes,
                 event,
                 note => {
-                    if(note === 0) playNote(clicked);
+                    if (note === 0) playNote(clicked);
                     return ++note % 2;
                 }
             )
@@ -84,7 +113,7 @@ const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (no
         leftClick,
         rightClick,
         showContextMenu,
-        closeContextMenu: () => setShowContextMenu(false),
+        closeContextMenu: () => setShowContextMenu(null),
     }
 }
 

@@ -12,10 +12,12 @@ const useEditor = () => {
     const project = useLiveQuery(() => getRecord(id ?? ''));
 
     useEffect(() => {
+        if(!metadata) return;
+        
         Transport.timeSignature = [4, 4];
-        Master.volume.value = -10;
-        Transport.bpm.value = 120;
-    }, []);
+        Master.volume.value = metadata.masterVolume ?? -10;
+        Transport.bpm.value = metadata.bpm ?? 120;
+    }, [metadata]);
 
     return {
         metadata,

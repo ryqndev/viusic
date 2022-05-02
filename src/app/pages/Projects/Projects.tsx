@@ -39,6 +39,9 @@ const Projects = (): ReactElement | null => {
 					created: Date.now(),
 					edited: Date.now(),
 				},
+				bpm: 120,
+				masterVolume: -10,
+				timeSignature: [4, 4],
 			}).then(() => {
 				navigate('/create/' + id);
 			});
