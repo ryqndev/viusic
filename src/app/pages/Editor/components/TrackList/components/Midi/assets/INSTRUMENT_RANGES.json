@@ -63,5 +63,9 @@
     "xylophone": {
         "hi": "c7",
         "range": 60
+    },
+    "violin": {
+        "hi": "a7",
+        "range": 51
     }
 }

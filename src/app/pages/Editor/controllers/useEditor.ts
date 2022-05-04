@@ -1,10 +1,12 @@
 import useRecords from '../../../controllers/hooks/useRecords';
 import { useParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Master, Transport } from 'tone';
 
 const useEditor = () => {
+    const [showCreateTrackPrompt, setShowCreateTrackPrompt] = useState(false);
+
     const { id } = useParams();
     const { getRecord, getMetaData } = useRecords();
 
@@ -22,6 +24,8 @@ const useEditor = () => {
     return {
         metadata,
         project,
+        showCreateTrackPrompt,
+        setShowCreateTrackPrompt,
     }
 }
 

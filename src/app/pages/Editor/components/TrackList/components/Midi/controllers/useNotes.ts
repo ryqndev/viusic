@@ -98,13 +98,13 @@ const useNotes = (track: TrackMetaData) => {
         transport.push([`${measure}:${offset}`, [key, length]]);
     }, []);
 
-    const notesToTransport = useCallback((key: string, beats: Array<any>, transport: any[]) => {
-        for (let measure = 0; measure < beats.length; measure++) {
-            if (beats[measure] === 0) continue;
-            noteToTransport(key, beats[measure], measure, 0, BEATS_PER_MEASURE, transport);
+    const notesToTransport = useCallback((key: string, noteTrack: Array<any>, transport: any[]) => {
+        for (let measure = 0; measure < noteTrack.length; measure++) {
+            if (noteTrack[measure] === 0) continue;
+            noteToTransport(key, noteTrack[measure], measure, 0, BEATS_PER_MEASURE, transport);
         }
     }, [noteToTransport]);
-
+ 
     useEffect(() => {
         editTrack(track.recordid, track.trackid, { notes: notes });
 

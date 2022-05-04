@@ -1,11 +1,13 @@
 import { memo } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Footer from '@ryqndev/footer';
 import Home from './pages/Home';
 import Editor from './pages/Editor';
 import Projects from './pages/Projects';
 
 const App = () => {
+	const { pathname } = useLocation();
+
 	return (
 		<div>
 			<Routes>
@@ -16,7 +18,7 @@ const App = () => {
 					<Route path=':id' element={<Editor />} />
 				</Route>
 			</Routes>
-			<Footer />
+			{pathname.substring(0, 7) !== '/create' && <Footer />}
 		</div>
 	);
 };

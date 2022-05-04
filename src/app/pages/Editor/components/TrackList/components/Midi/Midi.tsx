@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState, memo, useRef, useEffect, WheelEvent, Children } from 'react';
+import { useState, memo, useRef, useEffect, WheelEvent } from 'react';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
 import { ReactComponent as MutedIcon } from '../../../../../../../assets/icons/muted.svg';
 import { ReactComponent as VolumeUpIcon } from '../../../../../../../assets/icons/volume_up.svg';
@@ -74,7 +74,7 @@ const Midi = ({
 							setViewPosition((prev: number) => {
 								const newVPos = prev + e.deltaX;
 								if(newVPos <= 0) return 0;
-								// if(newVPos > 15000) return 15000;
+								// TODO: add max horizontal scrolling
 								return newVPos;
 							});
 						}}

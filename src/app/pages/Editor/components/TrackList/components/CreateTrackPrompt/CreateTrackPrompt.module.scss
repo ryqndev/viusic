@@ -1,4 +1,163 @@
-.container {
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    place-content: center;
 
+    &.show {
+        display: grid;
+        opacity: 1;
+    }
+
+    &>.container {
+        border-radius: 4px;
+        padding: 40px;
+        background-color: #202020;
+        max-width: 80vw;
+        width: 630px;
+        display: grid;
+        position: relative;
+
+        &>.close {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            border-radius: 50%;
+            border: 1px solid #aaa;
+            background-color: transparent;
+            color: #aaa;
+            height: 30px;
+            width: 30px;
+            display: grid;            
+            box-sizing: border-box;
+            place-content: center;
+            cursor: pointer;
+            transition: border-color 250ms;
+
+            & svg {
+                transition: fill 250ms;
+                fill: white;
+                height: 100%;
+                width: 100%;
+            }
+
+            &:hover {
+                border-color: red;
+                svg {
+                    fill: red;
+                }
+            }
+        }
+
+        &>h1 {
+            font-size: 3em;
+            margin: 0 0 10px;
+            font-family: 'Staatliches', cursive;
+            color: #FFD700;
+        }
+
+        &>span {
+            font-size: 0.95em;
+            font-family: 'Poppins';
+            color: #bbb;
+        }
+
+        &>h2 {
+            font-size: 1.8em;
+            margin: 20px 0 0;
+            font-family: 'Staatliches', cursive;
+
+            &>span {
+                font-family: 'Poppins';
+                text-transform: uppercase;
+                font-size: 0.8em;
+                color: grey;
+            }
+        }
+
+        &>.type {
+            padding: 20px 0;
+            display: grid;
+            grid-auto-flow: column;
+            column-gap: 20px;
+            overflow-x: scroll;
+            max-width: min-content;
+            
+            &>.card {
+                font-family: 'Poppins';
+                background-color: #111;
+                border-radius: 2px;
+                padding: 20px;
+                width: 215px;
+                border: 2px solid #FFD70000;
+                cursor: pointer;
+                transition: border-color 250ms;
+
+                &.selected {
+                    border-color: #FFD700ff;
+                }
+
+                &>h3 {
+                    text-transform: uppercase;
+                    font-size: 2em;
+                    margin: 0;
+                    line-height: 1em;
+                }
+
+                &>p {
+                    line-height: 1.2em;
+                    margin: 10px 0 0;
+                    color: grey;
+                    font-size: 0.95em;
+                }
+
+                &.long {
+                    width: max-content;
+                }
+            }
+        }
+
+        &>.actions {
+            margin: 10px 0 0 auto;
+            place-self: right;
+            width: min-content;
+            display: grid;
+            grid-auto-flow: column;
+            column-gap: 10px;
+
+            &>button {
+                cursor: pointer;
+                text-transform: uppercase;
+                padding: 8px 20px 8px 20px;
+                font-size: 1.6em;
+                font-family: 'Staatliches', cursive;
+                background-color: #222;
+                transition: filter 250ms;
+
+                &:hover {
+                    filter: brightness(1.3);
+                }
+
+                &.cancel {
+                    text-decoration: underline;
+                    color: #aaa;
+                    border: none;
+                    background-color: transparent;
+                }
+    
+                &.create {
+                    font-weight: bold;
+                    border: 2px solid #FFD700;
+                    border-radius: 2px;
+                    color: #FFD700;
+                }
+            }
+        }       
+    }
 }
-

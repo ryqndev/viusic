@@ -1,13 +1,25 @@
 import { useContext, memo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import type { ReactElement, ChangeEvent } from 'react';
 import ProjectContext from '../../controllers/ProjectContext';
 import clsx from 'clsx';
 import { ReactComponent as FirstPageIcon } from '../../../../../assets/icons/first_page.svg';
+import { ReactComponent as AddIcon } from '../../../../../assets/icons/add_circle.svg';
+import { ReactComponent as UnmutedIcon } from '../../../../../assets/icons/volume_up.svg';
+import { ReactComponent as MutedIcon } from '../../../../../assets/icons/muted.svg';
 import cn from './ProjectOverview.module.scss';
 import useRecords from '../../../../controllers/hooks/useRecords';
+import useTracks from '../../controllers/useTracks';
 
-const ProjectOverview = (): ReactElement | null => {
+interface ProjectOverviewProps {
+	setShowCreateTrackPrompt: (prev: boolean) => void;
+}
+
+const ProjectOverview = ({
+	setShowCreateTrackPrompt,
+}: ProjectOverviewProps): ReactElement | null => {
 	const { editMetaData } = useRecords();
+	const { editTrack } = useTracks();
 
 	const [expanded, setExpanded] = useState(true);
 	const project = useContext(ProjectContext);
@@ -31,6 +43,9 @@ const ProjectOverview = (): ReactElement | null => {
 
 	return (
 		<div className={clsx(cn.container, expanded && cn.expanded)}>
+			<Link className={cn.back} to='/projects'>
+				back to projects
+			</Link>
 			<button
 				className={clsx(cn.expand, expanded && cn.expanded)}
 				onClick={() => setExpanded(prev => !prev)}
@@ -41,15 +56,54 @@ const ProjectOverview = (): ReactElement | null => {
 			<h2>{project.artist}</h2>
 			<hr />
 			<div className={cn.details}>
-				{project?.tracks.map(track => (
-					<div className={cn.track} key={track.id}>
-						<h3>{track.label}</h3>
-						<h3 className={cn.instrument}>[{track.instrument}]</h3>
-					</div>
-				))}
+				<h3>Tempo</h3>
+				<div className={cn.setting}>
+					<p>Beats/Min:</p>
+					<input type='number' value={bpm} onChange={changeBPM} />
+				</div>
 			</div>
 			<hr />
-			BPM: <input type='number' value={bpm} onChange={changeBPM} />
+			<div className={cn.details}>
+				<h3>
+					Tracklist{' '}
+					<AddIcon
+						viewBox='0 0 48 48'
+						onClick={() => setShowCreateTrackPrompt(true)}
+					/>
+				</h3>
+				{!project.tracks.length && (
+					<div className={cn.empty}>No Tracks Yet...</div>
+				)}
+				<div className={cn.tracklist}>
+					{project.tracks.map(track => (
+						<div className={cn.track} key={track.id}>
+							<h3 className={cn.label}>{track.label}</h3>
+							<h3 className={cn.instrument}>
+								[{track.instrument}]
+							</h3>
+							<div className={cn.actions}>
+								<div
+									onClick={() =>
+										editTrack(project.id, track.id, {
+											muted: !track.muted,
+										})
+									}
+								>
+									{track.muted ? (
+										<MutedIcon
+											viewBox='0 0 48 48'
+											style={{ fill: 'red' }}
+										/>
+									) : (
+										<UnmutedIcon viewBox='0 0 48 48' />
+									)}
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+			<hr />
 		</div>
 	);
 };

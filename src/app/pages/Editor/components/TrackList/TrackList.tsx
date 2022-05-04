@@ -8,6 +8,8 @@ import cn from './TrackList.module.scss';
 import CreateTrackPrompt from './components/CreateTrackPrompt';
 
 interface TrackListProps {
+	showCreateTrackPrompt: boolean;
+	setShowCreateTrackPrompt: (prev: boolean) => void;
 	project: RecordData;
 	current: Track | null;
 	setCurrent: (track: Track | null) => void;
@@ -16,7 +18,9 @@ interface TrackListProps {
 const TrackList = ({
 	project,
 	current,
+	showCreateTrackPrompt,
 	setCurrent,
+	setShowCreateTrackPrompt,
 }: TrackListProps): ReactElement => {
 	const [viewPosition, setViewPosition] = useState(0);
 
@@ -33,10 +37,17 @@ const TrackList = ({
 					{...track}
 				/>
 			))}
-			<CreateTrackPrompt
+			<div
 				className={clsx(cn.new, cn.track)}
+				onClick={() => setShowCreateTrackPrompt(true)}
+			>
+				<div>Add Track [ + ]</div>
+			</div>
+			<CreateTrackPrompt
 				recordid={project.id} 
-				setCurrent={setCurrent} />
+				setCurrent={setCurrent}
+				showCreateTrackPrompt={showCreateTrackPrompt}
+				setShowCreateTrackPrompt={setShowCreateTrackPrompt} />
 		</div>
 	);
 };

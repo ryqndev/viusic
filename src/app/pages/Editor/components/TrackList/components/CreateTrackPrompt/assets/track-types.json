@@ -1,0 +1,67 @@
+[{
+    "type": "midi",
+    "label": "MIDI",
+    "description": "MIDI tracks allow you to play virtually any instrument. Simply select an instrument sound and plot some notes on a grid.",
+    "options": [{
+            "label": "Piano",
+            "value": "piano",
+            "description": "Grand piano"
+        },
+        {
+            "label": "Electric Bass",
+            "value": "bass-electric",
+            "description": "Clean electric bass"
+        },
+        {
+            "label": "Saxophone",
+            "value": "saxophone",
+            "description": "Saxophone"
+        },
+        {
+            "label": "Harp",
+            "value": "harp",
+            "description": "Upright harp"
+        },
+        {
+            "label": "Guitar [acoustic]",
+            "value": "guitar-acoustic",
+            "description": "Classical, clean acoustic guitar"
+        },
+        {
+            "label": "Guitar [electric]",
+            "value": "guitar-electric",
+            "description": "Clean electric guitar"
+        },
+        {
+            "label": "Violin",
+            "value": "violin",
+            "description": "Orchestral violin sound"
+        }
+    ]
+}, {
+    "type": "audio",
+    "label": "Audio",
+    "description": "Audio tracks record live sound from your microphone or other audio input. ",
+    "options": [{
+            "label": "Microphone",
+            "value": "microphone",
+            "description": "Use your microphone to record your voice or other environment sounds"
+        },
+        {
+            "label": "Guitar Aux",
+            "value": "guitar-aux",
+            "description": "Plug in an electric guitar and play with various amp settings"
+        }
+    ]
+}, {
+    "type": "upload",
+    "label": "Upload",
+    "description": "Upload your own pre-made sound files as an individual track. You can still edit it with repeats and trims.",
+    "options": [
+        {
+            "label": "File upload",
+            "value": "upload",
+            "description": "Upload a file"
+        }
+    ]
+}]
