@@ -37,17 +37,18 @@ const TrackList = ({
 					{...track}
 				/>
 			))}
-			<div
+			<button
 				className={clsx(cn.new, cn.track)}
 				onClick={() => setShowCreateTrackPrompt(true)}
 			>
 				<div>Add Track [ + ]</div>
-			</div>
+			</button>
 			<CreateTrackPrompt
-				recordid={project.id} 
+				recordid={project.id}
 				setCurrent={setCurrent}
 				showCreateTrackPrompt={showCreateTrackPrompt}
-				setShowCreateTrackPrompt={setShowCreateTrackPrompt} />
+				setShowCreateTrackPrompt={setShowCreateTrackPrompt}
+			/>
 		</div>
 	);
 };

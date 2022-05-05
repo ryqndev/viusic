@@ -3,6 +3,8 @@ import { useState, memo, useRef, useEffect, WheelEvent } from 'react';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
 import { ReactComponent as MutedIcon } from '../../../../../../../assets/icons/muted.svg';
 import { ReactComponent as VolumeUpIcon } from '../../../../../../../assets/icons/volume_up.svg';
+import { ReactComponent as HeadsetIcon } from '../../../../../../../assets/icons/headset.svg';
+import { ReactComponent as HeadsetOffIcon } from '../../../../../../../assets/icons/headset_off.svg';
 import cn from './Midi.module.scss';
 import { KeyboardReference, NoteSequencer } from './components';
 import useSound from './controllers/useSound';
@@ -31,10 +33,6 @@ const Midi = ({
 
 	const [expanded, setExpanded] = useState(false);
 
-	const toggleMute = () => {
-		editTrack(track.recordid, track.id, { muted: !track.muted });
-	};
-
 	useEffect(() => {
 		if (!trackRef?.current || data.trackid === viewPosition[1]) return;
 		trackRef.current.scrollLeft = viewPosition[0];
@@ -50,7 +48,17 @@ const Midi = ({
 			<div></div>
 			<div
 				className={clsx(cn['track-icon'], cn.sound)}
-				onClick={toggleMute}
+				onClick={() => editTrack(track.recordid, track.id, { monitored: !track.monitored })}
+			>
+				{track.monitored ? (
+					<HeadsetIcon viewBox='0 0 48 48' fill='#FFD700' />
+				) : (
+					<HeadsetOffIcon viewBox='0 0 48 48' fill='red' />
+				)}
+			</div>
+			<div
+				className={clsx(cn['track-icon'], cn.sound)}
+				onClick={() => editTrack(track.recordid, track.id, { muted: !track.muted })}
 			>
 				{track.muted ? (
 					<MutedIcon viewBox='0 0 48 48' fill='red' />

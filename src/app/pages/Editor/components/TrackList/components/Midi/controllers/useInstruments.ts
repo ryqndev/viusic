@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import { Track } from '../../../../../../../controllers/tracks.types';
 import INSTRUMENT_RANGES from '../assets/INSTRUMENT_RANGES.json';
 
 interface TrackMetaData {
     recordid: string;
     trackid: string;
-    start: number;
     length: number;
-    notes: Array<any>;
+    notes?: Array<any>;
     hi: string;
     range: number;
     baseVolume: number;
@@ -14,17 +14,15 @@ interface TrackMetaData {
     monitored: boolean;
 }
 
-const useInstruments = (track: any) => {
+interface UseInstrumentsProps extends Track {
+    recordid: string;
+}
+
+const useInstruments = (track: UseInstrumentsProps) => {
     const [data, setData] = useState<TrackMetaData>({
-        recordid: track.recordid,
+        ...INSTRUMENT_RANGES[track.instrument as keyof typeof INSTRUMENT_RANGES],
+        ...track,
         trackid: track.id,
-        start: 0,
-        length: track.length,
-        notes: track?.notes,
-        muted: track.muted,
-        baseVolume: track.baseVolume,
-        monitored: track.monitored,
-        ...INSTRUMENT_RANGES[track.instrument as keyof typeof INSTRUMENT_RANGES]
     });
 
     const editTrackData = (data: any) => {

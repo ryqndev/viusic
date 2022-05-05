@@ -7,6 +7,8 @@ import { ReactComponent as FirstPageIcon } from '../../../../../assets/icons/fir
 import { ReactComponent as AddIcon } from '../../../../../assets/icons/add_circle.svg';
 import { ReactComponent as UnmutedIcon } from '../../../../../assets/icons/volume_up.svg';
 import { ReactComponent as MutedIcon } from '../../../../../assets/icons/muted.svg';
+import { ReactComponent as HeadsetIcon } from '../../../../../assets/icons/headset.svg';
+import { ReactComponent as HeadsetOffIcon } from '../../../../../assets/icons/headset_off.svg';
 import cn from './ProjectOverview.module.scss';
 import useRecords from '../../../../controllers/hooks/useRecords';
 import useTracks from '../../controllers/useTracks';
@@ -82,7 +84,23 @@ const ProjectOverview = ({
 								[{track.instrument}]
 							</h3>
 							<div className={cn.actions}>
-								<div
+								<button
+									onClick={() =>
+										editTrack(project.id, track.id, {
+											monitored: !track.monitored,
+										})
+									}
+								>
+									{track.monitored ? (
+										<HeadsetIcon viewBox='0 0 48 48' />
+									) : (
+										<HeadsetOffIcon
+											viewBox='0 0 48 48'
+											style={{ fill: 'red' }}
+										/>
+									)}
+								</button>
+								<button
 									onClick={() =>
 										editTrack(project.id, track.id, {
 											muted: !track.muted,
@@ -97,7 +115,7 @@ const ProjectOverview = ({
 									) : (
 										<UnmutedIcon viewBox='0 0 48 48' />
 									)}
-								</div>
+								</button>
 							</div>
 						</div>
 					))}
