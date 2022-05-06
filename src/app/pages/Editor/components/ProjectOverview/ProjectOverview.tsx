@@ -42,6 +42,15 @@ const ProjectOverview = ({
 				bpm: userBPM,
 			});
 	};
+	const changeTimeSignature = (idx: number) => (e: ChangeEvent<HTMLInputElement>) => {
+		const timeSignature: number[] = project.timeSignature;
+
+		timeSignature[idx] = parseInt(e.target.value.replace(/\D/g, ''));
+
+		editMetaData(project.id, {
+			timeSignature,
+		});
+	};
 
 	return (
 		<div className={clsx(cn.container, expanded && cn.expanded)}>
@@ -62,6 +71,15 @@ const ProjectOverview = ({
 				<div className={cn.setting}>
 					<p>Beats/Min:</p>
 					<input type='number' value={bpm} onChange={changeBPM} />
+				</div>
+				<div className={cn.setting}>
+					<p>Time Signature:</p>
+					<div className={cn.signature}>
+						<input type='number' value={project.timeSignature[0]} onChange={changeTimeSignature(0)} />
+						<span>/</span>
+						<input type='number' value={project.timeSignature[1]} onChange={changeTimeSignature(1)} />
+					</div>
+					
 				</div>
 			</div>
 			<hr />

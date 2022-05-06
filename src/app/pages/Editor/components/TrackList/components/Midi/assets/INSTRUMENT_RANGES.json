@@ -60,6 +60,10 @@
         "hi": "a#4",
         "range": 40
     },
+    "tuba": {
+        "hi": "g4",
+        "range": 42
+    },
     "xylophone": {
         "hi": "c7",
         "range": 60

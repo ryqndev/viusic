@@ -18,6 +18,21 @@
             "description": "Saxophone"
         },
         {
+            "label": "Trumpet",
+            "value": "trumpet",
+            "description": "Trumpet"
+        },
+        {
+            "label": "Tuba",
+            "value": "tuba",
+            "description": "Tuba"
+        },
+        {
+            "label": "Trombone",
+            "value": "trombone",
+            "description": "Trombone"
+        },
+        {
             "label": "Harp",
             "value": "harp",
             "description": "Upright harp"
@@ -36,6 +51,11 @@
             "label": "Violin",
             "value": "violin",
             "description": "Orchestral violin sound"
+        },
+        {
+            "label": "Xylophone",
+            "value": "xylophone",
+            "description": "Xylophone"
         }
     ]
 }, {

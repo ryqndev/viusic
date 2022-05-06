@@ -14,7 +14,7 @@ interface RecordMetadata {
         edited: number;
     }
     bpm: number;
-    timeSignature?: number | any[];
+    timeSignature: number[];
     masterVolume: number;
 }
 
