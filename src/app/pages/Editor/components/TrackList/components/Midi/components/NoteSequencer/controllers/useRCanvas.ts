@@ -73,7 +73,7 @@ const useRCanvas = (notes: any, range: number, viewPosition: number) => {
             const { width, height } = ctx.canvas;
             ctx.clearRect(0, 0, width, height);
             draw(canvas, ctx);
-            ctx.restore()
+            ctx.restore();
 
             animationFrameId = window.requestAnimationFrame(render);
         }
