@@ -1,4 +1,5 @@
 import { useState, MouseEvent, useEffect } from 'react';
+import { Time } from 'tone/build/esm/core/type/Units';
 
 const NOTES = ['b', 'a#', 'a', 'g#', 'g', 'f#', 'f', 'e', 'd#', 'd', 'c#', 'c'];
 const KEY_HEIGHT = 16;
@@ -7,19 +8,20 @@ const MEASURE_WIDTH = 360;
 interface ContextMenuProps {
     x: number;
     y: number;
+    value: number | Time;
     generateSubdivision: (subdivision: number) => void;
 }
 
-const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (note: string) => void, viewPosition: number) => {
+const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, playNote: (note: string) => void, viewPosition: number) => {
     const [showContextMenu, setShowContextMenu] = useState<null | ContextMenuProps>(null);
 
     useEffect(() => {
         const keyBindingListener = (e: KeyboardEvent) => {
-            if(showContextMenu) {
-                if(e.key === '2') showContextMenu.generateSubdivision(2);
-                if(e.key === '3') showContextMenu.generateSubdivision(3);
-                if(e.key === '4') showContextMenu.generateSubdivision(4);
-                if(e.key === '5') showContextMenu.generateSubdivision(5);
+            if (showContextMenu) {
+                if (e.key === '2') showContextMenu.generateSubdivision(2);
+                if (e.key === '3') showContextMenu.generateSubdivision(3);
+                if (e.key === '4') showContextMenu.generateSubdivision(4);
+                if (e.key === '5') showContextMenu.generateSubdivision(5);
             }
         }
         window.addEventListener('keydown', keyBindingListener);
@@ -41,9 +43,10 @@ const useMouseActions = (hi: string, range: number, setNotes: any, playNote: (no
 
     const rightClick = (event: MouseEvent) => {
         event.preventDefault();
-
-
-        setShowContextMenu({ x: event.clientX, y: event.clientY, generateSubdivision: generateSubdivision(event) });
+        getMappingLocationAndUse(notes, event, (val) => {
+            setShowContextMenu({ x: event.clientX, y: event.clientY, value: val, generateSubdivision: generateSubdivision(event) });
+            return val;
+        });
     };
 
     const getMappingLocationAndUse = (

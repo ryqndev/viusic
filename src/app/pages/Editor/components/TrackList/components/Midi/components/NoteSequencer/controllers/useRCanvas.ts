@@ -39,11 +39,11 @@ const useRCanvas = (notes: any, range: number, viewPosition: number) => {
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 1;
 
-        let measuresToRenderStart = 0;
-        let measuresToRenderEnd = notes[0].length;
+        const lo = Math.floor(viewPosition / 360);
+        const hi = lo + Math.ceil(canvas.width / 360) + 1;
 
         for (let key = 0; key < notes.length; key++) {
-            for (let measure = measuresToRenderStart; measure < measuresToRenderEnd; measure++) {
+            for (let measure = lo; measure < hi; measure++) {
                 let note: Array<any> | number = notes[key][measure];
                 ctx.strokeStyle = '#333';
                 drawNote(

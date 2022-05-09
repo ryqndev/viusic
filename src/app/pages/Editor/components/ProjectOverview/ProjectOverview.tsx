@@ -96,7 +96,7 @@ const ProjectOverview = ({
 				)}
 				<div className={cn.tracklist}>
 					{project.tracks.map(track => (
-						<div className={cn.track} key={track.id}>
+						<div className={cn.track} key={track.id} onClick={() => {}}>
 							<h3 className={cn.label}>{track.label}</h3>
 							<h3 className={cn.instrument}>
 								[{track.instrument}]

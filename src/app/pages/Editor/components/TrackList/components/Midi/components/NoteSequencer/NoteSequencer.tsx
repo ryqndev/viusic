@@ -27,6 +27,7 @@ const NoteSequencer = ({
 	const { showContextMenu, leftClick, rightClick } = useMouseActions(
 		hi,
 		range,
+		notes,
 		setNotes,
 		playNote,
 		viewPosition,
@@ -67,8 +68,9 @@ const NoteSequencer = ({
 						Split cell into 4
 					</button>
 					<input
-						type='number'
-						placeholder='Enter custom subdivision'
+						type='text'
+						placeholder='Change note length'
+						value=""
 					/>
 				</div>
 			)}

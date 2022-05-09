@@ -94,8 +94,11 @@ const useNotes = (track: TrackMetaData) => {
             });
         }
         if (note === 0) return;
+        if (note === 1) return transport.push([`${measure}:${offset}`, [key, length / SUBDIVISIONS]]);
+
+        transport.push([`${measure}:${offset}`, [key, note]]);
         // TODO: ignore case where tie or legato for now
-        transport.push([`${measure}:${offset}`, [key, length]]);
+        
     }, []);
 
     const notesToTransport = useCallback((key: string, noteTrack: Array<any>, transport: any[]) => {

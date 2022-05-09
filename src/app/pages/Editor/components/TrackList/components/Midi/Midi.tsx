@@ -5,13 +5,13 @@ import { ReactComponent as MutedIcon } from '../../../../../../../assets/icons/m
 import { ReactComponent as VolumeUpIcon } from '../../../../../../../assets/icons/volume_up.svg';
 import { ReactComponent as HeadsetIcon } from '../../../../../../../assets/icons/headset.svg';
 import { ReactComponent as HeadsetOffIcon } from '../../../../../../../assets/icons/headset_off.svg';
-import cn from './Midi.module.scss';
 import { KeyboardReference, NoteSequencer } from './components';
 import useSound from './controllers/useSound';
 import useNotes from './controllers/useNotes';
 import useInstruments from './controllers/useInstruments';
 import type { TrackItemProps } from '../../TrackList';
 import useTracks from '../../../../controllers/useTracks';
+import cn from './Midi.module.scss';
 
 const Midi = ({
 	setCurrent,
