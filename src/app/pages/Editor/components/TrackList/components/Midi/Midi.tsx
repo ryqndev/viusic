@@ -1,10 +1,12 @@
 import clsx from 'clsx';
 import { useState, memo, useRef, useEffect, WheelEvent } from 'react';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
-import { ReactComponent as MutedIcon } from '../../../../../../../assets/icons/muted.svg';
-import { ReactComponent as VolumeUpIcon } from '../../../../../../../assets/icons/volume_up.svg';
-import { ReactComponent as HeadsetIcon } from '../../../../../../../assets/icons/headset.svg';
-import { ReactComponent as HeadsetOffIcon } from '../../../../../../../assets/icons/headset_off.svg';
+// import { ReactComponent as MutedIcon } from '../../../../../../../assets/icons/muted.svg';
+// import { ReactComponent as VolumeUpIcon } from '../../../../../../../assets/icons/volume_up.svg';
+// import { ReactComponent as HeadsetIcon } from '../../../../../../../assets/icons/headset.svg';
+// import { ReactComponent as HeadsetOffIcon } from '../../../../../../../assets/icons/headset_off.svg';
+import MuteButton from '../../../MuteButton';
+import MonitorButton from '../../../MonitorButton';
 import { KeyboardReference, NoteSequencer } from './components';
 import useSound from './controllers/useSound';
 import useNotes from './controllers/useNotes';
@@ -57,32 +59,16 @@ const Midi = ({
 					step={1}
 				/>
 			</div>
-			<div
-				className={clsx(cn['track-icon'], cn.sound)}
-				onClick={() =>
-					editTrack(track.recordid, track.id, {
-						monitored: !track.monitored,
-					})
-				}
-			>
-				{track.monitored ? (
-					<HeadsetIcon viewBox='0 0 48 48' fill='#FFD700' />
-				) : (
-					<HeadsetOffIcon viewBox='0 0 48 48' fill='red' />
-				)}
-			</div>
-			<div
-				className={clsx(cn['track-icon'], cn.sound)}
-				onClick={() =>
-					editTrack(track.recordid, track.id, { muted: !track.muted })
-				}
-			>
-				{track.muted ? (
-					<MutedIcon viewBox='0 0 48 48' fill='red' />
-				) : (
-					<VolumeUpIcon viewBox='0 0 48 48' fill='#FFD700' />
-				)}
-			</div>
+			<MonitorButton
+				recordid={data.recordid}
+				trackid={data.trackid}
+				monitored={data.monitored}
+			/>
+			<MuteButton
+				recordid={data.recordid}
+				trackid={data.trackid}
+				muted={data.muted}
+			/>
 			<button
 				className={clsx(cn.toggle, expanded && cn.expanded)}
 				onClick={() => setExpanded(prev => !prev)}

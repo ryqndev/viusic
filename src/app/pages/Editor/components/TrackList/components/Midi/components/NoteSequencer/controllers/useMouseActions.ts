@@ -107,7 +107,6 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
         );
     }
 
-
     const leftClick = (event: MouseEvent) => {
         if (showContextMenu) return setShowContextMenu(null);
         // save current state in track db

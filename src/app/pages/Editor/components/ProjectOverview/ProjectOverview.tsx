@@ -5,13 +5,11 @@ import ProjectContext from '../../controllers/ProjectContext';
 import clsx from 'clsx';
 import { ReactComponent as FirstPageIcon } from '../../../../../assets/icons/first_page.svg';
 import { ReactComponent as AddIcon } from '../../../../../assets/icons/add_circle.svg';
-import { ReactComponent as UnmutedIcon } from '../../../../../assets/icons/volume_up.svg';
-import { ReactComponent as MutedIcon } from '../../../../../assets/icons/muted.svg';
-import { ReactComponent as HeadsetIcon } from '../../../../../assets/icons/headset.svg';
-import { ReactComponent as HeadsetOffIcon } from '../../../../../assets/icons/headset_off.svg';
 import cn from './ProjectOverview.module.scss';
 import useRecords from '../../../../controllers/hooks/useRecords';
 import useTracks from '../../controllers/useTracks';
+import MuteButton from '../MuteButton';
+import MonitorButton from '../MonitorButton';
 
 interface ProjectOverviewProps {
 	setShowCreateTrackPrompt: (prev: boolean) => void;
@@ -42,15 +40,16 @@ const ProjectOverview = ({
 				bpm: userBPM,
 			});
 	};
-	const changeTimeSignature = (idx: number) => (e: ChangeEvent<HTMLInputElement>) => {
-		const timeSignature: number[] = project.timeSignature;
+	const changeTimeSignature =
+		(idx: number) => (e: ChangeEvent<HTMLInputElement>) => {
+			const timeSignature: number[] = project.timeSignature;
 
-		timeSignature[idx] = parseInt(e.target.value.replace(/\D/g, ''));
+			timeSignature[idx] = parseInt(e.target.value.replace(/\D/g, ''));
 
-		editMetaData(project.id, {
-			timeSignature,
-		});
-	};
+			editMetaData(project.id, {
+				timeSignature,
+			});
+		};
 
 	return (
 		<div className={clsx(cn.container, expanded && cn.expanded)}>
@@ -96,44 +95,26 @@ const ProjectOverview = ({
 				)}
 				<div className={cn.tracklist}>
 					{project.tracks.map(track => (
-						<div className={cn.track} key={track.id} onClick={() => {}}>
+						<div
+							className={cn.track}
+							key={track.id}
+							onClick={() => {}}
+						>
 							<h3 className={cn.label}>{track.label}</h3>
 							<h3 className={cn.instrument}>
 								[{track.instrument}]
 							</h3>
 							<div className={cn.actions}>
-								<button
-									onClick={() =>
-										editTrack(project.id, track.id, {
-											monitored: !track.monitored,
-										})
-									}
-								>
-									{track.monitored ? (
-										<HeadsetIcon viewBox='0 0 48 48' />
-									) : (
-										<HeadsetOffIcon
-											viewBox='0 0 48 48'
-											style={{ fill: 'red' }}
-										/>
-									)}
-								</button>
-								<button
-									onClick={() =>
-										editTrack(project.id, track.id, {
-											muted: !track.muted,
-										})
-									}
-								>
-									{track.muted ? (
-										<MutedIcon
-											viewBox='0 0 48 48'
-											style={{ fill: 'red' }}
-										/>
-									) : (
-										<UnmutedIcon viewBox='0 0 48 48' />
-									)}
-								</button>
+								<MonitorButton
+									recordid={project.id}
+									trackid={track.id}
+									monitored={track.monitored}
+								/>
+								<MuteButton
+									recordid={project.id}
+									trackid={track.id}
+									muted={track.muted}
+								/>
 							</div>
 						</div>
 					))}

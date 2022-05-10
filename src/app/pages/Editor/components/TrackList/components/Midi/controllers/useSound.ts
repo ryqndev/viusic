@@ -27,10 +27,10 @@ const useSound = (instrument: Instrument, transportNotation: any, muted: boolean
         synth.triggerAttackRelease(note, '4n');
     }
 
-    useEffect(() => {
-        if(isNaN(parseInt(volume))) return;
-        synth.volume.value = parseInt(volume);
-    }, [volume, synth]);
+    // useEffect(() => {
+    //     if(isNaN(parseInt(volume))) return;
+    //     synth.volume.value = parseInt(volume);
+    // }, [volume, synth]);
 
     useEffect(() => {
         setPart(new Part((time, note) => {
