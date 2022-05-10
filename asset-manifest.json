@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.cf1d4602.css",
-    "main.js": "/static/js/main.2d1698cb.js",
+    "main.css": "/static/css/main.0a968d76.css",
+    "main.js": "/static/js/main.6f6d28ba.js",
     "static/media/Poppins-Regular.ttf": "/static/media/Poppins-Regular.ccfdd78d095fe3607726.ttf",
     "static/media/Poppins-ExtraBold.ttf": "/static/media/Poppins-ExtraBold.2156e69bc095ee0ad41d.ttf",
     "static/media/Staatliches-Regular.ttf": "/static/media/Staatliches-Regular.134482285baed3198bb5.ttf",
@@ -24,11 +24,11 @@
     "static/media/expand.svg": "/static/media/expand.8d4a9ac9c10811c65db4a50b20d1c0b3.svg",
     "static/media/arrow_right.svg": "/static/media/arrow_right.1be76a0d4ec5e99dd17e901d17dd0c53.svg",
     "static/media/play.svg": "/static/media/play.e4850a3c1b14493e48de8e336121ad3d.svg",
-    "main.cf1d4602.css.map": "/static/css/main.cf1d4602.css.map",
-    "main.2d1698cb.js.map": "/static/js/main.2d1698cb.js.map"
+    "main.0a968d76.css.map": "/static/css/main.0a968d76.css.map",
+    "main.6f6d28ba.js.map": "/static/js/main.6f6d28ba.js.map"
   },
   "entrypoints": [
-    "static/css/main.cf1d4602.css",
-    "static/js/main.2d1698cb.js"
+    "static/css/main.0a968d76.css",
+    "static/js/main.6f6d28ba.js"
   ]
 }
