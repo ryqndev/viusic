@@ -11,7 +11,7 @@
 
     display: grid;
     grid-template-rows: 64px 1fr;
-    grid-template-columns: auto auto 1fr auto auto 45px;
+    grid-template-columns: auto auto 1fr auto auto auto 45px;
     column-gap: 5px;
 
     &>.track-icon {
@@ -68,6 +68,16 @@
         }
     }
 
+    &>.volume {
+        display: grid;
+        place-content: center;
+
+        &>input {
+            accent-color: #FFD700;
+            cursor: grab;
+        }
+    }
+
     &.new {
         display: grid;
         place-content: center;
@@ -86,7 +96,7 @@
     }
 
     &>.track {
-        grid-column: 1/7;
+        grid-column: 1/8;
         display: grid;
         grid-template-columns: 60px 1fr;
         border-radius: 2px;

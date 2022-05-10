@@ -4,6 +4,7 @@ import { Sampler, Part } from 'tone';
 import { Instrument } from '../../../../../../../controllers/tracks.types';
 
 const useSound = (instrument: Instrument, transportNotation: any, muted: boolean) => {
+    const [volume, setVolume] = useState<string>('-10');
     const [synth] = useState(() =>
         new Sampler({
             urls: INSTRUMENTS[instrument as keyof typeof INSTRUMENTS],
@@ -27,6 +28,11 @@ const useSound = (instrument: Instrument, transportNotation: any, muted: boolean
     }
 
     useEffect(() => {
+        if(isNaN(parseInt(volume))) return;
+        synth.volume.value = parseInt(volume);
+    }, [volume, synth]);
+
+    useEffect(() => {
         setPart(new Part((time, note) => {
             synth.triggerAttackRelease(
                 note[0],
@@ -47,6 +53,8 @@ const useSound = (instrument: Instrument, transportNotation: any, muted: boolean
     return {
         synth,
         playNote,
+        volume,
+        setVolume,
     }
 }
 

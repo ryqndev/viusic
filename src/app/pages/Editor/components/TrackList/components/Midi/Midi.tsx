@@ -25,7 +25,7 @@ const Midi = ({
 
 	const trackRef = useRef<HTMLDivElement>(null);
 	const { notes, transportNotation, setNotes } = useNotes(data);
-	const { playNote } = useSound(
+	const { synth, playNote, volume, setVolume } = useSound(
 		track.instrument,
 		transportNotation,
 		track.muted
@@ -46,9 +46,24 @@ const Midi = ({
 			<h2>{track.label}</h2>
 			<h2 className={cn.instrument}>[{track.instrument}]</h2>
 			<div></div>
+			<div className={cn.volume}>
+				<input
+					type='range'
+					name='volume'
+					value={volume}
+					onChange={e => setVolume(e.target.value)}
+					min={-20}
+					max={1}
+					step={1}
+				/>
+			</div>
 			<div
 				className={clsx(cn['track-icon'], cn.sound)}
-				onClick={() => editTrack(track.recordid, track.id, { monitored: !track.monitored })}
+				onClick={() =>
+					editTrack(track.recordid, track.id, {
+						monitored: !track.monitored,
+					})
+				}
 			>
 				{track.monitored ? (
 					<HeadsetIcon viewBox='0 0 48 48' fill='#FFD700' />
@@ -58,7 +73,9 @@ const Midi = ({
 			</div>
 			<div
 				className={clsx(cn['track-icon'], cn.sound)}
-				onClick={() => editTrack(track.recordid, track.id, { muted: !track.muted })}
+				onClick={() =>
+					editTrack(track.recordid, track.id, { muted: !track.muted })
+				}
 			>
 				{track.muted ? (
 					<MutedIcon viewBox='0 0 48 48' fill='red' />
@@ -81,7 +98,7 @@ const Midi = ({
 						onWheel={(e: WheelEvent<HTMLDivElement>) => {
 							setViewPosition((prev: number) => {
 								const newVPos = prev + e.deltaX;
-								if(newVPos <= 0) return 0;
+								if (newVPos <= 0) return 0;
 								// TODO: add max horizontal scrolling
 								return newVPos;
 							});

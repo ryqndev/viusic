@@ -9,6 +9,7 @@ interface ContextMenuProps {
     x: number;
     y: number;
     value: number | Time;
+    changeNoteLength: (newLength: number | Time) => void;
     generateSubdivision: (subdivision: number) => void;
 }
 
@@ -18,10 +19,10 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
     useEffect(() => {
         const keyBindingListener = (e: KeyboardEvent) => {
             if (showContextMenu) {
-                if (e.key === '2') showContextMenu.generateSubdivision(2);
-                if (e.key === '3') showContextMenu.generateSubdivision(3);
-                if (e.key === '4') showContextMenu.generateSubdivision(4);
-                if (e.key === '5') showContextMenu.generateSubdivision(5);
+                if (parseInt(e.key) > 1) {
+                    e.preventDefault();
+                    showContextMenu.generateSubdivision(parseInt(e.key));
+                }
             }
         }
         window.addEventListener('keydown', keyBindingListener);
@@ -40,11 +41,27 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
         );
         setShowContextMenu(null);
     }
+    const changeNoteLength = (event: MouseEvent) => (newLength: number | Time) => {
+        setNotes((prevNotes: any) =>
+            getMappingLocationAndUse(
+                prevNotes,
+                event,
+                () => newLength,
+            )
+        );
+        setShowContextMenu(null);
+    }
 
     const rightClick = (event: MouseEvent) => {
         event.preventDefault();
         getMappingLocationAndUse(notes, event, (val) => {
-            setShowContextMenu({ x: event.clientX, y: event.clientY, value: val, generateSubdivision: generateSubdivision(event) });
+            setShowContextMenu({ 
+                x: event.clientX, 
+                y: event.clientY, 
+                value: val, 
+                changeNoteLength: changeNoteLength(event),
+                generateSubdivision: generateSubdivision(event),
+            });
             return val;
         });
     };
@@ -52,7 +69,7 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
     const getMappingLocationAndUse = (
         prevNotes: any[],
         event: MouseEvent,
-        action: (currentValue: number) => Array<any> | number
+        action: (currentValue: number) => Array<any> | number | Time
     ) => {
         // click [x,y] to note [i,j]
         let j = Math.floor((event.nativeEvent.offsetX + viewPosition) / MEASURE_WIDTH),
@@ -73,7 +90,7 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
         width: number,
         notes: any[],
         noteIdx: number,
-        action: (currentValue: number) => Array<any> | number
+        action: (currentValue: number) => Array<any> | number | Time
     ) => {
         if (!isNaN(notes[noteIdx])) {
             notes[noteIdx] = action(notes[noteIdx]);

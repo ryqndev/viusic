@@ -72,7 +72,7 @@ const ProjectOverview = ({
 					<p>Beats/Min:</p>
 					<input type='number' value={bpm} onChange={changeBPM} />
 				</div>
-				<div className={cn.setting}>
+				{/* <div className={cn.setting}>
 					<p>Time Signature:</p>
 					<div className={cn.signature}>
 						<input type='number' value={project.timeSignature[0]} onChange={changeTimeSignature(0)} />
@@ -80,7 +80,7 @@ const ProjectOverview = ({
 						<input type='number' value={project.timeSignature[1]} onChange={changeTimeSignature(1)} />
 					</div>
 					
-				</div>
+				</div> */}
 			</div>
 			<hr />
 			<div className={cn.details}>
