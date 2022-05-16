@@ -21,7 +21,6 @@
 
     & button {
         place-self: center;
-        // padding: 5px;
         height: 30px;
     }
 
@@ -95,6 +94,10 @@
         grid-template-columns: 60px 1fr;
         border-radius: 2px;
         overflow: hidden;
+
+        &.hidden {
+            
+        }
 
         &>.map {
             border-top-right-radius: 2px;

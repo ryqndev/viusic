@@ -72,6 +72,7 @@ const ProjectOverview = ({ selected }: ProjectOverviewProps): ReactElement => {
 				ref={titleRef}
 				suppressContentEditableWarning={true}
 				contentEditable={editMode}
+				className={cn.title}
 			>
 				{selected.name}
 			</h1>

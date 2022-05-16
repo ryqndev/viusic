@@ -1,9 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-const KEY_HEIGHT = 16;
-const MEASURE_WIDTH = 360;
-
-const useRCanvas = (notes: any, range: number, viewPosition: number) => {
+const useRCanvas = (notes: any, range: number, viewPosition: number, KEY_HEIGHT: number, MEASURE_WIDTH: number) => {
     const canvasRef = useRef(null);
 
     const drawNote = useCallback((
@@ -14,6 +11,7 @@ const useRCanvas = (notes: any, range: number, viewPosition: number) => {
         width: number,
         height: number
     ) => {
+        if (note === 0) return;
         if (Array.isArray(note)) {
             let subWidth = width / note.length;
             note.forEach((n, i) => {
@@ -21,13 +19,13 @@ const useRCanvas = (notes: any, range: number, viewPosition: number) => {
             });
             return;
         }
-        switch (note) {
-            case 1:
-                ctx.fillStyle = '#FFD700';
-                ctx.fillRect(x, y, width, height);
-                ctx.strokeRect(x, y, width, height);
-                break;
-        }
+        // switch (note) {
+        //     case 1:
+        ctx.fillStyle = '#FFD700';
+        ctx.fillRect(x, y, width * note, height);
+        // ctx.strokeRect(x, y, width, height);
+        // break;
+        // }
     }, []);
 
     const draw = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
@@ -39,8 +37,8 @@ const useRCanvas = (notes: any, range: number, viewPosition: number) => {
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 1;
 
-        const lo = Math.floor(viewPosition / 360);
-        const hi = lo + Math.ceil(canvas.width / 360) + 1;
+        const lo = Math.floor(viewPosition / MEASURE_WIDTH);
+        const hi = lo + Math.ceil(canvas.width / MEASURE_WIDTH) + 1;
 
         for (let key = 0; key < notes.length; key++) {
             for (let measure = lo; measure < hi; measure++) {

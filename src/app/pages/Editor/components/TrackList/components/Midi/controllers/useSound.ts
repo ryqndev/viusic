@@ -1,15 +1,22 @@
 import { useState, useEffect } from 'react';
 import INSTRUMENTS from '../../../../../../../../assets/samples/samples.json';
 import { Sampler, Part } from 'tone';
-import { Instrument } from '../../../../../../../controllers/tracks.types';
+import { Instrument, Track } from '../../../../../../../controllers/tracks.types';
+import useTracks from '../../../../../controllers/useTracks';
+import { TrackMetaData } from './useInstruments';
 
-const useSound = (instrument: Instrument, transportNotation: any, muted: boolean) => {
-    const [volume, setVolume] = useState<string>('-10');
+interface useSoundProps extends Track {
+    recordid: string;
+}
+
+const useSound = (track: useSoundProps, transportNotation: any) => {
+    const { editTrack } = useTracks();
+    const [volume, setVolume] = useState<number>(track.baseVolume / 100 * 21 - 20);
     const [synth] = useState(() =>
         new Sampler({
-            urls: INSTRUMENTS[instrument as keyof typeof INSTRUMENTS],
+            urls: INSTRUMENTS[track.instrument as keyof typeof INSTRUMENTS],
             release: 1,
-            baseUrl: `${process.env.PUBLIC_URL}/assets/samples/${instrument}/`,
+            baseUrl: `${process.env.PUBLIC_URL}/assets/samples/${track.instrument}/`,
         }).toDestination()
     );
 
@@ -27,10 +34,10 @@ const useSound = (instrument: Instrument, transportNotation: any, muted: boolean
         synth.triggerAttackRelease(note, '4n');
     }
 
-    // useEffect(() => {
-    //     if(isNaN(parseInt(volume))) return;
-    //     synth.volume.value = parseInt(volume);
-    // }, [volume, synth]);
+    useEffect(() => {
+        synth.volume.value = volume;
+        editTrack(track.recordid, track.id, { baseVolume: Math.round((volume + 20) / 21 * 100) });
+    }, [volume, synth, track.id, track.recordid, editTrack]);
 
     useEffect(() => {
         setPart(new Part((time, note) => {
@@ -47,14 +54,15 @@ const useSound = (instrument: Instrument, transportNotation: any, muted: boolean
     }), [part]);
 
     useEffect(() => {
-        part.mute = muted;
-    }, [part, muted]);
+        part.mute = track.muted;
+    }, [part, track.muted]);
 
     return {
         synth,
         playNote,
         volume,
         setVolume,
+        part,
     }
 }
 

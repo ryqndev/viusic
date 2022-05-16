@@ -1,9 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-const KEY_HEIGHT = 16;
-const MEASURE_WIDTH = 360;
-
-const useNoteOutlineCanvas = (notes: any, range: number, viewPosition: number) => {
+const useNoteOutlineCanvas = (notes: any, range: number, viewPosition: number, KEY_HEIGHT: number, MEASURE_WIDTH: number) => {
     const canvasRef = useRef(null);
 
     const drawNote = useCallback((
@@ -32,8 +29,8 @@ const useNoteOutlineCanvas = (notes: any, range: number, viewPosition: number) =
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 1;
 
-        const lo = Math.floor(viewPosition / 360);
-        const hi = lo + Math.ceil(canvas.width / 360) + 1;
+        const lo = Math.floor(viewPosition / MEASURE_WIDTH);
+        const hi = lo + Math.ceil(canvas.width / MEASURE_WIDTH) + 1;
 
         for (let key = 0; key < notes.length; key++) {
             // for (let measure = 0; measure < notes[key].length; measure++) {

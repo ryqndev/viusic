@@ -201,6 +201,9 @@
                     &.instrument {
                         color: #FFD700;
                         letter-spacing: 1px;
+                        white-space: nowrap;
+                        // text-overflow: ellipsis;
+                        overflow: hidden;
                     }
 
                 }

@@ -89,6 +89,7 @@ const TrackDetails = ({
 					ref={labelRef}
 					suppressContentEditableWarning={true}
 					contentEditable={editMode}
+					onKeyDown={(e) => e.stopPropagation()}
 				>
 					{current.label}
 				</h2>
@@ -115,6 +116,9 @@ const TrackDetails = ({
 				</p>
 				<p>
 					<span>Repeat:</span> {JSON.stringify(current.repeat)}
+				</p>
+				<p>
+					<span>Sustain:</span> {JSON.stringify(current.sustain)}
 				</p>
 			</div>
 			<hr />

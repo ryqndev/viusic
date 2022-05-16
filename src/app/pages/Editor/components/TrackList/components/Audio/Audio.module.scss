@@ -1,17 +1,28 @@
 .container {
+    overflow: hidden;
     cursor: pointer;
     background-color: #000;
-    height: 180px;
     border-radius: 4px;
     border-left: 4px solid #FFD700;
     transition: filter 250ms, height 350ms;
 
     padding-left: 20px;
+    padding-right: 20px;
 
     display: grid;
     grid-template-rows: 64px 1fr;
-    grid-template-columns: auto auto 1fr 64px;
-    column-gap: 10px;
+    grid-template-columns: auto auto 1fr auto auto auto 45px;
+    column-gap: 5px;
+
+    &>.track-icon {
+        display: grid;
+        place-content: center left;
+    }
+
+    & button {
+        place-self: center;
+        height: 30px;
+    }
 
     &>h2 {
         display: grid;
@@ -26,14 +37,15 @@
     }
 
     &>.toggle {
+        margin-left: auto;
         background-color: transparent;
         border: none;
         border-radius: 50%;
-        height: 50%;
-        width: 50%;
+        height: 32px;
+        width: 32px;
         display: grid;
+        place-self: center;
         place-content: center;
-        margin: 12px auto;
         transition: transform 350ms, background-color 350ms;
         background-color: #181818;
         cursor: pointer;
@@ -49,6 +61,16 @@
         }
     }
 
+    &>.volume {
+        display: grid;
+        place-content: center;
+
+        &>input {
+            accent-color: #FFD700;
+            cursor: grab;
+        }
+    }
+
     &.new {
         display: grid;
         place-content: center;
@@ -59,9 +81,33 @@
         font-weight: bold;
         border: 4px dashed #303030;
     }
+    min-height: 200px;
+    padding-bottom: 20px;
 
-    height: 200px;
     &.expanded {
-        height: 600px;
+        // height: min-content;
+    }
+
+    &>.track {
+        grid-column: 1/8;
+        display: grid;
+        grid-template-columns: 60px 1fr;
+        border-radius: 2px;
+        overflow: hidden;
+
+        &>.map {
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+
+            overflow-x: scroll;
+            overflow-y: hidden;
+
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+            scrollbar-width: none;  /* Firefox */
+            
+            &::-webkit-scrollbar { 
+                display: none;  /* Safari and Chrome */
+            }
+        }
     }
 }

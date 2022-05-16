@@ -4,111 +4,82 @@ import { TrackItemProps } from '../../TrackList';
 import useAudio from './controller/useAudio';
 import * as Tone from 'tone';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
+import MuteButton from '../../../MuteButton';
+import MonitorButton from '../../../MonitorButton';
 import cn from './Audio.module.scss';
 
-// 		['0:0:0', ['E3', '8n']],
-// 		['0:0:3', ['E3', '16n']],
-// 		['0:1:0', ['E2', '8n']],
-// 		['0:1:2', ['F#2', '8n']],
-// 		['0:2:0', ['G2', '8n']],
-// 		['0:3:0', ['D3', '4n']],
-// 		['1:0:0', ['C3', '16n']],
-// 		['1:1:0', ['B2', '16n']],
-// 		['1:1:3', ['B2', '32n']],
-// 		['1:2:0', ['C3', '32n']],
-// 		['1:2:1', ['B2', '16n']],
-// 		['1:2:3', ['B2', '16n']],
-// 		['1:3:0', ['C3', '16n']],
-// 		['1:3:1', ['B2', '16n']],
-// 		['1:3:2', ['A2', '16n.']],
-// 		['2:0:0', ['B2', '8n.']],
-// 		['2:0:3', ['B2', '16n']],
-// 		['2:1:0', ['E2', '8n']],
-// 		['2:1:2', ['F#2', '8n']],
-// 		['2:2:0', ['G2', '8n']],
-// 		['2:3:0', ['D3', '8n']],
-// 		['2:3:2', ['C3', '8n']],
-// 		['3:0:0', ['B2', '8n']],
-// 		['3:1:0', ['A2', '8n']],
-// 		['3:2:0', ['B2', '4n']],
-
-const Audio = ({ setCurrent, ...props }: TrackItemProps) => {
+const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 	const [expanded, setExpanded] = useState(false);
-
-	const { keyMapping } = useAudio(expanded);
+	const [availableDevices, setAvailableDevices] = useState([]);
+	const { volume, setVolume } = useAudio(track);
 
 	const select = () => {
 		setExpanded(prev => !prev);
-		setCurrent(props);
+		setCurrent(track);
 	};
 
 	useEffect(() => {
-		const meter = new Tone.Meter();
-		const mic = new Tone.UserMedia().connect(meter);
-		mic.open()
-			.then(() => {
-				// promise resolves when input is available
-				console.log('mic open');
-				// print the incoming mic levels in decibels
-				setInterval(() => console.log(meter.getValue()), 500);
+		navigator.mediaDevices
+			.enumerateDevices()
+			.then((devices: any) => {
+				setAvailableDevices(
+					devices.filter((dev: any) => dev.kind === 'audioinput')
+				);
 			})
-			.catch(e => {
-				// promise is rejected when the user doesn't have or allow mic access
-				console.log('mic not open');
-			});
-		// const actx = new AudioContext();
-
-		// navigator.mediaDevices.getUserMedia({audio: {
-		// 	noiseSuppression: false,
-		// 	echoCancellation: false,
-		// }})
+			.catch(console.error);
 	}, []);
+
+	const selectAud = () => {};
 
 	return (
 		<div
 			className={clsx(cn.container, expanded && cn.expanded)}
-			onClick={() => setCurrent(props)}
+			onClick={() => setCurrent(track)}
 		>
-			<h2>{props.label}</h2>
-			<h2 className={cn.instrument}>[{props.instrument}]</h2>
+			<h2>{track.label}</h2>
+			<h2 className={cn.instrument}>[{track.instrument}]</h2>
 			<div></div>
+			<div className={cn.volume}>
+				<input
+					type='range'
+					name='volume'
+					value={volume}
+					onChange={e => setVolume(parseInt(e.target.value))}
+					min={-20}
+					max={1}
+					step={1}
+				/>
+			</div>
+			<MonitorButton
+				recordid={track.recordid}
+				trackid={track.id}
+				monitored={track.monitored}
+			/>
+			<MuteButton
+				recordid={track.recordid}
+				trackid={track.id}
+				muted={track.muted}
+			/>
 			<button
 				className={clsx(cn.toggle, expanded && cn.expanded)}
 				onClick={select}
 			>
 				<ExpandIcon />
 			</button>
-			<div style={{ position: 'relative' }}>
-				{expanded &&
-					Object.keys(keyMapping).map((key, idx) =>
-						keyMapping[key][0].length === 2 ? (
-							<div
-								style={{
-									backgroundColor: 'white',
-									position: 'absolute',
-									height: '250px',
-									width: '50px',
-									left: 54 * idx + 'px',
-								}}
-								key={key}
-							>
-								{key}
-							</div>
-						) : (
-							<div
-								style={{
-									backgroundColor: 'black',
-									position: 'absolute',
-									height: '250px',
-									width: '50px',
-									left: 54 * idx + 'px',
-								}}
-								key={key}
-							>
-								{key}
-							</div>
-						)
-					)}
+			<div
+				style={{
+					position: 'relative',
+					overflow: 'scroll',
+					gridColumn: '1 / 7',
+				}}
+			>
+				<button onClick={selectAud}>select</button>
+				{availableDevices.map((device: any) => (
+					<>
+						<br />
+						{device.label}
+					</>
+				))}
 			</div>
 		</div>
 	);

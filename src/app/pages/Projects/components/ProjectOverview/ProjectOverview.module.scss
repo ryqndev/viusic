@@ -16,6 +16,9 @@
         font-family: 'Poppins';
         border-radius: 8px;
 
+        &.title {
+            color: #FFD700;
+        }
         &[contenteditable="true"] {
             padding: 5px 10px;
             background-color: #151515;

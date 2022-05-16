@@ -37,41 +37,6 @@ const useNotes = (track: TrackMetaData) => {
         return track.notes;
     });
 
-    const cleanTransport = useCallback(() => {
-        setNotes(notes.map((key: any) => 
-            key.map((beat: any) => {
-                if(Array.isArray(beat)) {
-                    return beat;
-                    // if(beat.every((v1: any) => v1 === 0 )){
-                    //     return 0;
-                    // }
-                    // return beat.map(d3 => {
-                    //     if(Array.isArray(d3)) {
-                    //         if(d3.every( val => val === 0 )){
-                    //             return 0;
-                    //         }
-                    //         return d3.map(d4 => {
-                    //             if(Array.isArray(d4)) {
-                    //                 if(d4.every((v4: any) => v4 === 0 )){
-                    //                     return 0;
-                    //                 }
-                    //                 return d4;
-                    //             }
-                    //             return d4;
-                    //         });
-                    //     }
-                    //     return d3;
-                    // });
-                }
-                // return beat;
-                return new Array(4).fill(0);
-            })));
-    }, [notes]);
-
-    // useEffect(() => {
-    //     cleanTransport();
-    // }, [cleanTransport]);
-
     const noteToTransport = useCallback((
         key: string,
         note: any[] | number,
@@ -94,12 +59,12 @@ const useNotes = (track: TrackMetaData) => {
             });
         }
         if (note === 0) return;
-        if (note === 1) return transport.push([`${measure}:${offset}`, [key, length / SUBDIVISIONS]]);
+        // if (note === 1) return transport.push([`${measure}:${offset}`, [key, length / SUBDIVISIONS * track.sustain]]);
 
-        transport.push([`${measure}:${offset}`, [key, note]]);
+        transport.push([`${measure}:${offset}`, [key, length / SUBDIVISIONS * (track.sustain + 0.5) * note ]]);
         // TODO: ignore case where tie or legato for now
         
-    }, []);
+    }, [track.sustain]);
 
     const notesToTransport = useCallback((key: string, noteTrack: Array<any>, transport: any[]) => {
         for (let measure = 0; measure < noteTrack.length; measure++) {

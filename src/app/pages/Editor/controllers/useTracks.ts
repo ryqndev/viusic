@@ -29,6 +29,7 @@ const useTracks = () => {
             monitored: true,
             length: 60,
             repeat: [],
+            sustain: 1.5,
         }));
         return uid;
     }, [editMetaData]);

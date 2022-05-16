@@ -78,7 +78,6 @@ const ProjectOverview = ({
 						<span>/</span>
 						<input type='number' value={project.timeSignature[1]} onChange={changeTimeSignature(1)} />
 					</div>
-					
 				</div> */}
 			</div>
 			<hr />
@@ -102,7 +101,7 @@ const ProjectOverview = ({
 						>
 							<h3 className={cn.label}>{track.label}</h3>
 							<h3 className={cn.instrument}>
-								[{track.instrument}]
+								{track.instrument}
 							</h3>
 							<div className={cn.actions}>
 								<MonitorButton

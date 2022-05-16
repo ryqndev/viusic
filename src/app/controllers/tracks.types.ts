@@ -9,6 +9,7 @@ interface Track {
     length: number;
     repeat: [];
     notes?: any;
+    sustain?: number;
 }
 
 type TrackType = 
@@ -18,8 +19,9 @@ type Instrument =
     'bass-electric' | 'bassoon' | 'cello' | 'clarinet' | 'contrabass' | 'drum' | 'flute' | 'french-horn' | 'guitar-acoustic' | 'guitar-electric' |  'guitar-nylon' | 'harmonium' | 'harp' | 'organ' | 'piano' | 'saxophone' | 'trombone' | 'trumpet' | 'tuba' | 'violin' | 'xylophone';
 
 
-interface PianoTrack extends Track {
+interface MidiTrack extends Track {
     notes: [];
+    sustain: number;
 }
 
 export type {

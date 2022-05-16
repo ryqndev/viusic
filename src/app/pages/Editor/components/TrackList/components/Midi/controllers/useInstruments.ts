@@ -12,6 +12,7 @@ interface TrackMetaData {
     baseVolume: number;
     muted: boolean;
     monitored: boolean;
+    sustain: number;
 }
 
 interface UseInstrumentsProps extends Track {
@@ -23,6 +24,7 @@ const useInstruments = (track: UseInstrumentsProps) => {
         ...INSTRUMENT_RANGES[track.instrument as keyof typeof INSTRUMENT_RANGES],
         ...track,
         trackid: track.id,
+        sustain: track.sustain ?? 1.5,
     });
 
     const editTrackData = (data: any) => {

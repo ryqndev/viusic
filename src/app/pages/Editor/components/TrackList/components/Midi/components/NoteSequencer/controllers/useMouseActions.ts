@@ -8,8 +8,8 @@ const MEASURE_WIDTH = 360;
 interface ContextMenuProps {
     x: number;
     y: number;
-    value: number | Time;
-    changeNoteLength: (newLength: number | Time) => void;
+    value: number;
+    changeNoteLength: (newLength: any) => void;
     generateSubdivision: (subdivision: number) => void;
 }
 
@@ -41,12 +41,12 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
         );
         setShowContextMenu(null);
     }
-    const changeNoteLength = (event: MouseEvent) => (newLength: number | Time) => {
+    const changeNoteLength = (event: MouseEvent) => (newLength: any) => {
         setNotes((prevNotes: any) =>
             getMappingLocationAndUse(
                 prevNotes,
                 event,
-                () => newLength,
+                newLength
             )
         );
         setShowContextMenu(null);
@@ -69,7 +69,7 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
     const getMappingLocationAndUse = (
         prevNotes: any[],
         event: MouseEvent,
-        action: (currentValue: number) => Array<any> | number | Time
+        action: (currentValue: number) => Array<any> | number
     ) => {
         // click [x,y] to note [i,j]
         let j = Math.floor((event.nativeEvent.offsetX + viewPosition) / MEASURE_WIDTH),
@@ -90,7 +90,7 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
         width: number,
         notes: any[],
         noteIdx: number,
-        action: (currentValue: number) => Array<any> | number | Time
+        action: (currentValue: number) => Array<any> | number
     ) => {
         if (!isNaN(notes[noteIdx])) {
             notes[noteIdx] = action(notes[noteIdx]);

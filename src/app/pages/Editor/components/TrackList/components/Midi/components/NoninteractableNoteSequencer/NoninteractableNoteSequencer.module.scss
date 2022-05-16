@@ -1,0 +1,42 @@
+.container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+    &>#background {
+        width: 100%;
+        z-index: 1;
+        position: absolute;
+    }
+
+    &>#user {
+        width: 100%;
+        z-index: 2;
+        position: absolute;
+    }
+}
+
+.menu {
+    position: fixed;
+    display: grid;
+    grid-auto-flow: row;
+    row-gap: 2px;
+    width: min-content;
+    padding: 2px;
+    border-radius: 2px;
+    box-shadow: 0 0 5px 1px #151515;
+    background-color: #303030;
+    z-index: 10;
+
+    &>button {
+        background-color: #202020;
+        padding: 4px;
+        border: none;
+        color: #aaa;
+        cursor: pointer;
+
+        &:hover {
+            filter: brightness(2);
+        }
+    }
+}

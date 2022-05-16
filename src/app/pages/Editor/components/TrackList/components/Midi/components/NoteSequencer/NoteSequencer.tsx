@@ -1,4 +1,4 @@
-import { ReactElement, memo, useRef} from 'react';
+import { ReactElement, memo } from 'react';
 import useNoteOutlineCanvas from './controllers/useNoteOutlineCanvas';
 import useRCanvas from './controllers/useRCanvas';
 import useMouseActions from './controllers/useMouseActions';
@@ -11,7 +11,12 @@ interface NoteSequencerProps {
 	viewPosition: number;
 	setNotes: (notes: any) => void;
 	playNote: (note: string) => void;
+	keyHeight?: number;
+	measureWidth?: number;
 }
+
+const KEY_HEIGHT = 16;
+const MEASURE_WIDTH = 360;
 
 const NoteSequencer = ({
 	hi,
@@ -20,10 +25,12 @@ const NoteSequencer = ({
 	viewPosition,
 	setNotes,
 	playNote,
+	keyHeight = KEY_HEIGHT,
+	measureWidth = MEASURE_WIDTH,
 }: NoteSequencerProps): ReactElement => {
-	// const containerRef = useRef(null);
-	const bgCanvasRef = useNoteOutlineCanvas(notes, range, viewPosition);
-	const userCanvasRef = useRCanvas(notes, range, viewPosition);
+	
+	const bgCanvasRef = useNoteOutlineCanvas(notes, range, viewPosition, keyHeight, measureWidth);
+	const userCanvasRef = useRCanvas(notes, range, viewPosition, keyHeight, measureWidth);
 	const { showContextMenu, leftClick, rightClick } = useMouseActions(
 		hi,
 		range,
@@ -55,23 +62,27 @@ const NoteSequencer = ({
 					<button
 						onClick={() => showContextMenu.generateSubdivision(2)}
 					>
-						Split cell into 2
+						Split cell into 2 (2)
 					</button>
 					<button
 						onClick={() => showContextMenu.generateSubdivision(3)}
 					>
-						Split cell into 3
+						Split cell into 3 (3)
 					</button>
-					<button
+					<button 
 						onClick={() => showContextMenu.generateSubdivision(4)}
 					>
-						Split cell into 4
+						Split cell into 4 (4)
 					</button>
-					<input
+					<button onClick={() => {showContextMenu.changeNoteLength((prev: any) => prev / 2)}}>halve</button>
+					<button onClick={() => {showContextMenu.changeNoteLength((prev: any) => prev * 2)}}>double</button>
+					{/* {showContextMenu.value} */}
+					{/* <input
 						type='text'
 						placeholder='Change note length'
-						value=""
-					/>
+						id='notelen'
+						// value=	 */}
+					{/* /> */}
 				</div>
 			)}
 		</>

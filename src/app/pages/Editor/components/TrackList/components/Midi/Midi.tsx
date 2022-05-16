@@ -1,10 +1,6 @@
 import clsx from 'clsx';
 import { useState, memo, useRef, useEffect, WheelEvent } from 'react';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
-// import { ReactComponent as MutedIcon } from '../../../../../../../assets/icons/muted.svg';
-// import { ReactComponent as VolumeUpIcon } from '../../../../../../../assets/icons/volume_up.svg';
-// import { ReactComponent as HeadsetIcon } from '../../../../../../../assets/icons/headset.svg';
-// import { ReactComponent as HeadsetOffIcon } from '../../../../../../../assets/icons/headset_off.svg';
 import MuteButton from '../../../MuteButton';
 import MonitorButton from '../../../MonitorButton';
 import { KeyboardReference, NoteSequencer } from './components';
@@ -13,7 +9,11 @@ import useNotes from './controllers/useNotes';
 import useInstruments from './controllers/useInstruments';
 import type { TrackItemProps } from '../../TrackList';
 import useTracks from '../../../../controllers/useTracks';
+import * as Tone from 'tone';
 import cn from './Midi.module.scss';
+import { isArray } from 'tone';
+import SoundMeter from './components/SoundMeter';
+import NoninteractableNoteSequencer from './components/NoninteractableNoteSequencer';
 
 const Midi = ({
 	setCurrent,
@@ -21,6 +21,7 @@ const Midi = ({
 	viewPosition,
 	...track
 }: TrackItemProps) => {
+	const [outputLevel, setOutputLevel] = useState<number>(0);
 	const { data } = useInstruments(track);
 
 	const { editTrack } = useTracks();
@@ -28,17 +29,32 @@ const Midi = ({
 	const trackRef = useRef<HTMLDivElement>(null);
 	const { notes, transportNotation, setNotes } = useNotes(data);
 	const { synth, playNote, volume, setVolume } = useSound(
-		track.instrument,
-		transportNotation,
-		track.muted
+		track,
+		transportNotation
 	);
 
 	const [expanded, setExpanded] = useState(false);
 
 	useEffect(() => {
-		if (!trackRef?.current || data.trackid === viewPosition[1]) return;
+		if (!trackRef?.current || track.id === viewPosition[1]) return;
 		trackRef.current.scrollLeft = viewPosition[0];
-	}, [viewPosition, data.trackid]);
+	}, [viewPosition, track.id]);
+
+	useEffect(() => {
+		const meter = new Tone.Meter();
+		meter.normalRange = true;
+		synth.connect(meter);
+
+		const soundCheck = setInterval(() => {
+			// console.log(meter.getValue());
+			// console.log(synth.get().volume);
+			const outputDecibels = meter.getValue();
+			if (isArray(outputDecibels) || !isFinite(outputDecibels))
+				setOutputLevel(0);
+			else setOutputLevel(outputDecibels < 0.01 ? 0 : outputDecibels);
+		}, 50);
+		return () => clearInterval(soundCheck);
+	}, [synth]);
 
 	return (
 		<div
@@ -53,21 +69,21 @@ const Midi = ({
 					type='range'
 					name='volume'
 					value={volume}
-					onChange={e => setVolume(e.target.value)}
+					onChange={e => setVolume(parseInt(e.target.value))}
 					min={-20}
 					max={1}
 					step={1}
 				/>
 			</div>
 			<MonitorButton
-				recordid={data.recordid}
-				trackid={data.trackid}
-				monitored={data.monitored}
+				recordid={track.recordid}
+				trackid={track.id}
+				monitored={track.monitored}
 			/>
 			<MuteButton
-				recordid={data.recordid}
-				trackid={data.trackid}
-				muted={data.muted}
+				recordid={track.recordid}
+				trackid={track.id}
+				muted={track.muted}
 			/>
 			<button
 				className={clsx(cn.toggle, expanded && cn.expanded)}
@@ -75,7 +91,7 @@ const Midi = ({
 			>
 				<ExpandIcon />
 			</button>
-			{expanded && (
+			{expanded ? (
 				<div className={cn.track}>
 					<KeyboardReference hi={data.hi} range={data.range} />
 					<div
@@ -97,6 +113,32 @@ const Midi = ({
 							range={data.range}
 							playNote={playNote}
 							viewPosition={viewPosition}
+						/>
+					</div>
+				</div>
+			) : (
+				<div className={clsx(cn.track, cn.hidden)}>
+					<SoundMeter level={outputLevel} />
+					<div
+						className={cn.map}
+						ref={trackRef}
+						onWheel={(e: WheelEvent<HTMLDivElement>) => {
+							setViewPosition((prev: number) => {
+								const newVPos = prev + e.deltaX;
+								if (newVPos <= 0) return 0;
+								// TODO: add max horizontal scrolling
+								return newVPos;
+							});
+						}}
+					>
+						<NoninteractableNoteSequencer
+							hi={data.hi}
+							notes={notes}
+							setNotes={setNotes}
+							range={data.range}
+							playNote={playNote}
+							viewPosition={viewPosition}
+							keyHeight={135 / data.range}
 						/>
 					</div>
 				</div>

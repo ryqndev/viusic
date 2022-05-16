@@ -1,0 +1,35 @@
+.container {
+    display: grid;
+    height: 100%;
+    row-gap: 10px;
+    padding-right: 20px;
+
+    &>.level {
+        background-color: red;
+        border-radius: 4px;
+
+        &:nth-child(1) {
+            background-color: red;
+        }
+        &:nth-child(2) {
+            background-color: #ffa600;
+        }
+        &:nth-child(3) {
+            background-color: #ffd900;
+        }
+        &:nth-child(4) {
+            background-color: #d9ff00;
+        }
+        &:nth-child(5) {
+            background-color: #3cff00;
+        }
+        &:nth-child(6) {
+            background-color: #99ff00;
+        }
+
+        &.on {
+            opacity: 1;
+        }
+        opacity: 0.1;
+    }
+}
