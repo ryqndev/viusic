@@ -29,6 +29,9 @@
         "A1": "A1.ogg",
         "A2": "A2.ogg"
     },
+    "bell": {
+        "C5": "C5.wav"
+    },
     "cello": {
         "E3": "E3.ogg",
         "E4": "E4.ogg",

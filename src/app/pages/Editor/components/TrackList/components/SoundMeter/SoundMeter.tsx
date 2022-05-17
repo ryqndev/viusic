@@ -10,11 +10,11 @@ const SoundMeter = ({level}: SoundMeterProps): ReactElement => {
     return (
         <div className={cn.container}>
             <div className={clsx(cn.level, level >= 0.9 && cn.on)}></div>
-            <div className={clsx(cn.level, level >= 0.8 && cn.on)}></div>
-            <div className={clsx(cn.level, level >= 0.6 && cn.on)}></div>
-            <div className={clsx(cn.level, level >= 0.4 && cn.on)}></div>
-            <div className={clsx(cn.level, level >= 0.2 && cn.on)}></div>
-            <div className={clsx(cn.level, level >= 0.1 && cn.on)}></div>
+            <div className={clsx(cn.level, level >= 0.7 && cn.on)}></div>
+            <div className={clsx(cn.level, level >= 0.45 && cn.on)}></div>
+            <div className={clsx(cn.level, level >= 0.3 && cn.on)}></div>
+            <div className={clsx(cn.level, level >= 0.10 && cn.on)}></div>
+            <div className={clsx(cn.level, level >= 0.05 && cn.on)}></div>
         </div>
     );
 }

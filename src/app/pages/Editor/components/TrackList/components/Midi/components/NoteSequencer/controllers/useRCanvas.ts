@@ -19,13 +19,9 @@ const useRCanvas = (notes: any, range: number, viewPosition: number, KEY_HEIGHT:
             });
             return;
         }
-        // switch (note) {
-        //     case 1:
+
         ctx.fillStyle = '#FFD700';
         ctx.fillRect(x, y, width * note, height);
-        // ctx.strokeRect(x, y, width, height);
-        // break;
-        // }
     }, []);
 
     const draw = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
@@ -54,7 +50,7 @@ const useRCanvas = (notes: any, range: number, viewPosition: number, KEY_HEIGHT:
                 );
             }
         }
-    }, [notes, range, drawNote, viewPosition]);
+    }, [notes, range, drawNote, viewPosition, KEY_HEIGHT, MEASURE_WIDTH]);
 
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement | null;

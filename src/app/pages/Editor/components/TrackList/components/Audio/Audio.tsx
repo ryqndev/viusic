@@ -7,6 +7,7 @@ import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/
 import MuteButton from '../../../MuteButton';
 import MonitorButton from '../../../MonitorButton';
 import cn from './Audio.module.scss';
+import SoundMeter from '../SoundMeter';
 
 const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 	const [expanded, setExpanded] = useState(false);
@@ -27,6 +28,20 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 				);
 			})
 			.catch(console.error);
+	}, []);
+
+	useEffect(() => {
+		const meter = new Tone.Meter();
+		meter.normalRange = true;
+		// synth.connect(meter);
+
+		// const soundCheck = setInterval(() => {
+		// 	const outputDecibels = meter.getValue();
+		// 	if (isArray(outputDecibels) || !isFinite(outputDecibels))
+		// 		setOutputLevel(0);
+		// 	else setOutputLevel(outputDecibels < 0.01 ? 0 : outputDecibels);
+		// }, 100);
+		// return () => clearInterval(soundCheck);
 	}, []);
 
 	const selectAud = () => {};
@@ -66,20 +81,18 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 			>
 				<ExpandIcon />
 			</button>
-			<div
-				style={{
-					position: 'relative',
-					overflow: 'scroll',
-					gridColumn: '1 / 7',
-				}}
-			>
-				<button onClick={selectAud}>select</button>
-				{availableDevices.map((device: any) => (
-					<>
-						<br />
-						{device.label}
-					</>
-				))}
+			<div className={cn.track}>
+				<SoundMeter level={0} />
+				<div>
+					<button onClick={selectAud}>select</button>
+					<button onClick={selectAud}>record</button>
+					{availableDevices.map((device: any) => (
+						<>
+							<br />
+							{device.label}
+						</>
+					))}
+				</div>
 			</div>
 		</div>
 	);

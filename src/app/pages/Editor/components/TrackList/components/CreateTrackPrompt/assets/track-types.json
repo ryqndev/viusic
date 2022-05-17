@@ -56,6 +56,11 @@
             "label": "Xylophone",
             "value": "xylophone",
             "description": "Xylophone"
+        },
+        {
+            "label": "Bell",
+            "value": "bell",
+            "description": "In Memoriam"
         }
     ]
 }, {

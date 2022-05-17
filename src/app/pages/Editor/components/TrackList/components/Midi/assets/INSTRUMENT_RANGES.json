@@ -8,6 +8,10 @@
         "hi": "d#5",
         "range": 40
     },
+    "bell": {
+        "hi": "c8",
+        "range": 88
+    },
     "cello": {
         "hi": "c8",
         "range": 48

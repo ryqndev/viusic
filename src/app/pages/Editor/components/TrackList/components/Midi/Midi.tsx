@@ -12,7 +12,7 @@ import useTracks from '../../../../controllers/useTracks';
 import * as Tone from 'tone';
 import cn from './Midi.module.scss';
 import { isArray } from 'tone';
-import SoundMeter from './components/SoundMeter';
+import SoundMeter from '../SoundMeter';
 import NoninteractableNoteSequencer from './components/NoninteractableNoteSequencer';
 
 const Midi = ({
@@ -46,13 +46,11 @@ const Midi = ({
 		synth.connect(meter);
 
 		const soundCheck = setInterval(() => {
-			// console.log(meter.getValue());
-			// console.log(synth.get().volume);
 			const outputDecibels = meter.getValue();
 			if (isArray(outputDecibels) || !isFinite(outputDecibels))
 				setOutputLevel(0);
-			else setOutputLevel(outputDecibels < 0.01 ? 0 : outputDecibels);
-		}, 50);
+			else setOutputLevel(outputDecibels < 0.005 ? 0 : outputDecibels);
+		}, 100);
 		return () => clearInterval(soundCheck);
 	}, [synth]);
 
