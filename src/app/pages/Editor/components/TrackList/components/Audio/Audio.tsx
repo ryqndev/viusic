@@ -24,7 +24,8 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 			.enumerateDevices()
 			.then((devices: any) => {
 				setAvailableDevices(
-					devices.filter((dev: any) => dev.kind === 'audioinput')
+					devices
+					// devices.filter((dev: any) => dev.kind === 'audioinput')
 				);
 			})
 			.catch(console.error);
@@ -86,6 +87,7 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 				<div>
 					<button onClick={selectAud}>select</button>
 					<button onClick={selectAud}>record</button>
+					{JSON.stringify(availableDevices)}
 					{availableDevices.map((device: any) => (
 						<>
 							<br />

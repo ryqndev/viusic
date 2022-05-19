@@ -14,6 +14,7 @@ import cn from './Midi.module.scss';
 import { isArray } from 'tone';
 import SoundMeter from '../SoundMeter';
 import NoninteractableNoteSequencer from './components/NoninteractableNoteSequencer';
+import { ViewPositionType } from '../../../../Editor.types';
 
 const Midi = ({
 	setCurrent,
@@ -35,10 +36,10 @@ const Midi = ({
 
 	const [expanded, setExpanded] = useState(false);
 
-	useEffect(() => {
-		if (!trackRef?.current || track.id === viewPosition[1]) return;
-		trackRef.current.scrollLeft = viewPosition[0];
-	}, [viewPosition, track.id]);
+	// useEffect(() => {
+	// 	if (!trackRef?.current || track.id === viewPosition[1]) return;
+	// 	trackRef.current.scrollLeft = viewPosition[0];
+	// }, [viewPosition, track.id]);
 
 	useEffect(() => {
 		const meter = new Tone.Meter();
@@ -96,11 +97,12 @@ const Midi = ({
 						className={cn.map}
 						ref={trackRef}
 						onWheel={(e: WheelEvent<HTMLDivElement>) => {
-							setViewPosition((prev: number) => {
-								const newVPos = prev + e.deltaX;
-								if (newVPos <= 0) return 0;
+							setViewPosition((prev: ViewPositionType) => {
+								const newVPos = prev.x + e.deltaX;
+								if (newVPos <= 0)
+									return { x: 0, zoom: prev.zoom };
 								// TODO: add max horizontal scrolling
-								return newVPos;
+								return { x: newVPos, zoom: prev.zoom };
 							});
 						}}
 					>
@@ -121,11 +123,11 @@ const Midi = ({
 						className={cn.map}
 						ref={trackRef}
 						onWheel={(e: WheelEvent<HTMLDivElement>) => {
-							setViewPosition((prev: number) => {
-								const newVPos = prev + e.deltaX;
-								if (newVPos <= 0) return 0;
-								// TODO: add max horizontal scrolling
-								return newVPos;
+							setViewPosition((prev: ViewPositionType) => {
+								const newVPos = prev.x + e.deltaX;
+								if (newVPos <= 0)
+									return { x: 0, zoom: prev.zoom };
+								return { x: newVPos, zoom: prev.zoom };
 							});
 						}}
 					>

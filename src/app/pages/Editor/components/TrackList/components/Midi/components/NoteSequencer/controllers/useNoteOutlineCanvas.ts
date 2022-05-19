@@ -62,7 +62,7 @@ const useNoteOutlineCanvas = (notes: any, range: number, viewPosition: number, K
         ctx.lineTo(canvas.width, canvas.height);
         ctx.stroke();
 
-    }, [notes, range, drawNote, viewPosition]);
+    }, [notes, range, drawNote, viewPosition, KEY_HEIGHT, MEASURE_WIDTH]);
 
     useEffect(() => {
         const canvas = canvasRef.current as HTMLCanvasElement | null;

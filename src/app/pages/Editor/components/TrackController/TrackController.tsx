@@ -23,7 +23,7 @@ const TrackController = ({
 					)}
 				</button>
 			</div>
-		</div>
+		</div>		
 	);
 };
 

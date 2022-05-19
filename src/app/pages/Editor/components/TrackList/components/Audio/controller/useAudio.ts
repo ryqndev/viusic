@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import useTracks from '../../../../../controllers/useTracks';
 
 const useAudio = (track: any) => {
-    // const
     const [volume, setVolume] = useState<number>(track.baseVolume / 100 * 21 - 20);
     const { editTrack } = useTracks();
 

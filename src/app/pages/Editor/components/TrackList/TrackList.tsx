@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import type { ReactElement } from 'react';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { RecordData } from '../../../../controllers/records.types';
 import { Track } from '../../../../controllers/tracks.types';
 import { Midi, Audio } from './components';
 import cn from './TrackList.module.scss';
 import CreateTrackPrompt from './components/CreateTrackPrompt';
+import { ViewPositionType } from '../../Editor.types';
 
 interface TrackListProps {
 	showCreateTrackPrompt: boolean;
@@ -13,6 +14,8 @@ interface TrackListProps {
 	project: RecordData;
 	current: Track | null;
 	setCurrent: (track: Track | null) => void;
+	viewPosition: ViewPositionType;
+	setViewPosition: (position: any) => void;
 }
 
 const TrackList = ({
@@ -21,9 +24,9 @@ const TrackList = ({
 	showCreateTrackPrompt,
 	setCurrent,
 	setShowCreateTrackPrompt,
+	viewPosition,
+	setViewPosition
 }: TrackListProps): ReactElement => {
-	const [viewPosition, setViewPosition] = useState(0);
-
 	return (
 		<div className={cn.container}>
 			{project.tracks.map(track => (
@@ -54,7 +57,7 @@ const TrackList = ({
 };
 
 interface TrackItemProps extends Track {
-	viewPosition: any;
+	viewPosition: ViewPositionType;
 	setViewPosition: (newViewPosition: any) => void;
 	selected: boolean;
 	recordid: string;

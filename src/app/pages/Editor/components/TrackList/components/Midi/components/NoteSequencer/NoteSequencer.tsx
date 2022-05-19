@@ -3,12 +3,13 @@ import useNoteOutlineCanvas from './controllers/useNoteOutlineCanvas';
 import useRCanvas from './controllers/useRCanvas';
 import useMouseActions from './controllers/useMouseActions';
 import cn from './NoteSequencer.module.scss';
+import { ViewPositionType } from '../../../../../../Editor.types';
 
 interface NoteSequencerProps {
 	hi: string;
 	range: number;
 	notes: any[];
-	viewPosition: number;
+	viewPosition: ViewPositionType;
 	setNotes: (notes: any) => void;
 	playNote: (note: string) => void;
 	keyHeight?: number;
@@ -28,21 +29,32 @@ const NoteSequencer = ({
 	keyHeight = KEY_HEIGHT,
 	measureWidth = MEASURE_WIDTH,
 }: NoteSequencerProps): ReactElement => {
-	
-	const bgCanvasRef = useNoteOutlineCanvas(notes, range, viewPosition, keyHeight, measureWidth);
-	const userCanvasRef = useRCanvas(notes, range, viewPosition, keyHeight, measureWidth);
+	const bgCanvasRef = useNoteOutlineCanvas(
+		notes,
+		range,
+		viewPosition.x,
+		keyHeight,
+		measureWidth * viewPosition.zoom
+	);
+	const userCanvasRef = useRCanvas(
+		notes,
+		range,
+		viewPosition.x,
+		keyHeight,
+		measureWidth * viewPosition.zoom
+	);
 	const { showContextMenu, leftClick, rightClick } = useMouseActions(
 		hi,
 		range,
 		notes,
 		setNotes,
 		playNote,
-		viewPosition,
+		viewPosition.x
 	);
 
 	return (
 		<>
-			<div className={cn.container} >
+			<div className={cn.container}>
 				<canvas id={cn.background} ref={bgCanvasRef}>
 					Your browser does not support the canvas element. Please use
 					the latest version of Chrome.
@@ -69,13 +81,29 @@ const NoteSequencer = ({
 					>
 						Split cell into 3 (3)
 					</button>
-					<button 
+					<button
 						onClick={() => showContextMenu.generateSubdivision(4)}
 					>
 						Split cell into 4 (4)
 					</button>
-					<button onClick={() => {showContextMenu.changeNoteLength((prev: any) => prev / 2)}}>halve</button>
-					<button onClick={() => {showContextMenu.changeNoteLength((prev: any) => prev * 2)}}>double</button>
+					<button
+						onClick={() => {
+							showContextMenu.changeNoteLength(
+								(prev: any) => prev / 2
+							);
+						}}
+					>
+						halve
+					</button>
+					<button
+						onClick={() => {
+							showContextMenu.changeNoteLength(
+								(prev: any) => prev * 2
+							);
+						}}
+					>
+						double
+					</button>
 					{/* {showContextMenu.value} */}
 					{/* <input
 						type='text'

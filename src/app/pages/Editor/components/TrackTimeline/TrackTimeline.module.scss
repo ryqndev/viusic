@@ -1,0 +1,12 @@
+.container {
+    position: sticky;
+    height: 60px;
+    width: calc(100% - 40px);
+    margin: 20px auto 10px;
+    background-color: #222;
+    // border-radius: 30px;
+    top: 20px;
+    z-index: 600;
+    cursor: pointer;
+}
+

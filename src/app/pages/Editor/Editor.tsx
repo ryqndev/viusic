@@ -4,14 +4,18 @@ import {
 	TrackController,
 	TrackDetails,
 	TrackList,
+	TrackTimeline,
 	ProjectOverview,
 } from './components';
 import useEditor from './controllers/useEditor';
 import usePlayback from './controllers/usePlayback';
 import ProjectContext from './controllers/ProjectContext';
+import { ViewPositionType } from './Editor.types';
 import cn from './Editor.module.scss';
+import TrackEditor from './components/TrackList/components/Midi/components/TrackEditor';
 
 const Editor = () => {
+
 	const {
 		project,
 		metadata,
@@ -29,16 +33,32 @@ const Editor = () => {
 				<ProjectOverview
 					setShowCreateTrackPrompt={setShowCreateTrackPrompt}
 				/>
-				<div className={cn.centerfold}>
+				<TrackEditor
+					className={cn.centerfold}
+					project={project}
+					current={current}
+					setCurrent={setCurrent}
+					showCreateTrackPrompt={showCreateTrackPrompt}
+					setShowCreateTrackPrompt={setShowCreateTrackPrompt}
+					isPlaying={isPlaying}
+					play={play}
+				/>
+				{/* <div className={cn.centerfold}>
+					<TrackTimeline
+						viewPosition={viewPosition}
+						setViewPosition={setViewPosition}
+					/>
 					<TrackList
 						project={project}
 						current={current}
 						setCurrent={setCurrent}
 						showCreateTrackPrompt={showCreateTrackPrompt}
 						setShowCreateTrackPrompt={setShowCreateTrackPrompt}
+						viewPosition={viewPosition}
+						setViewPosition={setViewPosition}
 					/>
 					<TrackController isPlaying={isPlaying} play={play} />
-				</div>
+				</div> */}
 				<TrackDetails current={current} setCurrent={setCurrent} />
 			</div>
 		</ProjectContext.Provider>

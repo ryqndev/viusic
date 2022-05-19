@@ -1,4 +1,5 @@
 import useTracks from '../../controllers/useTracks';
+import { memo } from 'react';
 import { ReactComponent as HeadsetIcon } from '../../../../../assets/icons/headset.svg';
 import { ReactComponent as HeadsetOffIcon } from '../../../../../assets/icons/headset_off.svg';
 import cn from './MonitorButton.module.scss';
@@ -34,4 +35,4 @@ const MonitorButton = ({
 	);
 };
 
-export default MonitorButton;
+export default memo(MonitorButton);

@@ -40,7 +40,6 @@ const useSound = (track: useSoundProps, transportNotation: any) => {
     }, [volume, synth, track.id, track.recordid, editTrack]);
 
     useEffect(() => {
-        console.log(synth)
         setPart(new Part((time, note) => {
             synth.triggerAttackRelease(
                 note[0],
