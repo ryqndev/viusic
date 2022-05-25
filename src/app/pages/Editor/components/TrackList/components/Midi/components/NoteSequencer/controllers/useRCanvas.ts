@@ -25,7 +25,7 @@ const useRCanvas = (notes: any, range: number, viewPosition: number, KEY_HEIGHT:
     }, []);
 
     const draw = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
-        canvas.height = range * KEY_HEIGHT + 1;
+        canvas.height = range * KEY_HEIGHT + 20;
         canvas.width = canvas.getBoundingClientRect().width;
 
         let offset = 0.5 - viewPosition;
@@ -44,7 +44,7 @@ const useRCanvas = (notes: any, range: number, viewPosition: number, KEY_HEIGHT:
                     ctx,
                     note,
                     measure * MEASURE_WIDTH + offset,
-                    key * KEY_HEIGHT + 0.5,
+                    key * KEY_HEIGHT + 0.5 + 18,
                     MEASURE_WIDTH,
                     KEY_HEIGHT
                 );

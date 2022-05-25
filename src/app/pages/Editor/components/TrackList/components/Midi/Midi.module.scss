@@ -86,6 +86,8 @@
 
     &.expanded {
         // height: min-content;
+        min-height: 0px;
+
     }
 
     &>.track {

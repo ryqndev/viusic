@@ -23,41 +23,49 @@ const useNoteOutlineCanvas = (notes: any, range: number, viewPosition: number, K
 
     const draw = useCallback((canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
         let offset = 0.5 - viewPosition;
-        canvas.height = range * KEY_HEIGHT + 1;
+        canvas.height = range * KEY_HEIGHT + 20;
         canvas.width = canvas.getBoundingClientRect().width;
-
-        ctx.strokeStyle = '#333';
-        ctx.lineWidth = 1;
 
         const lo = Math.floor(viewPosition / MEASURE_WIDTH);
         const hi = lo + Math.ceil(canvas.width / MEASURE_WIDTH) + 1;
+
+        ctx.fillStyle = '#FFD700';
+        ctx.lineWidth = 0.5;
+
 
         for (let key = 0; key < notes.length; key++) {
             // for (let measure = 0; measure < notes[key].length; measure++) {
             for (let measure = lo; measure < hi; measure++) {
                 let note: Array<any> | number = notes[key][measure];
+                ctx.font = '18px Poppins';
+                ctx.lineWidth = 0.5;
+                ctx.fillText((measure + 1).toString(), measure * MEASURE_WIDTH + offset + 3, 14);
                 ctx.strokeStyle = '#333';
+
                 drawNote(
                     ctx,
                     note,
                     measure * MEASURE_WIDTH + offset,
-                    key * KEY_HEIGHT + 0.5,
+                    key * KEY_HEIGHT + 18.5,
                     MEASURE_WIDTH,
                     KEY_HEIGHT
                 );
-                // measure start signifiers 
-                ctx.strokeStyle = '#FFD700';
+
+
+                // measure start
+                ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.moveTo(measure * MEASURE_WIDTH + offset, key * KEY_HEIGHT + 0.5);
-                ctx.lineTo(measure * MEASURE_WIDTH + offset, key * KEY_HEIGHT + 0.5 + MEASURE_WIDTH);
+                ctx.moveTo(measure * MEASURE_WIDTH + offset, 18);
+                ctx.lineTo(measure * MEASURE_WIDTH + offset, canvas.height);
                 ctx.stroke();
             }
         }
         // Stylistic decision
         ctx.strokeStyle = '#FFD700';
+        ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(canvas.width, 0);
+        ctx.moveTo(0, 18);
+        ctx.lineTo(canvas.width, 18);
         ctx.moveTo(0, canvas.height);
         ctx.lineTo(canvas.width, canvas.height);
         ctx.stroke();

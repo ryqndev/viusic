@@ -1,4 +1,4 @@
-import type { ReactElement, WheelEvent } from 'react';
+import type { ReactElement } from 'react';
 import { ViewPositionType } from '../../Editor.types';
 import cn from './TrackTimeline.module.scss';
 
@@ -14,18 +14,18 @@ const TrackTimeline = ({
 	return (
 		<div
 			className={cn.container}
-			onWheel={(e: WheelEvent<HTMLDivElement>) => {
-				e.preventDefault();
-				setViewPosition((prev: ViewPositionType) => {
-					const newVPos = prev.x + e.deltaX;
-					const newZoom = prev.zoom + e.deltaY / 100;
+			// onWheel={(e: WheelEvent<HTMLDivElement>) => {
+			// 	e.preventDefault();
+			// 	setViewPosition((prev: ViewPositionType) => {
+			// 		const newVPos = prev.x + e.deltaX;
+			// 		const newZoom = prev.zoom + e.deltaY / 100;
 
-					return { 
-						x: newVPos <= 0 ? 0 : newVPos, 
-						zoom: (newZoom > 0.5 && newZoom < 10) ? newZoom : prev.zoom 
-					};
-				});
-			}}
+			// 		return { 
+			// 			x: newVPos <= 0 ? 0 : newVPos, 
+			// 			zoom: (newZoom > 0.5 && newZoom < 10) ? newZoom : prev.zoom 
+			// 		};
+			// 	});
+			// }}
 		>
 			{JSON.stringify(viewPosition)}
 			<div></div>

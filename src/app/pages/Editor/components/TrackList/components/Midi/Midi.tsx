@@ -92,12 +92,15 @@ const Midi = ({
 			</button>
 			{expanded ? (
 				<div className={cn.track}>
+					<div style={{paddingTop: '17px'}}>
 					<KeyboardReference hi={data.hi} range={data.range} />
+					</div>
 					<div
 						className={cn.map}
 						ref={trackRef}
 						onWheel={(e: WheelEvent<HTMLDivElement>) => {
 							setViewPosition((prev: ViewPositionType) => {
+								if(e.deltaX === 0) return prev;
 								const newVPos = prev.x + e.deltaX;
 								if (newVPos <= 0)
 									return { x: 0, zoom: prev.zoom };

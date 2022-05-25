@@ -1,10 +1,9 @@
 import TrackController from '../../../../../TrackController';
 import TrackTimeline from '../../../../../TrackTimeline';
 import TrackList from '../../../../TrackList';
-import cn from './TrackEditor.module.scss';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import type { ViewPositionType } from '../../../../../../Editor.types';
-
+import cn from './TrackEditor.module.scss';
 interface TrackEditorProps {
 	className?: string;
 	project: any;
@@ -50,4 +49,4 @@ const TrackEditor = ({
 	);
 };
 
-export default TrackEditor;
+export default memo(TrackEditor);

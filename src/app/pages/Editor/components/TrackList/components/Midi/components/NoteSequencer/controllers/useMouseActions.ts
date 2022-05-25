@@ -1,5 +1,4 @@
 import { useState, MouseEvent, useEffect } from 'react';
-import { Time } from 'tone/build/esm/core/type/Units';
 
 const NOTES = ['b', 'a#', 'a', 'g#', 'g', 'f#', 'f', 'e', 'd#', 'd', 'c#', 'c'];
 const KEY_HEIGHT = 16;
@@ -73,7 +72,7 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
     ) => {
         // click [x,y] to note [i,j]
         let j = Math.floor((event.nativeEvent.offsetX + viewPosition) / MEASURE_WIDTH),
-            i = Math.floor(event.nativeEvent.offsetY / KEY_HEIGHT);
+            i = Math.floor((event.nativeEvent.offsetY - 20) / KEY_HEIGHT);
 
         // out of bounds somehow?
         if (i >= prevNotes.length || j >= prevNotes[i].length) return prevNotes;
@@ -110,6 +109,7 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
     const leftClick = (event: MouseEvent) => {
         if (showContextMenu) return setShowContextMenu(null);
         // save current state in track db
+        console.log(Math.floor((event.nativeEvent.offsetY - 20) / KEY_HEIGHT))
         let i = Math.floor(event.nativeEvent.offsetY / KEY_HEIGHT);
         let octave = parseInt(hi.replace(/\D/g, ''));
         let idx = NOTES.indexOf(hi.replace(/[0-9]/g, '')) + i;
