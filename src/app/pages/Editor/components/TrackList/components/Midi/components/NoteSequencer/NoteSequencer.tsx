@@ -49,6 +49,8 @@ const NoteSequencer = ({
 		notes,
 		setNotes,
 		playNote,
+		keyHeight,
+		measureWidth,
 		viewPosition.x
 	);
 

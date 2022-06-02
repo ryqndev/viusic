@@ -58,7 +58,7 @@ const Midi = ({
 	return (
 		<div
 			className={clsx(cn.container, expanded && cn.expanded)}
-			onClick={() => setCurrent(track)}
+			onClick={() => setCurrent(track.id)}
 		>
 			<h2>{track.label}</h2>
 			<h2 className={cn.instrument}>[{track.instrument}]</h2>

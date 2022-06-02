@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import type { MouseEvent, ReactElement } from 'react';
 import { ViewPositionType } from '../../Editor.types';
 import cn from './TrackTimeline.module.scss';
 
@@ -11,6 +11,11 @@ const TrackTimeline = ({
 	viewPosition,
 	setViewPosition,
 }: TrackTimelineProps): ReactElement => {
+	const move = (event: MouseEvent) => {
+		if(event.buttons !== 1) return;
+		// console.log(event.nativeEvent.offsetX, (event.target as HTMLDivElement).clientWidth);
+	}
+
 	return (
 		<div
 			className={cn.container}
@@ -26,6 +31,7 @@ const TrackTimeline = ({
 			// 		};
 			// 	});
 			// }}
+			onMouseMove={move}
 		>
 			{JSON.stringify(viewPosition)}
 			<div></div>

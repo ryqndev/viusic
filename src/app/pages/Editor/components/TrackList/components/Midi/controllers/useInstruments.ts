@@ -25,6 +25,7 @@ const useInstruments = (track: UseInstrumentsProps) => {
         ...track,
         trackid: track.id,
         sustain: track.sustain ?? 1.5,
+        
     });
 
     const editTrackData = (data: any) => {

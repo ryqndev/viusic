@@ -43,6 +43,7 @@ const TrackEditor = ({
 				setShowCreateTrackPrompt={setShowCreateTrackPrompt}
 				viewPosition={viewPosition}
 				setViewPosition={setViewPosition}
+				play={play}
 			/>
 			<TrackController isPlaying={isPlaying} play={play} />
 		</div>

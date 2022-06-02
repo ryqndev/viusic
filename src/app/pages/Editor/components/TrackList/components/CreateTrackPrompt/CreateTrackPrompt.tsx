@@ -13,7 +13,7 @@ import cn from './CreateTrackPrompt.module.scss';
 interface CreateTrackPromptProps {
 	recordid: string;
 	showCreateTrackPrompt: boolean;
-	setCurrent: (track: Track | null) => void;
+	setCurrent: (trackid: null | string) => void;
 	setShowCreateTrackPrompt: (show: boolean) => void;
 }
 
@@ -36,7 +36,7 @@ const CreateTrackPrompt = ({
 			selected.options[soundType].value as Instrument,
 			selected.type as TrackType
 		).then((idx: string) => {
-			getTrack(recordid, idx).then(setCurrent);
+			getTrack(recordid, idx).then(() => setCurrent(idx));
 			setShowCreateTrackPrompt(false);
 		});
 	};

@@ -12,10 +12,11 @@ interface TrackListProps {
 	showCreateTrackPrompt: boolean;
 	setShowCreateTrackPrompt: (prev: boolean) => void;
 	project: RecordData;
-	current: Track | null;
-	setCurrent: (track: Track | null) => void;
+	current: null | string;
+	setCurrent: (trackid: null | string) => void;
 	viewPosition: ViewPositionType;
 	setViewPosition: (position: any) => void;
+	play: () => void;
 }
 
 const TrackList = ({
@@ -25,7 +26,8 @@ const TrackList = ({
 	setCurrent,
 	setShowCreateTrackPrompt,
 	viewPosition,
-	setViewPosition
+	setViewPosition,
+	play,
 }: TrackListProps): ReactElement => {
 	return (
 		<div className={cn.container}>
@@ -34,18 +36,27 @@ const TrackList = ({
 					viewPosition={viewPosition}
 					setViewPosition={setViewPosition}
 					key={track.id}
-					selected={current?.id === project.id}
+					selected={current === project.id}
 					recordid={project.id}
 					setCurrent={setCurrent}
 					{...track}
 				/>
 			))}
+			{project.tracks.length === 0 && (
+				<div className={cn.empty}>
+					Hey! Looks like you don't have any tracks yet. Let's get
+					started by adding a track by either clicking the [+ Add
+					Track] button below or the [+] button on the tracklist on
+					the left.
+				</div>
+			)}
 			<button
 				className={clsx(cn.new, cn.track)}
 				onClick={() => setShowCreateTrackPrompt(true)}
 			>
 				<div>Add Track [ + ]</div>
 			</button>
+
 			<CreateTrackPrompt
 				recordid={project.id}
 				setCurrent={setCurrent}
@@ -61,7 +72,7 @@ interface TrackItemProps extends Track {
 	setViewPosition: (newViewPosition: any) => void;
 	selected: boolean;
 	recordid: string;
-	setCurrent: (track: Track | null) => void;
+	setCurrent: (track: null | string) => void;
 }
 
 const TrackItem = memo((props: TrackItemProps): ReactElement | null => {

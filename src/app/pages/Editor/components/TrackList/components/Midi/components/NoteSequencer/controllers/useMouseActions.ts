@@ -1,8 +1,6 @@
 import { useState, MouseEvent, useEffect } from 'react';
 
 const NOTES = ['b', 'a#', 'a', 'g#', 'g', 'f#', 'f', 'e', 'd#', 'd', 'c#', 'c'];
-const KEY_HEIGHT = 16;
-const MEASURE_WIDTH = 360;
 
 interface ContextMenuProps {
     x: number;
@@ -12,7 +10,16 @@ interface ContextMenuProps {
     generateSubdivision: (subdivision: number) => void;
 }
 
-const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, playNote: (note: string) => void, viewPosition: number) => {
+const useMouseActions = (
+    hi: string,
+    range: number,
+    notes: any,
+    setNotes: any,
+    playNote: (note: string) => void,
+    keyHeight: number,
+    measureWidth: number,
+    viewPosition: number,
+) => {
     const [showContextMenu, setShowContextMenu] = useState<null | ContextMenuProps>(null);
 
     useEffect(() => {
@@ -54,10 +61,10 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
     const rightClick = (event: MouseEvent) => {
         event.preventDefault();
         getMappingLocationAndUse(notes, event, (val) => {
-            setShowContextMenu({ 
-                x: event.clientX, 
-                y: event.clientY, 
-                value: val, 
+            setShowContextMenu({
+                x: event.clientX,
+                y: event.clientY,
+                value: val,
                 changeNoteLength: changeNoteLength(event),
                 generateSubdivision: generateSubdivision(event),
             });
@@ -71,15 +78,12 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
         action: (currentValue: number) => Array<any> | number
     ) => {
         // click [x,y] to note [i,j]
-        let j = Math.floor((event.nativeEvent.offsetX + viewPosition) / MEASURE_WIDTH),
-            i = Math.floor((event.nativeEvent.offsetY - 20) / KEY_HEIGHT);
-
-        // out of bounds somehow?
-        if (i >= prevNotes.length || j >= prevNotes[i].length) return prevNotes;
+        let j = Math.floor((event.nativeEvent.offsetX + viewPosition) / measureWidth),
+            i = Math.floor((event.nativeEvent.offsetY - 20) / keyHeight);
+        if (i < 0 || j < 0 || i >= prevNotes.length || j >= prevNotes[i].length) return prevNotes;
 
         const newNotes = [...prevNotes];
-
-        getMapping((event.nativeEvent.offsetX + viewPosition) % MEASURE_WIDTH, MEASURE_WIDTH, newNotes[i], j, action);
+        getMapping((event.nativeEvent.offsetX + viewPosition) % measureWidth, measureWidth, newNotes[i], j, action);
 
         return newNotes;
     }
@@ -91,6 +95,7 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
         noteIdx: number,
         action: (currentValue: number) => Array<any> | number
     ) => {
+        if(noteIdx < 0) return;
         if (!isNaN(notes[noteIdx])) {
             notes[noteIdx] = action(notes[noteIdx]);
             return;
@@ -109,11 +114,9 @@ const useMouseActions = (hi: string, range: number, notes: any, setNotes: any, p
     const leftClick = (event: MouseEvent) => {
         if (showContextMenu) return setShowContextMenu(null);
         // save current state in track db
-        console.log(Math.floor((event.nativeEvent.offsetY - 20) / KEY_HEIGHT))
-        let i = Math.floor(event.nativeEvent.offsetY / KEY_HEIGHT);
+        let i = Math.floor((event.nativeEvent.offsetY - 20) / keyHeight);
         let octave = parseInt(hi.replace(/\D/g, ''));
         let idx = NOTES.indexOf(hi.replace(/[0-9]/g, '')) + i;
-
         const clicked = NOTES[idx % 12] + Math.ceil(octave - idx / 12);
 
         setNotes((prevNotes: any) =>

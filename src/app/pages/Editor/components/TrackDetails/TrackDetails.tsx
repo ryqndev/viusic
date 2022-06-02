@@ -10,25 +10,32 @@ import useTracks from '../../controllers/useTracks';
 import ProjectContext from '../../controllers/ProjectContext';
 
 interface TrackDetailsProps {
-	current: Track | null;
-	setCurrent: (track: Track | null) => void;
+	current: null | string
+	setCurrent: (track: null | string) => void;
 }
 
 const TrackDetails = ({
 	current,
 	setCurrent,
 }: TrackDetailsProps): ReactElement => {
+	const [details, setDetails] = useState<null | any>(null);
 	const [expanded, setExpanded] = useState(true);
 	const project = useContext(ProjectContext);
-	const { deleteTrack, editTrack } = useTracks();
+	const { deleteTrack, editTrack, getTrack } = useTracks();
 	const labelRef = useRef<HTMLInputElement>(null);
 	const [editMode, setEditMode] = useState<boolean>(false);
+
+	useEffect(() => {
+		if(!current || !project) return;
+		
+		getTrack(project.id, current).then(setDetails);
+	}, [current, project, getTrack]);
 
 	useEffect(() => {
 		setEditMode(false);
 	}, [current]);
 
-	if (!current || !project)
+	if (!details || !project)
 		return (
 			<div className={clsx(cn.container, expanded && cn.expanded)}>
 				<button
@@ -46,9 +53,10 @@ const TrackDetails = ({
 		);
 
 	const toggleEditModeOrUpdate = () => {
+		if(!current) return;
 		const label = labelRef?.current?.textContent ?? '';
-		if (editMode && label !== current?.label) {
-			editTrack(project.id, current.id, { label: label });
+		if (editMode && label !== details?.label) {
+			editTrack(project.id, current, { label: label });
 		}
 		setEditMode(prev => !prev);
 	};
@@ -64,11 +72,11 @@ const TrackDetails = ({
 			showCancelButton: true,
 		}).then(result => {
 			if (result.isConfirmed) {
-				deleteTrack(project.id, current.id);
+				deleteTrack(project.id, current);
 				setCurrent(null);
 				Swal.fire({
 					icon: 'success',
-					text: `[${current.label}] track deleted!`,
+					text: `[${current}] track deleted!`,
 				});
 			}
 		});
@@ -91,34 +99,34 @@ const TrackDetails = ({
 					contentEditable={editMode}
 					onKeyDown={(e) => e.stopPropagation()}
 				>
-					{current.label}
+					{details.label}
 				</h2>
 				<p>
-					<span>Type:</span> {current.type}
+					<span>Type:</span> {details.type}
 				</p>
 				<p>
-					<span>Instrument:</span> {current.instrument}
+					<span>Instrument:</span> {details.instrument}
 				</p>
 			</div>
 			<hr />
 			<div className={cn.details}>
 				<p>
-					<span>Volume:</span> {current.baseVolume}
+					<span>Volume:</span> {details.baseVolume}
 				</p>
 				<p>
-					<span>Muted:</span> {current.muted.toString()}
+					<span>Muted:</span> {details.muted.toString()}
 				</p>
 				<p>
-					<span>Monitored:</span> {current.monitored.toString()}
+					<span>Monitored:</span> {details.monitored.toString()}
 				</p>
 				<p>
-					<span>Length:</span> {current.length}
+					<span>Length:</span> {details.length}
 				</p>
 				<p>
-					<span>Repeat:</span> {JSON.stringify(current.repeat)}
+					<span>Repeat:</span> {JSON.stringify(details.repeat)}
 				</p>
 				<p>
-					<span>Sustain:</span> {JSON.stringify(current.sustain)}
+					<span>Sustain:</span> {JSON.stringify(details.sustain)}
 				</p>
 			</div>
 			<hr />
@@ -133,7 +141,7 @@ const TrackDetails = ({
 				</button>
 			</div>
 			<hr />
-			<p className={cn.id}>{current.id}</p>
+			<p className={cn.id}>{details.id}</p>
 		</div>
 	);
 };

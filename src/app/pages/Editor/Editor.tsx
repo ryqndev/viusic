@@ -15,7 +15,6 @@ import cn from './Editor.module.scss';
 import TrackEditor from './components/TrackList/components/Midi/components/TrackEditor';
 
 const Editor = () => {
-
 	const {
 		project,
 		metadata,
@@ -23,7 +22,7 @@ const Editor = () => {
 		setShowCreateTrackPrompt,
 	} = useEditor();
 	const { isPlaying, play } = usePlayback();
-	const [current, setCurrent] = useState<Track | null>(null);
+	const [current, setCurrent] = useState<null | string>(null);
 
 	if (!project || !metadata) return null;
 
@@ -43,22 +42,6 @@ const Editor = () => {
 					isPlaying={isPlaying}
 					play={play}
 				/>
-				{/* <div className={cn.centerfold}>
-					<TrackTimeline
-						viewPosition={viewPosition}
-						setViewPosition={setViewPosition}
-					/>
-					<TrackList
-						project={project}
-						current={current}
-						setCurrent={setCurrent}
-						showCreateTrackPrompt={showCreateTrackPrompt}
-						setShowCreateTrackPrompt={setShowCreateTrackPrompt}
-						viewPosition={viewPosition}
-						setViewPosition={setViewPosition}
-					/>
-					<TrackController isPlaying={isPlaying} play={play} />
-				</div> */}
 				<TrackDetails current={current} setCurrent={setCurrent} />
 			</div>
 		</ProjectContext.Provider>

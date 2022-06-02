@@ -17,8 +17,8 @@ const useEditor = () => {
         if(!metadata) return;
         
         Transport.timeSignature = [4, 4];
-        Master.volume.value = metadata.masterVolume ?? -2;
-        // Master.volume.value = 0;
+        // Master.volume.value = metadata.masterVolume ?? 0;
+        Master.volume.value = 0;
         Transport.bpm.value = metadata.bpm ?? 120;
     }, [metadata]);
 

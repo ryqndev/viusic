@@ -14,13 +14,13 @@ const DrumMachine = ({ setCurrent, ...props }: TrackItemProps) => {
 	});
 	const select = () => {
 		setExpanded(prev => !prev);
-		setCurrent(props);
+		setCurrent(props.id);
 	};
 
 	return (
 		<div
 			className={clsx(cn.container, expanded && cn.expanded)}
-			onClick={() => setCurrent(props)}
+			onClick={() => setCurrent(props.id)}
 		>
             <h2>{props.label}</h2>
             <h2 className={cn.instrument}>[{props.instrument}]</h2>

@@ -39,7 +39,7 @@ const useNoteOutlineCanvas = (notes: any, range: number, viewPosition: number, K
                 let note: Array<any> | number = notes[key][measure];
                 ctx.font = '18px Poppins';
                 ctx.lineWidth = 0.5;
-                ctx.fillText((measure + 1).toString(), measure * MEASURE_WIDTH + offset + 3, 14);
+                ctx.fillText((measure + 1).toString(), measure * MEASURE_WIDTH + offset - 5, 14);
                 ctx.strokeStyle = '#333';
 
                 drawNote(

@@ -25,7 +25,7 @@ html, body {
     display: grid;
     grid-auto-flow: row;
     row-gap: 2px;
-    width: min-content;
+    // width: max-content;
     padding: 2px;
     border-radius: 2px;
     box-shadow: 0 0 5px 1px #151515;

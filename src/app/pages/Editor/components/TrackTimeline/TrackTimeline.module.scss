@@ -4,9 +4,8 @@
     width: calc(100% - 40px);
     margin: 20px auto 10px;
     background-color: #222;
-    // border-radius: 30px;
-    top: 20px;
+    box-shadow: 0 0 10px 5px #111;
+    top: -10px;
     z-index: 600;
     cursor: pointer;
 }
-

@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { TrackItemProps } from '../../TrackList';
 import useAudio from './controller/useAudio';
+import useRecorder from './controller/useRecorder';
 import * as Tone from 'tone';
 import { ReactComponent as ExpandIcon } from '../../../../../../../assets/icons/expand.svg';
 import MuteButton from '../../../MuteButton';
@@ -10,26 +11,19 @@ import cn from './Audio.module.scss';
 import SoundMeter from '../SoundMeter';
 
 const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
+	const {
+		availableDevices,
+		audioURL,
+		selectInput,
+		recordInput,
+	} = useRecorder(track.id, track.recordid);
 	const [expanded, setExpanded] = useState(false);
-	const [availableDevices, setAvailableDevices] = useState([]);
-	const { volume, setVolume } = useAudio(track);
+	const { volume, setVolume } = useAudio(track, audioURL);
 
 	const select = () => {
 		setExpanded(prev => !prev);
-		setCurrent(track);
+		setCurrent(track.id);
 	};
-
-	useEffect(() => {
-		navigator.mediaDevices
-			.enumerateDevices()
-			.then((devices: any) => {
-				setAvailableDevices(
-					devices
-					// devices.filter((dev: any) => dev.kind === 'audioinput')
-				);
-			})
-			.catch(console.error);
-	}, []);
 
 	useEffect(() => {
 		const meter = new Tone.Meter();
@@ -45,12 +39,10 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 		// return () => clearInterval(soundCheck);
 	}, []);
 
-	const selectAud = () => {};
-
 	return (
 		<div
 			className={clsx(cn.container, expanded && cn.expanded)}
-			onClick={() => setCurrent(track)}
+			onClick={() => setCurrent(track.id)}
 		>
 			<h2>{track.label}</h2>
 			<h2 className={cn.instrument}>[{track.instrument}]</h2>
@@ -85,14 +77,13 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 			<div className={cn.track}>
 				<SoundMeter level={0} />
 				<div>
-					<button onClick={selectAud}>select</button>
-					<button onClick={selectAud}>record</button>
+					<button onClick={recordInput}>record</button>
 					{JSON.stringify(availableDevices)}
 					{availableDevices.map((device: any) => (
-						<>
+						<div key={device.deviceId} onClick={() => selectInput(device.deviceId)}>
 							<br />
 							{device.label}
-						</>
+						</div>
 					))}
 				</div>
 			</div>
