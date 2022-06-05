@@ -76,17 +76,17 @@ const NoteSequencer = ({
 					<button
 						onClick={() => showContextMenu.generateSubdivision(2)}
 					>
-						Split cell into 2 (2)
+						Split cell into 2 <span>[2]</span>
 					</button>
 					<button
 						onClick={() => showContextMenu.generateSubdivision(3)}
 					>
-						Split cell into 3 (3)
+						Split cell into 3 <span>[3]</span>
 					</button>
 					<button
 						onClick={() => showContextMenu.generateSubdivision(4)}
 					>
-						Split cell into 4 (4)
+						Split cell into 4 <span>[4]</span>
 					</button>
 					<button
 						onClick={() => {
@@ -95,7 +95,7 @@ const NoteSequencer = ({
 							);
 						}}
 					>
-						halve
+						Halve note length <span>[h]</span>
 					</button>
 					<button
 						onClick={() => {
@@ -104,15 +104,8 @@ const NoteSequencer = ({
 							);
 						}}
 					>
-						double
+						Double note length <span>[d]</span>
 					</button>
-					{/* {showContextMenu.value} */}
-					{/* <input
-						type='text'
-						placeholder='Change note length'
-						id='notelen'
-						// value=	 */}
-					{/* /> */}
 				</div>
 			)}
 		</>

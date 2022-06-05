@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import clsx from 'clsx';
-import { useState, memo, ReactElement } from 'react';
+import { useState, memo, ReactElement, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProjectCard, ProjectOverview } from './components';
 import { ReactComponent as ArrowRightIcon } from '../../../assets/icons/arrow_right.svg';
@@ -18,6 +18,7 @@ const Projects = (): ReactElement | null => {
 	const navigate = useNavigate();
 
 	const projects = useLiveQuery(getRecords);
+
 	if (!projects) return null;
 
 	const create = async () => {

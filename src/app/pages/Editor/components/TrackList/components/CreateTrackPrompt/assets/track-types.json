@@ -71,11 +71,6 @@
             "label": "Microphone",
             "value": "microphone",
             "description": "Use your microphone to record your voice or other environment sounds"
-        },
-        {
-            "label": "Guitar Aux",
-            "value": "guitar-aux",
-            "description": "Plug in an electric guitar and play with various amp settings"
         }
     ]
 }, {

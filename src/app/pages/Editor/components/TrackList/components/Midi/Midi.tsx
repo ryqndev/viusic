@@ -8,10 +8,8 @@ import useSound from './controllers/useSound';
 import useNotes from './controllers/useNotes';
 import useInstruments from './controllers/useInstruments';
 import type { TrackItemProps } from '../../TrackList';
-import useTracks from '../../../../controllers/useTracks';
 import * as Tone from 'tone';
 import cn from './Midi.module.scss';
-import { isArray } from 'tone';
 import SoundMeter from '../SoundMeter';
 import NoninteractableNoteSequencer from './components/NoninteractableNoteSequencer';
 import { ViewPositionType } from '../../../../Editor.types';
@@ -24,8 +22,6 @@ const Midi = ({
 }: TrackItemProps) => {
 	const [outputLevel, setOutputLevel] = useState<number>(0);
 	const { data } = useInstruments(track);
-
-	const { editTrack } = useTracks();
 
 	const trackRef = useRef<HTMLDivElement>(null);
 	const { notes, transportNotation, setNotes } = useNotes(data);
@@ -48,7 +44,7 @@ const Midi = ({
 
 		const soundCheck = setInterval(() => {
 			const outputDecibels = meter.getValue();
-			if (isArray(outputDecibels) || !isFinite(outputDecibels))
+			if (Array.isArray(outputDecibels) || !isFinite(outputDecibels))
 				setOutputLevel(0);
 			else setOutputLevel(outputDecibels < 0.005 ? 0 : outputDecibels);
 		}, 100);
@@ -92,15 +88,15 @@ const Midi = ({
 			</button>
 			{expanded ? (
 				<div className={cn.track}>
-					<div style={{paddingTop: '17px'}}>
-					<KeyboardReference hi={data.hi} range={data.range} />
+					<div style={{ paddingTop: '17px' }}>
+						<KeyboardReference hi={data.hi} range={data.range} />
 					</div>
 					<div
 						className={cn.map}
 						ref={trackRef}
 						onWheel={(e: WheelEvent<HTMLDivElement>) => {
 							setViewPosition((prev: ViewPositionType) => {
-								if(e.deltaX === 0) return prev;
+								if (e.deltaX === 0) return prev;
 								const newVPos = prev.x + e.deltaX;
 								if (newVPos <= 0)
 									return { x: 0, zoom: prev.zoom };
@@ -141,7 +137,7 @@ const Midi = ({
 							range={data.range}
 							playNote={playNote}
 							viewPosition={viewPosition}
-							keyHeight={135 / data.range}
+							keyHeight={115 / data.range}
 						/>
 					</div>
 				</div>

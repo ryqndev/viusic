@@ -25,7 +25,6 @@ html, body {
     display: grid;
     grid-auto-flow: row;
     row-gap: 2px;
-    // width: max-content;
     padding: 2px;
     border-radius: 2px;
     box-shadow: 0 0 5px 1px #151515;
@@ -33,11 +32,16 @@ html, body {
     z-index: 10;
 
     &>button {
+        width: 100%;
         background-color: #202020;
         padding: 4px;
         border: none;
         color: #aaa;
         cursor: pointer;
+
+        &>span {
+            color: gold;
+        }
 
         &:hover {
             filter: brightness(2);

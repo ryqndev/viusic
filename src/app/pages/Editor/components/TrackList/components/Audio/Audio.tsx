@@ -11,14 +11,11 @@ import cn from './Audio.module.scss';
 import SoundMeter from '../SoundMeter';
 
 const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
-	const {
-		availableDevices,
-		audioURL,
-		selectInput,
-		recordInput,
-	} = useRecorder(track.id, track.recordid);
+	const { availableDevices, audioURL, selectInput, recordInput } =
+		useRecorder(track.id, track.recordid, track.data);
 	const [expanded, setExpanded] = useState(false);
-	const { volume, setVolume } = useAudio(track, audioURL);
+	const { player, volume, setVolume } = useAudio(track, audioURL);
+	const [outputLevel, setOutputLevel] = useState(0);
 
 	const select = () => {
 		setExpanded(prev => !prev);
@@ -26,18 +23,21 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 	};
 
 	useEffect(() => {
+		if(!player) return;
+
 		const meter = new Tone.Meter();
 		meter.normalRange = true;
-		// synth.connect(meter);
 
-		// const soundCheck = setInterval(() => {
-		// 	const outputDecibels = meter.getValue();
-		// 	if (isArray(outputDecibels) || !isFinite(outputDecibels))
-		// 		setOutputLevel(0);
-		// 	else setOutputLevel(outputDecibels < 0.01 ? 0 : outputDecibels);
-		// }, 100);
-		// return () => clearInterval(soundCheck);
-	}, []);
+		player.connect(meter);
+
+		const soundCheck = setInterval(() => {
+			const outputDecibels = meter.getValue();
+			if (Array.isArray(outputDecibels) || !isFinite(outputDecibels))
+				setOutputLevel(0);
+			else setOutputLevel(outputDecibels < 0.01 ? 0 : outputDecibels);
+		}, 100);
+		return () => clearInterval(soundCheck);
+	}, [player]);
 
 	return (
 		<div
@@ -75,16 +75,26 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 				<ExpandIcon />
 			</button>
 			<div className={cn.track}>
-				<SoundMeter level={0} />
+				<SoundMeter level={outputLevel} />
 				<div>
-					<button onClick={recordInput}>record</button>
-					{JSON.stringify(availableDevices)}
-					{availableDevices.map((device: any) => (
-						<div key={device.deviceId} onClick={() => selectInput(device.deviceId)}>
-							<br />
-							{device.label}
-						</div>
-					))}
+					{expanded ? (
+						<>
+							<button onClick={recordInput}>record</button>
+							{availableDevices.map((device: any) => (
+								<div
+									key={device.deviceId}
+									onClick={() => selectInput(device.deviceId)}
+								>
+									<br />
+									{device.label}
+								</div>
+							))}
+						</>
+					) : audioURL ? (
+						<>audio</>
+					) : (
+						<h2>No Audio Recorded Yet</h2>
+					)}
 				</div>
 			</div>
 		</div>

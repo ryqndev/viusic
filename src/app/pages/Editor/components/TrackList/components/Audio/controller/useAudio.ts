@@ -27,10 +27,10 @@ const useAudio = (track: any, audioURL: null | string) => {
     }, [player]);
 
     useEffect(() => {
-        // synth.volume.value = volume;
         editTrack(track.recordid, track.id, { baseVolume: Math.round((volume + 20) / 21 * 100) });
     }, [volume, track.id, track.recordid, editTrack]);
     return {
+        player,
         volume,
         setVolume,
     }

@@ -29,6 +29,14 @@ const useMouseActions = (
                     e.preventDefault();
                     showContextMenu.generateSubdivision(parseInt(e.key));
                 }
+                else if(e.key === 'd') {
+                    e.preventDefault();
+                    showContextMenu.changeNoteLength((prev: any) => prev * 2);
+                }
+                else if(e.key === 'h') {
+                    e.preventDefault();
+                    showContextMenu.changeNoteLength((prev: any) => prev / 2);
+                }
             }
         }
         window.addEventListener('keydown', keyBindingListener);

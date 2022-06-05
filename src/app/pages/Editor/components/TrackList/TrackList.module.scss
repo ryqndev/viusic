@@ -6,6 +6,17 @@
     padding: 20px;
     background-color: #101010;
 
+    &>.empty {
+        font-family: 'Staatliches', cursive;
+        font-size: 2em;
+        text-align: center;
+        color: grey;
+        margin: 10vh 40px 3vh;
+        &>span {
+            color: gold;
+        }
+    }
+
     &>.track {
         cursor: pointer;
         background-color: #0b0b0b;

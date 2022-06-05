@@ -9,6 +9,7 @@ interface Track {
     length: number;
     repeat: [];
     notes?: any;
+    data?: Blob[];
     sustain?: number;
 }
 

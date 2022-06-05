@@ -2,14 +2,13 @@ import { useState, useEffect, useCallback } from 'react'
 import usePlayback from '../../../../../controllers/usePlayback';
 import useTracks from '../../../../../controllers/useTracks';
 
-const useRecorder = (trackid: string, recordid: string) => {
+const useRecorder = (trackid: string, recordid: string, data: Blob[] | undefined) => {
     const [recorder, setRecorder] = useState<null | MediaRecorder>(null);
-    const [audioBlobs, setAudioBlobs] = useState<Blob[]>([]);
+    const [audioBlobs, setAudioBlobs] = useState<Blob[]>(data ?? []);
     const {editTrack} = useTracks();
     const [audioURL, setAudioURL] = useState<null | string>(null);
     const [availableDevices, setAvailableDevices] = useState([]);
     const [selectedDeviceId, setSelectedDeviceId] = useState<null | string>(null);
-    const [delayTime, setDelayTime] = useState(0);
     const { play } = usePlayback();
 
     useEffect(() => {
@@ -18,9 +17,9 @@ const useRecorder = (trackid: string, recordid: string) => {
         let url = window.URL.createObjectURL(blob)
         setAudioURL(url);
 
-        // editTrack();
+        editTrack(recordid, trackid, {data: audioBlobs});
         
-    }, [audioBlobs]);
+    }, [recordid, trackid, editTrack, audioBlobs]);
 
     useEffect(() => {
         if (!recorder) return;
@@ -30,17 +29,6 @@ const useRecorder = (trackid: string, recordid: string) => {
         }
     }, [recorder]);
 
-    useEffect(() => {
-        if (!recorder) return;
-
-        // recorder.onstop = function(e) {
-        //     const blob = new Blob(audioBlobs, { 'type' : 'audio/ogg; codecs=opus' });
-        //     let url = window.URL.createObjectURL(blob)
-        //     console.log("new url: ", url, blob, audioBlobs.length);
-        //     setAudioURL(url);
-        // }
-    }, [recorder, audioBlobs]);
-
     const recordInput = useCallback(() => {
         if (!recorder) return;
 
@@ -49,7 +37,10 @@ const useRecorder = (trackid: string, recordid: string) => {
             return;
         }
 
-        if (audioURL) window.URL.revokeObjectURL(audioURL);
+        if (audioURL) {
+            window.URL.revokeObjectURL(audioURL);
+            setAudioURL(null);
+        }
         setAudioBlobs([]);
 
         recorder.start();
@@ -66,7 +57,6 @@ const useRecorder = (trackid: string, recordid: string) => {
                 deviceId: { exact: id }
             }
         }).then((stream) => {
-            console.log('selected device', id);
             setRecorder(new MediaRecorder(stream));
         }).catch(console.error);
     };
@@ -76,7 +66,6 @@ const useRecorder = (trackid: string, recordid: string) => {
             .enumerateDevices()
             .then((devices: any) => {
                 setAvailableDevices(
-                    // devices
                     devices.filter((dev: any) => dev.kind === 'audioinput' && dev.deviceId !== 'default')
                 );
             })
@@ -84,6 +73,7 @@ const useRecorder = (trackid: string, recordid: string) => {
     }, []);
 
     return {
+        setSelectedDeviceId,
         availableDevices,
         recorder,
         recordInput,

@@ -41,9 +41,9 @@ const CreateTrackPrompt = ({
 		});
 	};
 
-	useEffect(() => {
-		setSoundType(0);
-	}, [trackType]);
+	// useEffect(() => {
+	// 	setSoundType(0);
+	// }, [trackType]);
 
 	return (
 		<div
@@ -74,7 +74,10 @@ const CreateTrackPrompt = ({
 									cn.card,
 									selected.type === type && cn.selected
 								)}
-								onClick={() => setTrackType(idx)}
+								onClick={() => {
+									setSoundType(0);
+									setTrackType(idx);
+								}}
 							>
 								<h3>{label}</h3>
 								<p>{description}</p>
@@ -97,7 +100,7 @@ const CreateTrackPrompt = ({
 								onClick={() => setSoundType(idx)}
 							>
 								<h3>{label}</h3>
-								<p>{description}</p>
+								{/* <p>{description}</p> */}
 							</div>
 						)
 					)}

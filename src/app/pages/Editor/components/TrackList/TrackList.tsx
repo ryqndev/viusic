@@ -44,10 +44,8 @@ const TrackList = ({
 			))}
 			{project.tracks.length === 0 && (
 				<div className={cn.empty}>
-					Hey! Looks like you don't have any tracks yet. Let's get
-					started by adding a track by either clicking the [+ Add
-					Track] button below or the [+] button on the tracklist on
-					the left.
+					Hey! Looks like <span>you don't have any tracks yet</span>. Let's get
+					started by adding a track by clicking the button below.
 				</div>
 			)}
 			<button

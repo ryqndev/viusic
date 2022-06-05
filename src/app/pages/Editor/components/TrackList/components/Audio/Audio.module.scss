@@ -95,6 +95,13 @@
         border-radius: 2px;
         overflow: hidden;
 
+        & h2 {
+            font-family: 'Staatliches', cursive;
+            font-size: 3em;
+            color: rgb(84, 84, 84);
+            text-align: center;
+        }
+
         &>.map {
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;

@@ -2,12 +2,12 @@
     min-height: 0;
     display: grid;
     row-gap: 1px;
-    // background-color: #333;
     grid-auto-flow: rows;
-    // margin-top: 17px;
     height: calc(100% - 4px);
     border-top: 2px solid #FFD700;
     border-bottom: 2px solid #FFD700;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
 
     &>.key {
         height: 15px;
