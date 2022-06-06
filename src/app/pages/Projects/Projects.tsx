@@ -54,15 +54,20 @@ const Projects = (): ReactElement | null => {
 				<button
 					className={clsx(cn.edit, selected && cn.enabled)}
 					onClick={() => {
-						// if(selected?.id === 'sample-playing-god') {
-						// 	const id = uuidv4();
-						// 	createNewRecord({
-						// 		id: id,
-						// 	}).then(() => {
-						// 		navigate('/create/' + id);
-						// 	});
-						// }
-						selected?.id && navigate(`/create/${selected.id}`)
+						if (selected?.id === 'sample-playing-god') {
+							fetch(
+								'https://cdn.jsdelivr.net/gh/ryqndev/viusic/src/app/pages/Projects/assets/sample-playing-god.json'
+							).then(res => res.json()
+							).then(data => {
+								const id = uuidv4();
+								createNewRecord({
+									...data,
+									id: id,
+								}).then(() => {
+									navigate('/create/' + id);
+								});
+							});
+						} else selected?.id && navigate(`/create/${selected.id}`);
 					}}
 				>
 					<ArrowRightIcon />
