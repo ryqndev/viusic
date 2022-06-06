@@ -13,7 +13,7 @@ import cn from './Projects.module.scss';
 
 const Projects = (): ReactElement | null => {
 	const [selected, setSelected] = useState<RecordMetadata | null>(null);
-	const { createNewRecord, getRecords } = useRecords();
+	const { createNewRecord, copyExistingRecord, getRecords } = useRecords();
 	const navigate = useNavigate();
 
 	const projects = useLiveQuery(getRecords);
@@ -54,16 +54,22 @@ const Projects = (): ReactElement | null => {
 				<button
 					className={clsx(cn.edit, selected && cn.enabled)}
 					onClick={() => {
-						if (selected?.id === 'sample-playing-god') {
+						if (selected?.id === 'sample-playing-god' || selected?.id === 'sample-fantaisie-impromptu') {
 							fetch(
-								'https://cdn.jsdelivr.net/gh/ryqndev/viusic/src/app/pages/Projects/assets/sample-playing-god.json'
+								`https://cdn.jsdelivr.net/gh/ryqndev/viusic/src/app/pages/Projects/assets/${selected.id}.json`
 							).then(res => res.json()
 							).then(data => {
 								const id = uuidv4();
-								createNewRecord({
-									...data,
-									id: id,
-								}).then(() => {
+								copyExistingRecord(
+									{
+										...selected,
+										id: id
+									},
+									{
+										...data,
+										id: id,
+									}
+								).then(() => {
 									navigate('/create/' + id);
 								});
 							});

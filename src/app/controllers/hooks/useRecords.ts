@@ -12,6 +12,12 @@ const useRecords = () => {
             db.records.add({ id: recordMetaData.id, tracks: [] });
         });
     }, []);
+    const copyExistingRecord = useCallback((recordMetaData: RecordMetadata, recordData: RecordData) => {
+        return db.transaction('rw', db.records, db.metadata, () => {
+            db.metadata.add(recordMetaData);
+            db.records.add(recordData);
+        });
+    }, []);
 
     const updateRecord = useCallback((id: string, record: PartialProjectData) => {
         return db.transaction('rw', db.records, db.metadata, () => {
@@ -44,6 +50,7 @@ const useRecords = () => {
 
     return {
         createNewRecord,
+        copyExistingRecord,
         deleteRecord,
         editMetaData,
         updateRecord,
