@@ -5,11 +5,16 @@ import useTracks from '../../../../../controllers/useTracks';
 const useRecorder = (trackid: string, recordid: string, data: Blob[] | undefined) => {
     const [recorder, setRecorder] = useState<null | MediaRecorder>(null);
     const [audioBlobs, setAudioBlobs] = useState<Blob[]>(data ?? []);
+    const [recorderState, setRecorderState] = useState('inactive');
     const {editTrack} = useTracks();
     const [audioURL, setAudioURL] = useState<null | string>(null);
     const [availableDevices, setAvailableDevices] = useState([]);
     const [selectedDeviceId, setSelectedDeviceId] = useState<null | string>(null);
     const { play } = usePlayback();
+
+    // useEffect(() => {
+    //     console.log(audioBlobs);
+    // }, [audioBlobs]);
 
     useEffect(() => {
         if (audioBlobs.length <= 0) return;
@@ -34,6 +39,7 @@ const useRecorder = (trackid: string, recordid: string, data: Blob[] | undefined
 
         if (recorder?.state === 'recording') {
             recorder.stop();
+            setRecorderState(recorder.state);
             return;
         }
 
@@ -45,6 +51,7 @@ const useRecorder = (trackid: string, recordid: string, data: Blob[] | undefined
 
         recorder.start();
         play();
+        setRecorderState(recorder.state);
     }, [audioURL, recorder, play]);
 
     const selectInput = (id: string) => {
@@ -74,8 +81,10 @@ const useRecorder = (trackid: string, recordid: string, data: Blob[] | undefined
 
     return {
         setSelectedDeviceId,
+        selectedDeviceId,
         availableDevices,
         recorder,
+        recorderState,
         recordInput,
         selectInput,
         audioURL,

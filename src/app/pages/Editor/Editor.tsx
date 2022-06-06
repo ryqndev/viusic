@@ -25,7 +25,6 @@ const Editor = () => {
 	const [current, setCurrent] = useState<null | string>(null);
 
 	if (!project || !metadata) return null;
-
 	return (
 		<ProjectContext.Provider value={{ ...project, ...metadata }}>
 			<div className={cn.container}>

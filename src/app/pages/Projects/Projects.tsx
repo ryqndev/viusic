@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import clsx from 'clsx';
-import { useState, memo, ReactElement, useEffect } from 'react';
+import { useState, memo, ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProjectCard, ProjectOverview } from './components';
 import { ReactComponent as ArrowRightIcon } from '../../../assets/icons/arrow_right.svg';
@@ -9,7 +9,6 @@ import Swal from 'sweetalert2';
 import useRecords from '../../controllers/hooks/useRecords';
 import EXAMPLE_PROJECTS from './assets/exampleProjects';
 import { useLiveQuery } from 'dexie-react-hooks';
-import type { ProjectMetaData } from './project.types';
 import cn from './Projects.module.scss';
 
 const Projects = (): ReactElement | null => {
@@ -54,9 +53,17 @@ const Projects = (): ReactElement | null => {
 			<div className={cn.projects}>
 				<button
 					className={clsx(cn.edit, selected && cn.enabled)}
-					onClick={() =>
+					onClick={() => {
+						// if(selected?.id === 'sample-playing-god') {
+						// 	const id = uuidv4();
+						// 	createNewRecord({
+						// 		id: id,
+						// 	}).then(() => {
+						// 		navigate('/create/' + id);
+						// 	});
+						// }
 						selected?.id && navigate(`/create/${selected.id}`)
-					}
+					}}
 				>
 					<ArrowRightIcon />
 				</button>
@@ -77,13 +84,11 @@ const Projects = (): ReactElement | null => {
 				</div>
 				<h1>Examples</h1>
 				<div className={clsx(cn.list, cn.bottom)}>
-					{Object.keys(EXAMPLE_PROJECTS).map(project => (
+					{EXAMPLE_PROJECTS.map((project: RecordMetadata) => (
 						<ProjectCard
-							key={project}
-							{...EXAMPLE_PROJECTS[
-								project as keyof ProjectMetaData
-							]}
-							selected={project === selected?.id}
+							key={project.id}
+							{...project}
+							selected={project.id === selected?.id}
 							setSelected={setSelected}
 						/>
 					))}

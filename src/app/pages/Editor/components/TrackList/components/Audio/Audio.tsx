@@ -11,8 +11,14 @@ import cn from './Audio.module.scss';
 import SoundMeter from '../SoundMeter';
 
 const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
-	const { availableDevices, audioURL, selectInput, recordInput } =
-		useRecorder(track.id, track.recordid, track.data);
+	const {
+		availableDevices,
+		selectedDeviceId,
+		audioURL,
+		selectInput,
+		recorderState,
+		recordInput,
+	} = useRecorder(track.id, track.recordid, track.data);
 	const [expanded, setExpanded] = useState(false);
 	const { player, volume, setVolume } = useAudio(track, audioURL);
 	const [outputLevel, setOutputLevel] = useState(0);
@@ -23,7 +29,7 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 	};
 
 	useEffect(() => {
-		if(!player) return;
+		if (!player) return;
 
 		const meter = new Tone.Meter();
 		meter.normalRange = true;
@@ -79,7 +85,19 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 				<div>
 					{expanded ? (
 						<>
-							<button onClick={recordInput}>record</button>
+							<button 
+								onClick={recordInput}
+								disabled={!selectedDeviceId}
+							>
+								{recorderState === 'recording'
+									? 'stop'
+									: 'record'}
+							</button>
+							<br />
+							state: {recorderState}
+							<br />
+							selected device: {selectedDeviceId ?? 'none'}
+							<br />
 							{availableDevices.map((device: any) => (
 								<div
 									key={device.deviceId}
