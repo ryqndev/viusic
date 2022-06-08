@@ -74,6 +74,17 @@
         }
     ]
 }, {
+    "type": "drum-machine",
+    "label": "Drum Machine",
+    "description": "Drum Machines keep a steady beat in your music. Use this to set a rhythm.",
+    "options": [
+        {
+            "label": "Rock Kit",
+            "value": "rock",
+            "description": ""
+        }
+    ]
+}, {
     "type": "upload",
     "label": "Upload",
     "description": "Upload your own pre-made sound files as an individual track. You can still edit it with repeats and trims.",

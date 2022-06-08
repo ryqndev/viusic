@@ -7,6 +7,7 @@ import { Midi, Audio } from './components';
 import cn from './TrackList.module.scss';
 import CreateTrackPrompt from './components/CreateTrackPrompt';
 import { ViewPositionType } from '../../Editor.types';
+import DrumMachine from './components/DrumMachine';
 
 interface TrackListProps {
 	showCreateTrackPrompt: boolean;
@@ -80,7 +81,7 @@ const TrackItem = memo((props: TrackItemProps): ReactElement | null => {
 		case 'audio':
 			return <Audio {...props} />;
 		case 'drum-machine':
-			return <Midi {...props} />;
+			return <DrumMachine {...props} />;
 	}
 });
 

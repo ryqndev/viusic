@@ -41,10 +41,6 @@ const CreateTrackPrompt = ({
 		});
 	};
 
-	// useEffect(() => {
-	// 	setSoundType(0);
-	// }, [trackType]);
-
 	return (
 		<div
 			className={clsx(cn.backdrop, showCreateTrackPrompt && cn.show)}
@@ -86,7 +82,7 @@ const CreateTrackPrompt = ({
 					)}
 				</div>
 				<h2>Select Instrument Type <span>[{selected.options[soundType].label}]</span></h2>
-				<div className={cn.type}>
+				<div className={clsx(cn.type, cn.selection)}>
 					{selected.options.map(
 						({ label, value, description }, idx: number) => (
 							<div
@@ -99,7 +95,7 @@ const CreateTrackPrompt = ({
 								)}
 								onClick={() => setSoundType(idx)}
 							>
-								<h3>{label}</h3>
+								<h4>{label}</h4>
 								{/* <p>{description}</p> */}
 							</div>
 						)

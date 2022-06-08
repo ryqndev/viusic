@@ -12,10 +12,6 @@ const useRecorder = (trackid: string, recordid: string, data: Blob[] | undefined
     const [selectedDeviceId, setSelectedDeviceId] = useState<null | string>(null);
     const { play } = usePlayback();
 
-    // useEffect(() => {
-    //     console.log(audioBlobs);
-    // }, [audioBlobs]);
-
     useEffect(() => {
         if (audioBlobs.length <= 0) return;
         const blob = new Blob(audioBlobs, { 'type': 'audio/ogg; codecs=opus' });
@@ -38,6 +34,7 @@ const useRecorder = (trackid: string, recordid: string, data: Blob[] | undefined
         if (!recorder) return;
 
         if (recorder?.state === 'recording') {
+            play();
             recorder.stop();
             setRecorderState(recorder.state);
             return;
@@ -61,7 +58,8 @@ const useRecorder = (trackid: string, recordid: string, data: Blob[] | undefined
 
         navigator.mediaDevices.getUserMedia({
             audio: {
-                deviceId: { exact: id }
+                deviceId: { exact: id },
+                noiseSuppression: false,
             }
         }).then((stream) => {
             setRecorder(new MediaRecorder(stream));

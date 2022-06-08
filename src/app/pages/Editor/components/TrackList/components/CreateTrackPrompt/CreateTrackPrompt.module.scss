@@ -88,6 +88,11 @@
             column-gap: 20px;
             overflow-x: scroll;
             max-width: min-content;
+
+            &.selection {
+                column-gap: 10px;
+                // grid-template-rows: repeat(3, auto);
+            }
             
             &>.card {
                 font-family: 'Poppins';
@@ -108,6 +113,11 @@
                     font-size: 2em;
                     margin: 0;
                     line-height: 1em;
+                }
+
+                &>h4 {
+                    margin: 0;
+                    font-weight: normal;
                 }
 
                 &>p {

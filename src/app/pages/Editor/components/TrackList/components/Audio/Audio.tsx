@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { TrackItemProps } from '../../TrackList';
 import useAudio from './controller/useAudio';
 import useRecorder from './controller/useRecorder';
@@ -11,6 +11,7 @@ import cn from './Audio.module.scss';
 import SoundMeter from '../SoundMeter';
 
 const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
+	const [distortion, setDistortion] = useState(0);
 	const {
 		availableDevices,
 		selectedDeviceId,
@@ -20,7 +21,8 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 		recordInput,
 	} = useRecorder(track.id, track.recordid, track.data);
 	const [expanded, setExpanded] = useState(false);
-	const { player, volume, setVolume } = useAudio(track, audioURL);
+	const [offset, setOffset] = useState(0.2);
+	const { player, volume, setVolume } = useAudio(track, distortion, offset, audioURL);
 	const [outputLevel, setOutputLevel] = useState(0);
 
 	const select = () => {
@@ -107,6 +109,24 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 									{device.label}
 								</div>
 							))}
+							distortion: <input
+								type='range'
+								name='volume'
+								value={distortion * 20}
+								onChange={e => setDistortion(parseInt(e.target.value) / 20)}
+								min={0}
+								max={10}
+								step={1}
+							/>
+							offset: <input
+								type='range'
+								name='volume'
+								value={offset * 100}
+								onChange={e => setOffset(parseInt(e.target.value) / 100)}
+								min={0}
+								max={100}
+								step={1}
+							/>
 						</>
 					) : audioURL ? (
 						<>audio</>
@@ -119,4 +139,4 @@ const Audio = ({ setCurrent, ...track }: TrackItemProps) => {
 	);
 };
 
-export default Audio;
+export default memo(Audio);
